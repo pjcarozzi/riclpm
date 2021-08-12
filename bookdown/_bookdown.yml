@@ -1,0 +1,9 @@
+book_filename: "RICLPM"
+delete_merged_file: true
+language:
+  label: 
+    fig: "Figura "
+    tab: "Tabla "
+  ui:
+    chapter_name: ""
+    appendix_name: "Apendice "
