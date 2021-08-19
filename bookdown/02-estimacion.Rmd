@@ -73,6 +73,10 @@ Lavaan:
     RI_y =~ 1*redesw01 + 1*redesw02 + 1*redesw03 + 1*redesw04 + 1*redesw05
 ```
 
+```{r, echo=FALSE, fig.align='center', fig.asp=.75, fig.cap='RI-CLPM conceptual de las asociaciones entre Participación Offline y Participación On-line', out.width='80%'}
+knitr::include_graphics("images/RICLPM.png")
+```
+
 2. Componente _within_, fluctuaciones intra-individuos. 
 
 Las diferencias _within_ son especificadas como variables latentes explicadas por sus respectivas medidas observadas en cada ocasion.
@@ -133,6 +137,10 @@ Lavaan:
     redesw05 ~~ 0*redesw05
 ```
 
+```{r, echo=FALSE, fig.align='center', fig.asp=.75, fig.cap='RI-CLPM conceptual de las asociaciones entre Participación Offline y Participación On-line', out.width='80%'}
+knitr::include_graphics("images/RICLPM.png")
+```
+
 3. Las regresiones lagged (autorregresivas y crosslagged) entre los componentes _within_
 
 Mplus:
@@ -159,6 +167,10 @@ Lavaan:
     cy3 ~ cx2 + cy2
     cy4 ~ cx3 + cy3
     cy5 ~ cx4 + cy4
+```
+
+```{r, echo=FALSE, fig.align='center', fig.asp=.75, fig.cap='RI-CLPM conceptual de las asociaciones entre Participación Offline y Participación On-line', out.width='80%'}
+knitr::include_graphics("images/RICLPM.png")
 ```
 
 4. Covarianzas relevantes en los componentes _between_ y _within_

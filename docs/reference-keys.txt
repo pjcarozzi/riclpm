@@ -1,5 +1,8 @@
 fig:modelo
-tab:unnamed-chunk-4
+tab:unnamed-chunk-2
+fig:unnamed-chunk-3
+fig:unnamed-chunk-4
+fig:unnamed-chunk-5
 fig:nice-fig
 fig:resultados
 modelo

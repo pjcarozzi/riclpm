@@ -5,20 +5,20 @@
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>4 Interpretacion de coeficientes | Random Intercept Cross-Lagged Panel Model</title>
-  <meta name="description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  <meta name="description" content="4 Interpretacion de coeficientes | Random Intercept Cross-Lagged Panel Model" />
   <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
 
   <meta property="og:title" content="4 Interpretacion de coeficientes | Random Intercept Cross-Lagged Panel Model" />
   <meta property="og:type" content="book" />
   
   
-  <meta property="og:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  
   
 
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="4 Interpretacion de coeficientes | Random Intercept Cross-Lagged Panel Model" />
   
-  <meta name="twitter:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  
   
 
 <meta name="author" content="-" />
@@ -153,7 +153,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><a href="./">RICLPM</a></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Prerequisites</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Sesion RI-CLPM</a></li>
 <li class="chapter" data-level="1" data-path="modelo.html"><a href="modelo.html"><i class="fa fa-check"></i><b>1</b> Modelo</a></li>
 <li class="chapter" data-level="2" data-path="estimacion.html"><a href="estimacion.html"><i class="fa fa-check"></i><b>2</b> Estimacion</a>
 <ul>
@@ -197,14 +197,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="interpretacion-de-coeficientes" class="section level1" number="4">
 <h1><span class="header-section-number">4</span> Interpretacion de coeficientes</h1>
-<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="interpretacion-de-coeficientes.html#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">screenreg</span>(fit[[<span class="dv">8</span>]], <span class="at">type =</span> <span class="st">&quot;un&quot;</span>,</span>
-<span id="cb37-2"><a href="interpretacion-de-coeficientes.html#cb37-2" aria-hidden="true" tabindex="-1"></a>          <span class="at">params =</span> <span class="fu">c</span>(<span class="st">&quot;regression&quot;</span>,<span class="st">&quot;undirected&quot;</span>,<span class="st">&quot;variability&quot;</span>),</span>
-<span id="cb37-3"><a href="interpretacion-de-coeficientes.html#cb37-3" aria-hidden="true" tabindex="-1"></a>          <span class="at">summaries =</span> <span class="fu">c</span>(<span class="st">&quot;ChiSqM_Value&quot;</span>, <span class="st">&quot;ChiSqM_PValue&quot;</span>,</span>
-<span id="cb37-4"><a href="interpretacion-de-coeficientes.html#cb37-4" aria-hidden="true" tabindex="-1"></a>                        <span class="st">&quot;CFI&quot;</span>, <span class="st">&quot;TLI&quot;</span>, <span class="st">&quot;RMSEA_Estimate&quot;</span>,</span>
-<span id="cb37-5"><a href="interpretacion-de-coeficientes.html#cb37-5" aria-hidden="true" tabindex="-1"></a>                        <span class="st">&quot;Observations&quot;</span>), </span>
-<span id="cb37-6"><a href="interpretacion-de-coeficientes.html#cb37-6" aria-hidden="true" tabindex="-1"></a>          <span class="co"># custom.header   = list(&quot;RICLPM&quot;=1),</span></span>
-<span id="cb37-7"><a href="interpretacion-de-coeficientes.html#cb37-7" aria-hidden="true" tabindex="-1"></a>          <span class="at">custom.model.names =</span> <span class="fu">c</span>(<span class="st">&quot;RICLPM bidireccional constrenido&quot;</span>),</span>
-<span id="cb37-8"><a href="interpretacion-de-coeficientes.html#cb37-8" aria-hidden="true" tabindex="-1"></a>          <span class="at">digits =</span> <span class="dv">3</span>, <span class="at">single.row=</span><span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="interpretacion-de-coeficientes.html#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">screenreg</span>(fit[[<span class="dv">8</span>]], <span class="at">type =</span> <span class="st">&quot;un&quot;</span>,</span>
+<span id="cb36-2"><a href="interpretacion-de-coeficientes.html#cb36-2" aria-hidden="true" tabindex="-1"></a>          <span class="at">params =</span> <span class="fu">c</span>(<span class="st">&quot;regression&quot;</span>,<span class="st">&quot;undirected&quot;</span>,<span class="st">&quot;variability&quot;</span>),</span>
+<span id="cb36-3"><a href="interpretacion-de-coeficientes.html#cb36-3" aria-hidden="true" tabindex="-1"></a>          <span class="at">summaries =</span> <span class="fu">c</span>(<span class="st">&quot;ChiSqM_Value&quot;</span>, <span class="st">&quot;ChiSqM_PValue&quot;</span>,</span>
+<span id="cb36-4"><a href="interpretacion-de-coeficientes.html#cb36-4" aria-hidden="true" tabindex="-1"></a>                        <span class="st">&quot;CFI&quot;</span>, <span class="st">&quot;TLI&quot;</span>, <span class="st">&quot;RMSEA_Estimate&quot;</span>,</span>
+<span id="cb36-5"><a href="interpretacion-de-coeficientes.html#cb36-5" aria-hidden="true" tabindex="-1"></a>                        <span class="st">&quot;Observations&quot;</span>), </span>
+<span id="cb36-6"><a href="interpretacion-de-coeficientes.html#cb36-6" aria-hidden="true" tabindex="-1"></a>          <span class="co"># custom.header   = list(&quot;RICLPM&quot;=1),</span></span>
+<span id="cb36-7"><a href="interpretacion-de-coeficientes.html#cb36-7" aria-hidden="true" tabindex="-1"></a>          <span class="at">custom.model.names =</span> <span class="fu">c</span>(<span class="st">&quot;RICLPM bidireccional constrenido&quot;</span>),</span>
+<span id="cb36-8"><a href="interpretacion-de-coeficientes.html#cb36-8" aria-hidden="true" tabindex="-1"></a>          <span class="at">digits =</span> <span class="dv">3</span>, <span class="at">single.row=</span><span class="cn">TRUE</span>)</span></code></pre></div>
 <pre><code>## 
 ## ======================================================
 ##                       RICLPM bidireccional constrenido

@@ -1,6 +1,8 @@
 # Modelo {#modelo}
 
-Con datos de ELSOC, analizaremos las relaciones longitudinales entre la participación política online y off-line a través de la estimación de RI-CLPM.
+Con datos de ELSOC, replicaremos los resultados de Chayinska, Miranda & Gonzalez (2021)
+
+Analizaremos las relaciones longitudinales entre la participación política online y off-line a través de la estimación de RI-CLPM.
 
 Las medidas que utilizaremos son las siguientes:
 
