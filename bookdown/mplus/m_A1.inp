@@ -1,0 +1,63 @@
+TITLE:
+RI CLPM - A1;
+DATA:
+FILE = "mplus/modelo_basico_0d9373767802af8792c779fb3d387dfb.dat";
+ 
+VARIABLE:
+NAMES = marchw01 marchw02 marchw03 marchw04 marchw05 redesw01 redesw02 redesw03
+     redesw04 redesw05; 
+ MISSING=.;
+ 
+ANALYSIS:
+ESTIMATOR = mlr;
+    ITERATIONS = 5000;
+MODEL:
+
+    ! Crear los componentes between
+      RI_x BY marchw01@1 marchw02@1 marchw03@1 marchw04@1 marchw05@1;
+      RI_y BY redesw01@1 redesw02@1 redesw03@1 redesw04@1 redesw05@1;
+    
+    ! Crear los componentes within
+      cx1 BY marchw01@1; 
+      cx2 BY marchw02@1; 
+      cx3 BY marchw03@1;
+      cx4 BY marchw04@1; 
+      cx5 BY marchw05@1;
+      
+      cy1 BY redesw01@1;
+      cy2 BY redesw02@1;
+      cy3 BY redesw03@1;
+      cy4 BY redesw04@1;
+      cy5 BY redesw05@1;
+
+    ! Constrenir las varianzas del error de medicion a cero
+      marchw01 - redesw05@0;
+
+    ! Estimar los efectos lagged (autorregresivos)
+      cx2 ON cx1; 
+      cx3 ON cx2; 
+      cx4 ON cx3; 
+      cx5 ON cx4;
+      cy2 ON cy1; 
+      cy3 ON cy2; 
+      cy4 ON cy3; 
+      cy5 ON cy4;
+    
+    ! Estimar la covarianza entre los componentes within t=1
+      cx1 WITH cy1;
+    
+    ! Estimar las covarianzas entre los residuos del componente within (innovations)
+      cx2 WITH cy2; 
+      cx3 WITH cy3; 
+      cx4 WITH cy4; 
+      cx5 WITH cy5;
+      
+    ! Estimar la covarianza entre los RI
+      RI_x WITH RI_y;      
+      
+    ! Fijar la correlacion entre los RI y componentes within t=1 a cero 
+      RI_x WITH cx1@0 cy1@0;
+      RI_y WITH cx1@0 cy1@0;
+  
+OUTPUT:
+CINTERVAL sampstat mod stdyx tech1 tech4;

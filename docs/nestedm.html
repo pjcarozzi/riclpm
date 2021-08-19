@@ -1,0 +1,1791 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>3 Modelos anidados | Random Intercept Cross-Lagged Panel Model</title>
+  <meta name="description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="3 Modelos anidados | Random Intercept Cross-Lagged Panel Model" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="3 Modelos anidados | Random Intercept Cross-Lagged Panel Model" />
+  
+  <meta name="twitter:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  
+
+<meta name="author" content="-" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="estimacion.html"/>
+<link rel="next" href="interpretacion-de-coeficientes.html"/>
+<script src="libs/header-attrs-2.10/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<script>
+  function unrolltab(evt, tabName) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+      tabcontent[i].style.display = "none";
+    }
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+      tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+    document.getElementById(tabName).style.display = "block";
+    evt.currentTarget.className += " active";
+  }
+</script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">RICLPM</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Prerequisites</a></li>
+<li class="chapter" data-level="1" data-path="modelo.html"><a href="modelo.html"><i class="fa fa-check"></i><b>1</b> Modelo</a></li>
+<li class="chapter" data-level="2" data-path="estimacion.html"><a href="estimacion.html"><i class="fa fa-check"></i><b>2</b> Estimacion</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="estimacion.html"><a href="estimacion.html#sintaxis"><i class="fa fa-check"></i><b>2.1</b> Sintaxis</a></li>
+<li class="chapter" data-level="2.2" data-path="estimacion.html"><a href="estimacion.html#modelo-basico"><i class="fa fa-check"></i><b>2.2</b> Modelo basico</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="nestedm.html"><a href="nestedm.html"><i class="fa fa-check"></i><b>3</b> Modelos anidados</a>
+<ul>
+<li class="chapter" data-level="3.0.1" data-path="nestedm.html"><a href="nestedm.html#sintaxis-constraints"><i class="fa fa-check"></i><b>3.0.1</b> Sintaxis constraints</a></li>
+<li class="chapter" data-level="3.1" data-path="nestedm.html"><a href="nestedm.html#indicadores-de-bondad-de-ajuste"><i class="fa fa-check"></i><b>3.1</b> Indicadores de bondad de ajuste</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="nestedm.html"><a href="nestedm.html#extraccion"><i class="fa fa-check"></i><b>3.1.1</b> Extraccion</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="nestedm.html"><a href="nestedm.html#comparacion-de-bondad-de-ajuste"><i class="fa fa-check"></i><b>3.2</b> Comparacion de bondad de ajuste</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="interpretacion-de-coeficientes.html"><a href="interpretacion-de-coeficientes.html"><i class="fa fa-check"></i><b>4</b> Interpretacion de coeficientes</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="interpretacion-de-coeficientes.html"><a href="interpretacion-de-coeficientes.html#componente-between"><i class="fa fa-check"></i><b>4.1</b> Componente Between</a></li>
+<li class="chapter" data-level="4.2" data-path="interpretacion-de-coeficientes.html"><a href="interpretacion-de-coeficientes.html#componente-within"><i class="fa fa-check"></i><b>4.2</b> Componente Within</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i><b>5</b> Referencias</a></li>
+<li class="divider"></li>
+<li style="text-align:center;" xmlns:dct="http://purl.org/dc/terms/" xmlns:cc="http://creativecommons.org/ns#"><a href="https://bookdown.org" target="_blank">Creado con bookdown</a> <a href="https://creativecommons.org/licenses/by-nc-sa/4.0"><img style="height:22px!important;margin-left: 3px;vertical-align:text-bottom;" src="https://search.creativecommons.org/static/img/cc_icon.svg" /><img  style="height:22px!important;margin-left: 3px;vertical-align:text-bottom;" src="https://search.creativecommons.org/static/img/cc-by_icon.svg" /><img  style="height:22px!important;margin-left: 3px;vertical-align:text-bottom;" src="https://search.creativecommons.org/static/img/cc-nc_icon.svg" /><img  style="height:22px!important;margin-left: 3px;vertical-align:text-bottom;" src="https://search.creativecommons.org/static/img/cc-sa_icon.svg" /></a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Random Intercept Cross-Lagged Panel Model</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="nestedm" class="section level1" number="3">
+<h1><span class="header-section-number">3</span> Modelos anidados</h1>
+<p>La estimacion usualmente sigue una estrategia de modelos anidados entre los cuales se compara su bondad de ajuste.</p>
+<p>Recordemos nuestras hipotesis</p>
+<div class="figure" style="text-align: center"><span id="fig:nice-fig"></span>
+<img src="images/hipotesis.png" alt="Hipotesis en torno a las relaciones entre Participación Offline y Participación On-line" width="80%" />
+<p class="caption">
+Figura 3.1: Hipotesis en torno a las relaciones entre Participación Offline y Participación On-line
+</p>
+</div>
+<p>De esta manera estimamos:</p>
+<ol style="list-style-type: decimal">
+<li>El modelo A contiene sólo los paths autorregresivos.</li>
+<li>El modelo B unidireccional. Contiene los paths autorregresivos y los paths cross-lagged (forward).</li>
+<li>El modelo C unidireccional. Contiene los paths autorregresivos y los paths cross-lagged (reverse).</li>
+<li>El modelo D bidireccional. Contiene los paths autorregresivos y los paths cross-lagged en ambas direcciones.</li>
+</ol>
+<p>Adicionalmente, en cada uno de estos modelos, se comparan las bondades de ajuste entre modelos estimados libremente y modelos constreñidos para testear si los efectos son iguales en el tiempo.</p>
+<div id="sintaxis-constraints" class="section level3" number="3.0.1">
+<h3><span class="header-section-number">3.0.1</span> Sintaxis constraints</h3>
+<p>En Mplus, las restricciones al modelo se realizan asignando etiquetas a los parametros y utilizando la misma etiqueta para los parametros que quedaran constreñidos a ser iguales.</p>
+<p>Mplus:</p>
+<pre><code>    ! Estimar los efectos lagged (constreñidos en el tiempo)
+      cx2 ON cx1 cy1 (a d); 
+      cx3 ON cx2 cy2 (a d); 
+      cx4 ON cx3 cy3 (a d); 
+      cx5 ON cx4 cy4 (a d);
+      cy2 ON cx1 cy1 (c b); 
+      cy3 ON cx2 cy2 (c b); 
+      cy4 ON cx3 cy3 (c b); 
+      cy5 ON cx4 cy4 (c b);</code></pre>
+<p>En lavaan, las restricciones al modelo se logran a traves de pre-multiplicacion: Se agrega a cada parametro un numero al cual queremos fijarlo o una etiqueta, junto a un asterisco, y luego se indica el parametro en la especificacion del modelo. Para constreñir la igualdad entre parametros se utiliza frente a ellos el mismo numero o la misma etiqueta.</p>
+<p>Lavaan:</p>
+<pre><code>    # Estimar los efectos lagged (constreñidos en el tiempo)
+    cx2 ~ a*cx1 + d*cy1
+    cx3 ~ a*cx2 + d*cy2
+    cx4 ~ a*cx3 + d*cy3
+    cx5 ~ a*cx4 + d*cy4
+    cy2 ~ c*cx1 + b*cy1
+    cy3 ~ c*cx2 + b*cy2
+    cy4 ~ c*cx3 + b*cy3
+    cy5 ~ c*cx4 + b*cy4</code></pre>
+<p>Estimamos los modelos:</p>
+<button class="tablinks" onclick="unrolltab(event, &#39;A1&#39;)">
+Modelo A1
+</button>
+<button class="tablinks" onclick="unrolltab(event, &#39;A2&#39;)">
+Modelo A2
+</button>
+<button class="tablinks" onclick="unrolltab(event, &#39;B1&#39;)">
+Modelo B1
+</button>
+<button class="tablinks" onclick="unrolltab(event, &#39;B2&#39;)">
+Modelo B2
+</button>
+<button class="tablinks" onclick="unrolltab(event, &#39;C1&#39;)">
+Modelo C1
+</button>
+<button class="tablinks" onclick="unrolltab(event, &#39;C2&#39;)">
+Modelo C2
+</button>
+<button class="tablinks" onclick="unrolltab(event, &#39;D1&#39;)">
+Modelo D1
+</button>
+<button class="tablinks" onclick="unrolltab(event, &#39;D2&#39;)">
+Modelo D2
+</button>
+<button class="tablinks" onclick="unrolltab(event, &#39;Run&#39;)">
+Run
+</button>
+<div id="A1" class="tabcontent">
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="nestedm.html#cb23-1" aria-hidden="true" tabindex="-1"></a>modelos <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb23-2"><a href="nestedm.html#cb23-2" aria-hidden="true" tabindex="-1"></a>modelos[[<span class="st">&quot;m_A1&quot;</span>]] <span class="ot">&lt;-</span> <span class="fu">mplusObject</span>(</span>
+<span id="cb23-3"><a href="nestedm.html#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">TITLE =</span> <span class="st">&quot;RI CLPM - A1;&quot;</span>,</span>
+<span id="cb23-4"><a href="nestedm.html#cb23-4" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb23-5"><a href="nestedm.html#cb23-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">ANALYSIS=</span></span>
+<span id="cb23-6"><a href="nestedm.html#cb23-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;ESTIMATOR = mlr;</span></span>
+<span id="cb23-7"><a href="nestedm.html#cb23-7" aria-hidden="true" tabindex="-1"></a><span class="st">    ITERATIONS = 5000;&quot;</span>,</span>
+<span id="cb23-8"><a href="nestedm.html#cb23-8" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb23-9"><a href="nestedm.html#cb23-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">MODEL =</span> <span class="st">&quot;</span></span>
+<span id="cb23-10"><a href="nestedm.html#cb23-10" aria-hidden="true" tabindex="-1"></a><span class="st">    ! Crear los componentes between</span></span>
+<span id="cb23-11"><a href="nestedm.html#cb23-11" aria-hidden="true" tabindex="-1"></a><span class="st">      RI_x BY marchw01@1 marchw02@1 marchw03@1 marchw04@1 marchw05@1;</span></span>
+<span id="cb23-12"><a href="nestedm.html#cb23-12" aria-hidden="true" tabindex="-1"></a><span class="st">      RI_y BY redesw01@1 redesw02@1 redesw03@1 redesw04@1 redesw05@1;</span></span>
+<span id="cb23-13"><a href="nestedm.html#cb23-13" aria-hidden="true" tabindex="-1"></a><span class="st">    </span></span>
+<span id="cb23-14"><a href="nestedm.html#cb23-14" aria-hidden="true" tabindex="-1"></a><span class="st">    ! Crear los componentes within</span></span>
+<span id="cb23-15"><a href="nestedm.html#cb23-15" aria-hidden="true" tabindex="-1"></a><span class="st">      cx1 BY marchw01@1; </span></span>
+<span id="cb23-16"><a href="nestedm.html#cb23-16" aria-hidden="true" tabindex="-1"></a><span class="st">      cx2 BY marchw02@1; </span></span>
+<span id="cb23-17"><a href="nestedm.html#cb23-17" aria-hidden="true" tabindex="-1"></a><span class="st">      cx3 BY marchw03@1;</span></span>
+<span id="cb23-18"><a href="nestedm.html#cb23-18" aria-hidden="true" tabindex="-1"></a><span class="st">      cx4 BY marchw04@1; </span></span>
+<span id="cb23-19"><a href="nestedm.html#cb23-19" aria-hidden="true" tabindex="-1"></a><span class="st">      cx5 BY marchw05@1;</span></span>
+<span id="cb23-20"><a href="nestedm.html#cb23-20" aria-hidden="true" tabindex="-1"></a><span class="st">      </span></span>
+<span id="cb23-21"><a href="nestedm.html#cb23-21" aria-hidden="true" tabindex="-1"></a><span class="st">      cy1 BY redesw01@1;</span></span>
+<span id="cb23-22"><a href="nestedm.html#cb23-22" aria-hidden="true" tabindex="-1"></a><span class="st">      cy2 BY redesw02@1;</span></span>
+<span id="cb23-23"><a href="nestedm.html#cb23-23" aria-hidden="true" tabindex="-1"></a><span class="st">      cy3 BY redesw03@1;</span></span>
+<span id="cb23-24"><a href="nestedm.html#cb23-24" aria-hidden="true" tabindex="-1"></a><span class="st">      cy4 BY redesw04@1;</span></span>
+<span id="cb23-25"><a href="nestedm.html#cb23-25" aria-hidden="true" tabindex="-1"></a><span class="st">      cy5 BY redesw05@1;</span></span>
+<span id="cb23-26"><a href="nestedm.html#cb23-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-27"><a href="nestedm.html#cb23-27" aria-hidden="true" tabindex="-1"></a><span class="st">    ! Constrenir las varianzas del error de medicion a cero</span></span>
+<span id="cb23-28"><a href="nestedm.html#cb23-28" aria-hidden="true" tabindex="-1"></a><span class="st">      marchw01 - redesw05@0;</span></span>
+<span id="cb23-29"><a href="nestedm.html#cb23-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-30"><a href="nestedm.html#cb23-30" aria-hidden="true" tabindex="-1"></a><span class="st">    ! Estimar los efectos lagged (autorregresivos)</span></span>
+<span id="cb23-31"><a href="nestedm.html#cb23-31" aria-hidden="true" tabindex="-1"></a><span class="st">      cx2 ON cx1; </span></span>
+<span id="cb23-32"><a href="nestedm.html#cb23-32" aria-hidden="true" tabindex="-1"></a><span class="st">      cx3 ON cx2; </span></span>
+<span id="cb23-33"><a href="nestedm.html#cb23-33" aria-hidden="true" tabindex="-1"></a><span class="st">      cx4 ON cx3; </span></span>
+<span id="cb23-34"><a href="nestedm.html#cb23-34" aria-hidden="true" tabindex="-1"></a><span class="st">      cx5 ON cx4;</span></span>
+<span id="cb23-35"><a href="nestedm.html#cb23-35" aria-hidden="true" tabindex="-1"></a><span class="st">      cy2 ON cy1; </span></span>
+<span id="cb23-36"><a href="nestedm.html#cb23-36" aria-hidden="true" tabindex="-1"></a><span class="st">      cy3 ON cy2; </span></span>
+<span id="cb23-37"><a href="nestedm.html#cb23-37" aria-hidden="true" tabindex="-1"></a><span class="st">      cy4 ON cy3; </span></span>
+<span id="cb23-38"><a href="nestedm.html#cb23-38" aria-hidden="true" tabindex="-1"></a><span class="st">      cy5 ON cy4;</span></span>
+<span id="cb23-39"><a href="nestedm.html#cb23-39" aria-hidden="true" tabindex="-1"></a><span class="st">    </span></span>
+<span id="cb23-40"><a href="nestedm.html#cb23-40" aria-hidden="true" tabindex="-1"></a><span class="st">    ! Estimar la covarianza entre los componentes within t=1</span></span>
+<span id="cb23-41"><a href="nestedm.html#cb23-41" aria-hidden="true" tabindex="-1"></a><span class="st">      cx1 WITH cy1;</span></span>
+<span id="cb23-42"><a href="nestedm.html#cb23-42" aria-hidden="true" tabindex="-1"></a><span class="st">    </span></span>
+<span id="cb23-43"><a href="nestedm.html#cb23-43" aria-hidden="true" tabindex="-1"></a><span class="st">    ! Estimar las covarianzas entre los residuos del componente within (innovations)</span></span>
+<span id="cb23-44"><a href="nestedm.html#cb23-44" aria-hidden="true" tabindex="-1"></a><span class="st">      cx2 WITH cy2; </span></span>
+<span id="cb23-45"><a href="nestedm.html#cb23-45" aria-hidden="true" tabindex="-1"></a><span class="st">      cx3 WITH cy3; </span></span>
+<span id="cb23-46"><a href="nestedm.html#cb23-46" aria-hidden="true" tabindex="-1"></a><span class="st">      cx4 WITH cy4; </span></span>
+<span id="cb23-47"><a href="nestedm.html#cb23-47" aria-hidden="true" tabindex="-1"></a><span class="st">      cx5 WITH cy5;</span></span>
+<span id="cb23-48"><a href="nestedm.html#cb23-48" aria-hidden="true" tabindex="-1"></a><span class="st">      </span></span>
+<span id="cb23-49"><a href="nestedm.html#cb23-49" aria-hidden="true" tabindex="-1"></a><span class="st">    ! Estimar la covarianza entre los RI</span></span>
+<span id="cb23-50"><a href="nestedm.html#cb23-50" aria-hidden="true" tabindex="-1"></a><span class="st">      RI_x WITH RI_y;      </span></span>
+<span id="cb23-51"><a href="nestedm.html#cb23-51" aria-hidden="true" tabindex="-1"></a><span class="st">      </span></span>
+<span id="cb23-52"><a href="nestedm.html#cb23-52" aria-hidden="true" tabindex="-1"></a><span class="st">    ! Fijar la correlacion entre los RI y componentes within t=1 a cero </span></span>
+<span id="cb23-53"><a href="nestedm.html#cb23-53" aria-hidden="true" tabindex="-1"></a><span class="st">      RI_x WITH cx1@0 cy1@0;</span></span>
+<span id="cb23-54"><a href="nestedm.html#cb23-54" aria-hidden="true" tabindex="-1"></a><span class="st">      RI_y WITH cx1@0 cy1@0;</span></span>
+<span id="cb23-55"><a href="nestedm.html#cb23-55" aria-hidden="true" tabindex="-1"></a><span class="st">  &quot;</span></span>
+<span id="cb23-56"><a href="nestedm.html#cb23-56" aria-hidden="true" tabindex="-1"></a>,</span>
+<span id="cb23-57"><a href="nestedm.html#cb23-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-58"><a href="nestedm.html#cb23-58" aria-hidden="true" tabindex="-1"></a>  <span class="at">OUTPUT =</span> <span class="st">&quot;CINTERVAL sampstat mod stdyx tech1 tech4;&quot;</span>,</span>
+<span id="cb23-59"><a href="nestedm.html#cb23-59" aria-hidden="true" tabindex="-1"></a>  <span class="at">rdata =</span> elsoc)</span></code></pre></div>
+</div>
+<div id="A2" class="tabcontent">
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="nestedm.html#cb24-1" aria-hidden="true" tabindex="-1"></a>modelos[[<span class="st">&quot;m_A2&quot;</span>]] <span class="ot">&lt;-</span> <span class="fu">mplusObject</span>(</span>
+<span id="cb24-2"><a href="nestedm.html#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">TITLE =</span> <span class="st">&quot;RI CLPM - A2;&quot;</span>,</span>
+<span id="cb24-3"><a href="nestedm.html#cb24-3" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb24-4"><a href="nestedm.html#cb24-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">ANALYSIS=</span></span>
+<span id="cb24-5"><a href="nestedm.html#cb24-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;ESTIMATOR = mlr;</span></span>
+<span id="cb24-6"><a href="nestedm.html#cb24-6" aria-hidden="true" tabindex="-1"></a><span class="st">    ITERATIONS = 5000;&quot;</span>,</span>
+<span id="cb24-7"><a href="nestedm.html#cb24-7" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb24-8"><a href="nestedm.html#cb24-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">MODEL =</span> <span class="st">&quot;</span></span>
+<span id="cb24-9"><a href="nestedm.html#cb24-9" aria-hidden="true" tabindex="-1"></a><span class="st">    ! Crear los componentes between</span></span>
+<span id="cb24-10"><a href="nestedm.html#cb24-10" aria-hidden="true" tabindex="-1"></a><span class="st">      RI_x BY marchw01@1 marchw02@1 marchw03@1 marchw04@1 marchw05@1;</span></span>
+<span id="cb24-11"><a href="nestedm.html#cb24-11" aria-hidden="true" tabindex="-1"></a><span class="st">      RI_y BY redesw01@1 redesw02@1 redesw03@1 redesw04@1 redesw05@1;</span></span>
+<span id="cb24-12"><a href="nestedm.html#cb24-12" aria-hidden="true" tabindex="-1"></a><span class="st">    </span></span>
+<span id="cb24-13"><a href="nestedm.html#cb24-13" aria-hidden="true" tabindex="-1"></a><span class="st">    ! Crear los componentes within</span></span>
+<span id="cb24-14"><a href="nestedm.html#cb24-14" aria-hidden="true" tabindex="-1"></a><span class="st">      cx1 BY marchw01@1; </span></span>
+<span id="cb24-15"><a href="nestedm.html#cb24-15" aria-hidden="true" tabindex="-1"></a><span class="st">      cx2 BY marchw02@1; </span></span>
+<span id="cb24-16"><a href="nestedm.html#cb24-16" aria-hidden="true" tabindex="-1"></a><span class="st">      cx3 BY marchw03@1;</span></span>
+<span id="cb24-17"><a href="nestedm.html#cb24-17" aria-hidden="true" tabindex="-1"></a><span class="st">      cx4 BY marchw04@1; </span></span>
+<span id="cb24-18"><a href="nestedm.html#cb24-18" aria-hidden="true" tabindex="-1"></a><span class="st">      cx5 BY marchw05@1;</span></span>
+<span id="cb24-19"><a href="nestedm.html#cb24-19" aria-hidden="true" tabindex="-1"></a><span class="st">      </span></span>
+<span id="cb24-20"><a href="nestedm.html#cb24-20" aria-hidden="true" tabindex="-1"></a><span class="st">      cy1 BY redesw01@1;</span></span>
+<span id="cb24-21"><a href="nestedm.html#cb24-21" aria-hidden="true" tabindex="-1"></a><span class="st">      cy2 BY redesw02@1;</span></span>
+<span id="cb24-22"><a href="nestedm.html#cb24-22" aria-hidden="true" tabindex="-1"></a><span class="st">      cy3 BY redesw03@1;</span></span>
+<span id="cb24-23"><a href="nestedm.html#cb24-23" aria-hidden="true" tabindex="-1"></a><span class="st">      cy4 BY redesw04@1;</span></span>
+<span id="cb24-24"><a href="nestedm.html#cb24-24" aria-hidden="true" tabindex="-1"></a><span class="st">      cy5 BY redesw05@1;</span></span>
+<span id="cb24-25"><a href="nestedm.html#cb24-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-26"><a href="nestedm.html#cb24-26" aria-hidden="true" tabindex="-1"></a><span class="st">    ! Constrenir las varianzas del error de medicion a cero</span></span>
+<span id="cb24-27"><a href="nestedm.html#cb24-27" aria-hidden="true" tabindex="-1"></a><span class="st">      marchw01 - redesw05@0;</span></span>
+<span id="cb24-28"><a href="nestedm.html#cb24-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-29"><a href="nestedm.html#cb24-29" aria-hidden="true" tabindex="-1"></a><span class="st">    ! Estimar los efectos lagged (autorregresivos)</span></span>
+<span id="cb24-30"><a href="nestedm.html#cb24-30" aria-hidden="true" tabindex="-1"></a><span class="st">      cx2 ON cx1 (a); </span></span>
+<span id="cb24-31"><a href="nestedm.html#cb24-31" aria-hidden="true" tabindex="-1"></a><span class="st">      cx3 ON cx2 (a); </span></span>
+<span id="cb24-32"><a href="nestedm.html#cb24-32" aria-hidden="true" tabindex="-1"></a><span class="st">      cx4 ON cx3 (a); </span></span>
+<span id="cb24-33"><a href="nestedm.html#cb24-33" aria-hidden="true" tabindex="-1"></a><span class="st">      cx5 ON cx4 (a);</span></span>
+<span id="cb24-34"><a href="nestedm.html#cb24-34" aria-hidden="true" tabindex="-1"></a><span class="st">      cy2 ON cy1 (b); </span></span>
+<span id="cb24-35"><a href="nestedm.html#cb24-35" aria-hidden="true" tabindex="-1"></a><span class="st">      cy3 ON cy2 (b); </span></span>
+<span id="cb24-36"><a href="nestedm.html#cb24-36" aria-hidden="true" tabindex="-1"></a><span class="st">      cy4 ON cy3 (b); </span></span>
+<span id="cb24-37"><a href="nestedm.html#cb24-37" aria-hidden="true" tabindex="-1"></a><span class="st">      cy5 ON cy4 (b);</span></span>
+<span id="cb24-38"><a href="nestedm.html#cb24-38" aria-hidden="true" tabindex="-1"></a><span class="st">    </span></span>
+<span id="cb24-39"><a href="nestedm.html#cb24-39" aria-hidden="true" tabindex="-1"></a><span class="st">    ! Estimar la covarianza entre los componentes within t=1</span></span>
+<span id="cb24-40"><a href="nestedm.html#cb24-40" aria-hidden="true" tabindex="-1"></a><span class="st">      cx1 WITH cy1;</span></span>
+<span id="cb24-41"><a href="nestedm.html#cb24-41" aria-hidden="true" tabindex="-1"></a><span class="st">    </span></span>
+<span id="cb24-42"><a href="nestedm.html#cb24-42" aria-hidden="true" tabindex="-1"></a><span class="st">    ! Estimar las covarianzas entre los residuos del componente within (innovations)</span></span>
+<span id="cb24-43"><a href="nestedm.html#cb24-43" aria-hidden="true" tabindex="-1"></a><span class="st">      cx2 WITH cy2; </span></span>
+<span id="cb24-44"><a href="nestedm.html#cb24-44" aria-hidden="true" tabindex="-1"></a><span class="st">      cx3 WITH cy3; </span></span>
+<span id="cb24-45"><a href="nestedm.html#cb24-45" aria-hidden="true" tabindex="-1"></a><span class="st">      cx4 WITH cy4; </span></span>
+<span id="cb24-46"><a href="nestedm.html#cb24-46" aria-hidden="true" tabindex="-1"></a><span class="st">      cx5 WITH cy5;</span></span>
+<span id="cb24-47"><a href="nestedm.html#cb24-47" aria-hidden="true" tabindex="-1"></a><span class="st">      </span></span>
+<span id="cb24-48"><a href="nestedm.html#cb24-48" aria-hidden="true" tabindex="-1"></a><span class="st">    ! Estimar la covarianza entre los RI</span></span>
+<span id="cb24-49"><a href="nestedm.html#cb24-49" aria-hidden="true" tabindex="-1"></a><span class="st">      RI_x WITH RI_y;      </span></span>
+<span id="cb24-50"><a href="nestedm.html#cb24-50" aria-hidden="true" tabindex="-1"></a><span class="st">      </span></span>
+<span id="cb24-51"><a href="nestedm.html#cb24-51" aria-hidden="true" tabindex="-1"></a><span class="st">    ! Fijar la correlacion entre los RI y componentes within t=1 a cero </span></span>
+<span id="cb24-52"><a href="nestedm.html#cb24-52" aria-hidden="true" tabindex="-1"></a><span class="st">      RI_x WITH cx1@0 cy1@0;</span></span>
+<span id="cb24-53"><a href="nestedm.html#cb24-53" aria-hidden="true" tabindex="-1"></a><span class="st">      RI_y WITH cx1@0 cy1@0;</span></span>
+<span id="cb24-54"><a href="nestedm.html#cb24-54" aria-hidden="true" tabindex="-1"></a><span class="st">  &quot;</span></span>
+<span id="cb24-55"><a href="nestedm.html#cb24-55" aria-hidden="true" tabindex="-1"></a>,</span>
+<span id="cb24-56"><a href="nestedm.html#cb24-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-57"><a href="nestedm.html#cb24-57" aria-hidden="true" tabindex="-1"></a>  <span class="at">OUTPUT =</span> <span class="st">&quot;CINTERVAL sampstat mod stdyx tech1 tech4;&quot;</span>,</span>
+<span id="cb24-58"><a href="nestedm.html#cb24-58" aria-hidden="true" tabindex="-1"></a>  <span class="at">rdata =</span> elsoc)</span></code></pre></div>
+</div>
+<div id="B1" class="tabcontent">
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="nestedm.html#cb25-1" aria-hidden="true" tabindex="-1"></a>modelos[[<span class="st">&quot;m_B1&quot;</span>]] <span class="ot">&lt;-</span> <span class="fu">mplusObject</span>(</span>
+<span id="cb25-2"><a href="nestedm.html#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">TITLE =</span> <span class="st">&quot;RI CLPM - B1;&quot;</span>,</span>
+<span id="cb25-3"><a href="nestedm.html#cb25-3" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb25-4"><a href="nestedm.html#cb25-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">ANALYSIS=</span></span>
+<span id="cb25-5"><a href="nestedm.html#cb25-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;ESTIMATOR = mlr;</span></span>
+<span id="cb25-6"><a href="nestedm.html#cb25-6" aria-hidden="true" tabindex="-1"></a><span class="st">    ITERATIONS = 5000;&quot;</span>,</span>
+<span id="cb25-7"><a href="nestedm.html#cb25-7" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb25-8"><a href="nestedm.html#cb25-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">MODEL =</span> <span class="st">&quot;</span></span>
+<span id="cb25-9"><a href="nestedm.html#cb25-9" aria-hidden="true" tabindex="-1"></a><span class="st">    ! Crear los componentes between</span></span>
+<span id="cb25-10"><a href="nestedm.html#cb25-10" aria-hidden="true" tabindex="-1"></a><span class="st">      RI_x BY marchw01@1 marchw02@1 marchw03@1 marchw04@1 marchw05@1;</span></span>
+<span id="cb25-11"><a href="nestedm.html#cb25-11" aria-hidden="true" tabindex="-1"></a><span class="st">      RI_y BY redesw01@1 redesw02@1 redesw03@1 redesw04@1 redesw05@1;</span></span>
+<span id="cb25-12"><a href="nestedm.html#cb25-12" aria-hidden="true" tabindex="-1"></a><span class="st">    </span></span>
+<span id="cb25-13"><a href="nestedm.html#cb25-13" aria-hidden="true" tabindex="-1"></a><span class="st">    ! Crear los componentes within</span></span>
+<span id="cb25-14"><a href="nestedm.html#cb25-14" aria-hidden="true" tabindex="-1"></a><span class="st">      cx1 BY marchw01@1; </span></span>
+<span id="cb25-15"><a href="nestedm.html#cb25-15" aria-hidden="true" tabindex="-1"></a><span class="st">      cx2 BY marchw02@1; </span></span>
+<span id="cb25-16"><a href="nestedm.html#cb25-16" aria-hidden="true" tabindex="-1"></a><span class="st">      cx3 BY marchw03@1;</span></span>
+<span id="cb25-17"><a href="nestedm.html#cb25-17" aria-hidden="true" tabindex="-1"></a><span class="st">      cx4 BY marchw04@1; </span></span>
+<span id="cb25-18"><a href="nestedm.html#cb25-18" aria-hidden="true" tabindex="-1"></a><span class="st">      cx5 BY marchw05@1;</span></span>
+<span id="cb25-19"><a href="nestedm.html#cb25-19" aria-hidden="true" tabindex="-1"></a><span class="st">      </span></span>
+<span id="cb25-20"><a href="nestedm.html#cb25-20" aria-hidden="true" tabindex="-1"></a><span class="st">      cy1 BY redesw01@1;</span></span>
+<span id="cb25-21"><a href="nestedm.html#cb25-21" aria-hidden="true" tabindex="-1"></a><span class="st">      cy2 BY redesw02@1;</span></span>
+<span id="cb25-22"><a href="nestedm.html#cb25-22" aria-hidden="true" tabindex="-1"></a><span class="st">      cy3 BY redesw03@1;</span></span>
+<span id="cb25-23"><a href="nestedm.html#cb25-23" aria-hidden="true" tabindex="-1"></a><span class="st">      cy4 BY redesw04@1;</span></span>
+<span id="cb25-24"><a href="nestedm.html#cb25-24" aria-hidden="true" tabindex="-1"></a><span class="st">      cy5 BY redesw05@1;</span></span>
+<span id="cb25-25"><a href="nestedm.html#cb25-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-26"><a href="nestedm.html#cb25-26" aria-hidden="true" tabindex="-1"></a><span class="st">    ! Constrenir las varianzas del error de medicion a cero</span></span>
+<span id="cb25-27"><a href="nestedm.html#cb25-27" aria-hidden="true" tabindex="-1"></a><span class="st">      marchw01 - redesw05@0;</span></span>
+<span id="cb25-28"><a href="nestedm.html#cb25-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-29"><a href="nestedm.html#cb25-29" aria-hidden="true" tabindex="-1"></a><span class="st">    ! Estimar los efectos lagged</span></span>
+<span id="cb25-30"><a href="nestedm.html#cb25-30" aria-hidden="true" tabindex="-1"></a><span class="st">      cx2 ON cx1; </span></span>
+<span id="cb25-31"><a href="nestedm.html#cb25-31" aria-hidden="true" tabindex="-1"></a><span class="st">      cx3 ON cx2; </span></span>
+<span id="cb25-32"><a href="nestedm.html#cb25-32" aria-hidden="true" tabindex="-1"></a><span class="st">      cx4 ON cx3; </span></span>
+<span id="cb25-33"><a href="nestedm.html#cb25-33" aria-hidden="true" tabindex="-1"></a><span class="st">      cx5 ON cx4;</span></span>
+<span id="cb25-34"><a href="nestedm.html#cb25-34" aria-hidden="true" tabindex="-1"></a><span class="st">      cy2 ON cx1 cy1; </span></span>
+<span id="cb25-35"><a href="nestedm.html#cb25-35" aria-hidden="true" tabindex="-1"></a><span class="st">      cy3 ON cx2 cy2; </span></span>
+<span id="cb25-36"><a href="nestedm.html#cb25-36" aria-hidden="true" tabindex="-1"></a><span class="st">      cy4 ON cx3 cy3; </span></span>
+<span id="cb25-37"><a href="nestedm.html#cb25-37" aria-hidden="true" tabindex="-1"></a><span class="st">      cy5 ON cx4 cy4;</span></span>
+<span id="cb25-38"><a href="nestedm.html#cb25-38" aria-hidden="true" tabindex="-1"></a><span class="st">    </span></span>
+<span id="cb25-39"><a href="nestedm.html#cb25-39" aria-hidden="true" tabindex="-1"></a><span class="st">    ! Estimar la covarianza entre los componentes within t=1</span></span>
+<span id="cb25-40"><a href="nestedm.html#cb25-40" aria-hidden="true" tabindex="-1"></a><span class="st">      cx1 WITH cy1;</span></span>
+<span id="cb25-41"><a href="nestedm.html#cb25-41" aria-hidden="true" tabindex="-1"></a><span class="st">    </span></span>
+<span id="cb25-42"><a href="nestedm.html#cb25-42" aria-hidden="true" tabindex="-1"></a><span class="st">    ! Estimar las covarianzas entre los residuos del componente within (innovations)</span></span>
+<span id="cb25-43"><a href="nestedm.html#cb25-43" aria-hidden="true" tabindex="-1"></a><span class="st">      cx2 WITH cy2; </span></span>
+<span id="cb25-44"><a href="nestedm.html#cb25-44" aria-hidden="true" tabindex="-1"></a><span class="st">      cx3 WITH cy3; </span></span>
+<span id="cb25-45"><a href="nestedm.html#cb25-45" aria-hidden="true" tabindex="-1"></a><span class="st">      cx4 WITH cy4; </span></span>
+<span id="cb25-46"><a href="nestedm.html#cb25-46" aria-hidden="true" tabindex="-1"></a><span class="st">      cx5 WITH cy5;</span></span>
+<span id="cb25-47"><a href="nestedm.html#cb25-47" aria-hidden="true" tabindex="-1"></a><span class="st">      </span></span>
+<span id="cb25-48"><a href="nestedm.html#cb25-48" aria-hidden="true" tabindex="-1"></a><span class="st">    ! Estimar la covarianza entre los RI</span></span>
+<span id="cb25-49"><a href="nestedm.html#cb25-49" aria-hidden="true" tabindex="-1"></a><span class="st">      RI_x WITH RI_y;      </span></span>
+<span id="cb25-50"><a href="nestedm.html#cb25-50" aria-hidden="true" tabindex="-1"></a><span class="st">      </span></span>
+<span id="cb25-51"><a href="nestedm.html#cb25-51" aria-hidden="true" tabindex="-1"></a><span class="st">    ! Fijar la correlacion entre los RI y componentes within t=1 a cero </span></span>
+<span id="cb25-52"><a href="nestedm.html#cb25-52" aria-hidden="true" tabindex="-1"></a><span class="st">      RI_x WITH cx1@0 cy1@0;</span></span>
+<span id="cb25-53"><a href="nestedm.html#cb25-53" aria-hidden="true" tabindex="-1"></a><span class="st">      RI_y WITH cx1@0 cy1@0;</span></span>
+<span id="cb25-54"><a href="nestedm.html#cb25-54" aria-hidden="true" tabindex="-1"></a><span class="st">  &quot;</span></span>
+<span id="cb25-55"><a href="nestedm.html#cb25-55" aria-hidden="true" tabindex="-1"></a>,</span>
+<span id="cb25-56"><a href="nestedm.html#cb25-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-57"><a href="nestedm.html#cb25-57" aria-hidden="true" tabindex="-1"></a>  <span class="at">OUTPUT =</span> <span class="st">&quot;CINTERVAL sampstat mod stdyx tech1 tech4;&quot;</span>,</span>
+<span id="cb25-58"><a href="nestedm.html#cb25-58" aria-hidden="true" tabindex="-1"></a>  <span class="at">rdata =</span> elsoc)</span></code></pre></div>
+</div>
+<div id="B2" class="tabcontent">
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="nestedm.html#cb26-1" aria-hidden="true" tabindex="-1"></a>modelos[[<span class="st">&quot;m_B2&quot;</span>]] <span class="ot">&lt;-</span> <span class="fu">mplusObject</span>(</span>
+<span id="cb26-2"><a href="nestedm.html#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">TITLE =</span> <span class="st">&quot;RI CLPM - B2;&quot;</span>,</span>
+<span id="cb26-3"><a href="nestedm.html#cb26-3" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb26-4"><a href="nestedm.html#cb26-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">ANALYSIS=</span></span>
+<span id="cb26-5"><a href="nestedm.html#cb26-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;ESTIMATOR = mlr;</span></span>
+<span id="cb26-6"><a href="nestedm.html#cb26-6" aria-hidden="true" tabindex="-1"></a><span class="st">    ITERATIONS = 5000;&quot;</span>,</span>
+<span id="cb26-7"><a href="nestedm.html#cb26-7" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb26-8"><a href="nestedm.html#cb26-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">MODEL =</span> <span class="st">&quot;</span></span>
+<span id="cb26-9"><a href="nestedm.html#cb26-9" aria-hidden="true" tabindex="-1"></a><span class="st">    ! Crear los componentes between</span></span>
+<span id="cb26-10"><a href="nestedm.html#cb26-10" aria-hidden="true" tabindex="-1"></a><span class="st">      RI_x BY marchw01@1 marchw02@1 marchw03@1 marchw04@1 marchw05@1;</span></span>
+<span id="cb26-11"><a href="nestedm.html#cb26-11" aria-hidden="true" tabindex="-1"></a><span class="st">      RI_y BY redesw01@1 redesw02@1 redesw03@1 redesw04@1 redesw05@1;</span></span>
+<span id="cb26-12"><a href="nestedm.html#cb26-12" aria-hidden="true" tabindex="-1"></a><span class="st">    </span></span>
+<span id="cb26-13"><a href="nestedm.html#cb26-13" aria-hidden="true" tabindex="-1"></a><span class="st">    ! Crear los componentes within</span></span>
+<span id="cb26-14"><a href="nestedm.html#cb26-14" aria-hidden="true" tabindex="-1"></a><span class="st">      cx1 BY marchw01@1; </span></span>
+<span id="cb26-15"><a href="nestedm.html#cb26-15" aria-hidden="true" tabindex="-1"></a><span class="st">      cx2 BY marchw02@1; </span></span>
+<span id="cb26-16"><a href="nestedm.html#cb26-16" aria-hidden="true" tabindex="-1"></a><span class="st">      cx3 BY marchw03@1;</span></span>
+<span id="cb26-17"><a href="nestedm.html#cb26-17" aria-hidden="true" tabindex="-1"></a><span class="st">      cx4 BY marchw04@1; </span></span>
+<span id="cb26-18"><a href="nestedm.html#cb26-18" aria-hidden="true" tabindex="-1"></a><span class="st">      cx5 BY marchw05@1;</span></span>
+<span id="cb26-19"><a href="nestedm.html#cb26-19" aria-hidden="true" tabindex="-1"></a><span class="st">      </span></span>
+<span id="cb26-20"><a href="nestedm.html#cb26-20" aria-hidden="true" tabindex="-1"></a><span class="st">      cy1 BY redesw01@1;</span></span>
+<span id="cb26-21"><a href="nestedm.html#cb26-21" aria-hidden="true" tabindex="-1"></a><span class="st">      cy2 BY redesw02@1;</span></span>
+<span id="cb26-22"><a href="nestedm.html#cb26-22" aria-hidden="true" tabindex="-1"></a><span class="st">      cy3 BY redesw03@1;</span></span>
+<span id="cb26-23"><a href="nestedm.html#cb26-23" aria-hidden="true" tabindex="-1"></a><span class="st">      cy4 BY redesw04@1;</span></span>
+<span id="cb26-24"><a href="nestedm.html#cb26-24" aria-hidden="true" tabindex="-1"></a><span class="st">      cy5 BY redesw05@1;</span></span>
+<span id="cb26-25"><a href="nestedm.html#cb26-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-26"><a href="nestedm.html#cb26-26" aria-hidden="true" tabindex="-1"></a><span class="st">    ! Constrenir las varianzas del error de medicion a cero</span></span>
+<span id="cb26-27"><a href="nestedm.html#cb26-27" aria-hidden="true" tabindex="-1"></a><span class="st">      marchw01 - redesw05@0;</span></span>
+<span id="cb26-28"><a href="nestedm.html#cb26-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-29"><a href="nestedm.html#cb26-29" aria-hidden="true" tabindex="-1"></a><span class="st">    ! Estimar los efectos lagged</span></span>
+<span id="cb26-30"><a href="nestedm.html#cb26-30" aria-hidden="true" tabindex="-1"></a><span class="st">      cx2 ON cx1 (a);</span></span>
+<span id="cb26-31"><a href="nestedm.html#cb26-31" aria-hidden="true" tabindex="-1"></a><span class="st">      cx3 ON cx2 (a);</span></span>
+<span id="cb26-32"><a href="nestedm.html#cb26-32" aria-hidden="true" tabindex="-1"></a><span class="st">      cx4 ON cx3 (a);</span></span>
+<span id="cb26-33"><a href="nestedm.html#cb26-33" aria-hidden="true" tabindex="-1"></a><span class="st">      cx5 ON cx4 (a);</span></span>
+<span id="cb26-34"><a href="nestedm.html#cb26-34" aria-hidden="true" tabindex="-1"></a><span class="st">      cy2 ON cx1 cy1 (c b);</span></span>
+<span id="cb26-35"><a href="nestedm.html#cb26-35" aria-hidden="true" tabindex="-1"></a><span class="st">      cy3 ON cx2 cy2 (c b);</span></span>
+<span id="cb26-36"><a href="nestedm.html#cb26-36" aria-hidden="true" tabindex="-1"></a><span class="st">      cy4 ON cx3 cy3 (c b);</span></span>
+<span id="cb26-37"><a href="nestedm.html#cb26-37" aria-hidden="true" tabindex="-1"></a><span class="st">      cy5 ON cx4 cy4 (c b);</span></span>
+<span id="cb26-38"><a href="nestedm.html#cb26-38" aria-hidden="true" tabindex="-1"></a><span class="st">    </span></span>
+<span id="cb26-39"><a href="nestedm.html#cb26-39" aria-hidden="true" tabindex="-1"></a><span class="st">    ! Estimar la covarianza entre los componentes within t=1</span></span>
+<span id="cb26-40"><a href="nestedm.html#cb26-40" aria-hidden="true" tabindex="-1"></a><span class="st">      cx1 WITH cy1;</span></span>
+<span id="cb26-41"><a href="nestedm.html#cb26-41" aria-hidden="true" tabindex="-1"></a><span class="st">    </span></span>
+<span id="cb26-42"><a href="nestedm.html#cb26-42" aria-hidden="true" tabindex="-1"></a><span class="st">    ! Estimar las covarianzas entre los residuos del componente within (innovations)</span></span>
+<span id="cb26-43"><a href="nestedm.html#cb26-43" aria-hidden="true" tabindex="-1"></a><span class="st">      cx2 WITH cy2; </span></span>
+<span id="cb26-44"><a href="nestedm.html#cb26-44" aria-hidden="true" tabindex="-1"></a><span class="st">      cx3 WITH cy3; </span></span>
+<span id="cb26-45"><a href="nestedm.html#cb26-45" aria-hidden="true" tabindex="-1"></a><span class="st">      cx4 WITH cy4; </span></span>
+<span id="cb26-46"><a href="nestedm.html#cb26-46" aria-hidden="true" tabindex="-1"></a><span class="st">      cx5 WITH cy5;</span></span>
+<span id="cb26-47"><a href="nestedm.html#cb26-47" aria-hidden="true" tabindex="-1"></a><span class="st">      </span></span>
+<span id="cb26-48"><a href="nestedm.html#cb26-48" aria-hidden="true" tabindex="-1"></a><span class="st">    ! Estimar la covarianza entre los RI</span></span>
+<span id="cb26-49"><a href="nestedm.html#cb26-49" aria-hidden="true" tabindex="-1"></a><span class="st">      RI_x WITH RI_y;      </span></span>
+<span id="cb26-50"><a href="nestedm.html#cb26-50" aria-hidden="true" tabindex="-1"></a><span class="st">      </span></span>
+<span id="cb26-51"><a href="nestedm.html#cb26-51" aria-hidden="true" tabindex="-1"></a><span class="st">    ! Fijar la correlacion entre los RI y componentes within t=1 a cero </span></span>
+<span id="cb26-52"><a href="nestedm.html#cb26-52" aria-hidden="true" tabindex="-1"></a><span class="st">      RI_x WITH cx1@0 cy1@0;</span></span>
+<span id="cb26-53"><a href="nestedm.html#cb26-53" aria-hidden="true" tabindex="-1"></a><span class="st">      RI_y WITH cx1@0 cy1@0;</span></span>
+<span id="cb26-54"><a href="nestedm.html#cb26-54" aria-hidden="true" tabindex="-1"></a><span class="st">  &quot;</span></span>
+<span id="cb26-55"><a href="nestedm.html#cb26-55" aria-hidden="true" tabindex="-1"></a>,</span>
+<span id="cb26-56"><a href="nestedm.html#cb26-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-57"><a href="nestedm.html#cb26-57" aria-hidden="true" tabindex="-1"></a>  <span class="at">OUTPUT =</span> <span class="st">&quot;CINTERVAL sampstat mod stdyx tech1 tech4;&quot;</span>,</span>
+<span id="cb26-58"><a href="nestedm.html#cb26-58" aria-hidden="true" tabindex="-1"></a>  <span class="at">rdata =</span> elsoc)</span></code></pre></div>
+</div>
+<div id="C1" class="tabcontent">
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="nestedm.html#cb27-1" aria-hidden="true" tabindex="-1"></a>modelos[[<span class="st">&quot;m_C1&quot;</span>]] <span class="ot">&lt;-</span> <span class="fu">mplusObject</span>(</span>
+<span id="cb27-2"><a href="nestedm.html#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">TITLE =</span> <span class="st">&quot;RI CLPM - C1;&quot;</span>,</span>
+<span id="cb27-3"><a href="nestedm.html#cb27-3" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb27-4"><a href="nestedm.html#cb27-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">ANALYSIS=</span></span>
+<span id="cb27-5"><a href="nestedm.html#cb27-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;ESTIMATOR = mlr;</span></span>
+<span id="cb27-6"><a href="nestedm.html#cb27-6" aria-hidden="true" tabindex="-1"></a><span class="st">    ITERATIONS = 5000;&quot;</span>,</span>
+<span id="cb27-7"><a href="nestedm.html#cb27-7" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb27-8"><a href="nestedm.html#cb27-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">MODEL =</span> <span class="st">&quot;</span></span>
+<span id="cb27-9"><a href="nestedm.html#cb27-9" aria-hidden="true" tabindex="-1"></a><span class="st">    ! Crear los componentes between</span></span>
+<span id="cb27-10"><a href="nestedm.html#cb27-10" aria-hidden="true" tabindex="-1"></a><span class="st">      RI_x BY marchw01@1 marchw02@1 marchw03@1 marchw04@1 marchw05@1;</span></span>
+<span id="cb27-11"><a href="nestedm.html#cb27-11" aria-hidden="true" tabindex="-1"></a><span class="st">      RI_y BY redesw01@1 redesw02@1 redesw03@1 redesw04@1 redesw05@1;</span></span>
+<span id="cb27-12"><a href="nestedm.html#cb27-12" aria-hidden="true" tabindex="-1"></a><span class="st">    </span></span>
+<span id="cb27-13"><a href="nestedm.html#cb27-13" aria-hidden="true" tabindex="-1"></a><span class="st">    ! Crear los componentes within</span></span>
+<span id="cb27-14"><a href="nestedm.html#cb27-14" aria-hidden="true" tabindex="-1"></a><span class="st">      cx1 BY marchw01@1; </span></span>
+<span id="cb27-15"><a href="nestedm.html#cb27-15" aria-hidden="true" tabindex="-1"></a><span class="st">      cx2 BY marchw02@1; </span></span>
+<span id="cb27-16"><a href="nestedm.html#cb27-16" aria-hidden="true" tabindex="-1"></a><span class="st">      cx3 BY marchw03@1;</span></span>
+<span id="cb27-17"><a href="nestedm.html#cb27-17" aria-hidden="true" tabindex="-1"></a><span class="st">      cx4 BY marchw04@1; </span></span>
+<span id="cb27-18"><a href="nestedm.html#cb27-18" aria-hidden="true" tabindex="-1"></a><span class="st">      cx5 BY marchw05@1;</span></span>
+<span id="cb27-19"><a href="nestedm.html#cb27-19" aria-hidden="true" tabindex="-1"></a><span class="st">      </span></span>
+<span id="cb27-20"><a href="nestedm.html#cb27-20" aria-hidden="true" tabindex="-1"></a><span class="st">      cy1 BY redesw01@1;</span></span>
+<span id="cb27-21"><a href="nestedm.html#cb27-21" aria-hidden="true" tabindex="-1"></a><span class="st">      cy2 BY redesw02@1;</span></span>
+<span id="cb27-22"><a href="nestedm.html#cb27-22" aria-hidden="true" tabindex="-1"></a><span class="st">      cy3 BY redesw03@1;</span></span>
+<span id="cb27-23"><a href="nestedm.html#cb27-23" aria-hidden="true" tabindex="-1"></a><span class="st">      cy4 BY redesw04@1;</span></span>
+<span id="cb27-24"><a href="nestedm.html#cb27-24" aria-hidden="true" tabindex="-1"></a><span class="st">      cy5 BY redesw05@1;</span></span>
+<span id="cb27-25"><a href="nestedm.html#cb27-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-26"><a href="nestedm.html#cb27-26" aria-hidden="true" tabindex="-1"></a><span class="st">    ! Constrenir las varianzas del error de medicion a cero</span></span>
+<span id="cb27-27"><a href="nestedm.html#cb27-27" aria-hidden="true" tabindex="-1"></a><span class="st">      marchw01 - redesw05@0;</span></span>
+<span id="cb27-28"><a href="nestedm.html#cb27-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-29"><a href="nestedm.html#cb27-29" aria-hidden="true" tabindex="-1"></a><span class="st">    ! Estimar los efectos lagged</span></span>
+<span id="cb27-30"><a href="nestedm.html#cb27-30" aria-hidden="true" tabindex="-1"></a><span class="st">      cx2 ON cx1 cy1; </span></span>
+<span id="cb27-31"><a href="nestedm.html#cb27-31" aria-hidden="true" tabindex="-1"></a><span class="st">      cx3 ON cx2 cy2; </span></span>
+<span id="cb27-32"><a href="nestedm.html#cb27-32" aria-hidden="true" tabindex="-1"></a><span class="st">      cx4 ON cx3 cy3; </span></span>
+<span id="cb27-33"><a href="nestedm.html#cb27-33" aria-hidden="true" tabindex="-1"></a><span class="st">      cx5 ON cx4 cy4;</span></span>
+<span id="cb27-34"><a href="nestedm.html#cb27-34" aria-hidden="true" tabindex="-1"></a><span class="st">      cy2 ON cy1; </span></span>
+<span id="cb27-35"><a href="nestedm.html#cb27-35" aria-hidden="true" tabindex="-1"></a><span class="st">      cy3 ON cy2; </span></span>
+<span id="cb27-36"><a href="nestedm.html#cb27-36" aria-hidden="true" tabindex="-1"></a><span class="st">      cy4 ON cy3; </span></span>
+<span id="cb27-37"><a href="nestedm.html#cb27-37" aria-hidden="true" tabindex="-1"></a><span class="st">      cy5 ON cy4;</span></span>
+<span id="cb27-38"><a href="nestedm.html#cb27-38" aria-hidden="true" tabindex="-1"></a><span class="st">    </span></span>
+<span id="cb27-39"><a href="nestedm.html#cb27-39" aria-hidden="true" tabindex="-1"></a><span class="st">    ! Estimar la covarianza entre los componentes within t=1</span></span>
+<span id="cb27-40"><a href="nestedm.html#cb27-40" aria-hidden="true" tabindex="-1"></a><span class="st">      cx1 WITH cy1;</span></span>
+<span id="cb27-41"><a href="nestedm.html#cb27-41" aria-hidden="true" tabindex="-1"></a><span class="st">    </span></span>
+<span id="cb27-42"><a href="nestedm.html#cb27-42" aria-hidden="true" tabindex="-1"></a><span class="st">    ! Estimar las covarianzas entre los residuos del componente within (innovations)</span></span>
+<span id="cb27-43"><a href="nestedm.html#cb27-43" aria-hidden="true" tabindex="-1"></a><span class="st">      cx2 WITH cy2; </span></span>
+<span id="cb27-44"><a href="nestedm.html#cb27-44" aria-hidden="true" tabindex="-1"></a><span class="st">      cx3 WITH cy3; </span></span>
+<span id="cb27-45"><a href="nestedm.html#cb27-45" aria-hidden="true" tabindex="-1"></a><span class="st">      cx4 WITH cy4; </span></span>
+<span id="cb27-46"><a href="nestedm.html#cb27-46" aria-hidden="true" tabindex="-1"></a><span class="st">      cx5 WITH cy5;</span></span>
+<span id="cb27-47"><a href="nestedm.html#cb27-47" aria-hidden="true" tabindex="-1"></a><span class="st">      </span></span>
+<span id="cb27-48"><a href="nestedm.html#cb27-48" aria-hidden="true" tabindex="-1"></a><span class="st">    ! Estimar la covarianza entre los RI</span></span>
+<span id="cb27-49"><a href="nestedm.html#cb27-49" aria-hidden="true" tabindex="-1"></a><span class="st">      RI_x WITH RI_y;      </span></span>
+<span id="cb27-50"><a href="nestedm.html#cb27-50" aria-hidden="true" tabindex="-1"></a><span class="st">      </span></span>
+<span id="cb27-51"><a href="nestedm.html#cb27-51" aria-hidden="true" tabindex="-1"></a><span class="st">    ! Fijar la correlacion entre los RI y componentes within t=1 a cero </span></span>
+<span id="cb27-52"><a href="nestedm.html#cb27-52" aria-hidden="true" tabindex="-1"></a><span class="st">      RI_x WITH cx1@0 cy1@0;</span></span>
+<span id="cb27-53"><a href="nestedm.html#cb27-53" aria-hidden="true" tabindex="-1"></a><span class="st">      RI_y WITH cx1@0 cy1@0;</span></span>
+<span id="cb27-54"><a href="nestedm.html#cb27-54" aria-hidden="true" tabindex="-1"></a><span class="st">  &quot;</span></span>
+<span id="cb27-55"><a href="nestedm.html#cb27-55" aria-hidden="true" tabindex="-1"></a>,</span>
+<span id="cb27-56"><a href="nestedm.html#cb27-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-57"><a href="nestedm.html#cb27-57" aria-hidden="true" tabindex="-1"></a>  <span class="at">OUTPUT =</span> <span class="st">&quot;CINTERVAL sampstat mod stdyx tech1 tech4;&quot;</span>,</span>
+<span id="cb27-58"><a href="nestedm.html#cb27-58" aria-hidden="true" tabindex="-1"></a>  <span class="at">rdata =</span> elsoc)</span></code></pre></div>
+</div>
+<div id="C2" class="tabcontent">
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="nestedm.html#cb28-1" aria-hidden="true" tabindex="-1"></a>modelos[[<span class="st">&quot;m_C2&quot;</span>]] <span class="ot">&lt;-</span> <span class="fu">mplusObject</span>(</span>
+<span id="cb28-2"><a href="nestedm.html#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">TITLE =</span> <span class="st">&quot;RI CLPM - C2;&quot;</span>,</span>
+<span id="cb28-3"><a href="nestedm.html#cb28-3" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb28-4"><a href="nestedm.html#cb28-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">ANALYSIS=</span></span>
+<span id="cb28-5"><a href="nestedm.html#cb28-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;ESTIMATOR = mlr;</span></span>
+<span id="cb28-6"><a href="nestedm.html#cb28-6" aria-hidden="true" tabindex="-1"></a><span class="st">    ITERATIONS = 5000;&quot;</span>,</span>
+<span id="cb28-7"><a href="nestedm.html#cb28-7" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb28-8"><a href="nestedm.html#cb28-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">MODEL =</span> <span class="st">&quot;</span></span>
+<span id="cb28-9"><a href="nestedm.html#cb28-9" aria-hidden="true" tabindex="-1"></a><span class="st">    ! Crear los componentes between</span></span>
+<span id="cb28-10"><a href="nestedm.html#cb28-10" aria-hidden="true" tabindex="-1"></a><span class="st">      RI_x BY marchw01@1 marchw02@1 marchw03@1 marchw04@1 marchw05@1;</span></span>
+<span id="cb28-11"><a href="nestedm.html#cb28-11" aria-hidden="true" tabindex="-1"></a><span class="st">      RI_y BY redesw01@1 redesw02@1 redesw03@1 redesw04@1 redesw05@1;</span></span>
+<span id="cb28-12"><a href="nestedm.html#cb28-12" aria-hidden="true" tabindex="-1"></a><span class="st">    </span></span>
+<span id="cb28-13"><a href="nestedm.html#cb28-13" aria-hidden="true" tabindex="-1"></a><span class="st">    ! Crear los componentes within</span></span>
+<span id="cb28-14"><a href="nestedm.html#cb28-14" aria-hidden="true" tabindex="-1"></a><span class="st">      cx1 BY marchw01@1; </span></span>
+<span id="cb28-15"><a href="nestedm.html#cb28-15" aria-hidden="true" tabindex="-1"></a><span class="st">      cx2 BY marchw02@1; </span></span>
+<span id="cb28-16"><a href="nestedm.html#cb28-16" aria-hidden="true" tabindex="-1"></a><span class="st">      cx3 BY marchw03@1;</span></span>
+<span id="cb28-17"><a href="nestedm.html#cb28-17" aria-hidden="true" tabindex="-1"></a><span class="st">      cx4 BY marchw04@1; </span></span>
+<span id="cb28-18"><a href="nestedm.html#cb28-18" aria-hidden="true" tabindex="-1"></a><span class="st">      cx5 BY marchw05@1;</span></span>
+<span id="cb28-19"><a href="nestedm.html#cb28-19" aria-hidden="true" tabindex="-1"></a><span class="st">      </span></span>
+<span id="cb28-20"><a href="nestedm.html#cb28-20" aria-hidden="true" tabindex="-1"></a><span class="st">      cy1 BY redesw01@1;</span></span>
+<span id="cb28-21"><a href="nestedm.html#cb28-21" aria-hidden="true" tabindex="-1"></a><span class="st">      cy2 BY redesw02@1;</span></span>
+<span id="cb28-22"><a href="nestedm.html#cb28-22" aria-hidden="true" tabindex="-1"></a><span class="st">      cy3 BY redesw03@1;</span></span>
+<span id="cb28-23"><a href="nestedm.html#cb28-23" aria-hidden="true" tabindex="-1"></a><span class="st">      cy4 BY redesw04@1;</span></span>
+<span id="cb28-24"><a href="nestedm.html#cb28-24" aria-hidden="true" tabindex="-1"></a><span class="st">      cy5 BY redesw05@1;</span></span>
+<span id="cb28-25"><a href="nestedm.html#cb28-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-26"><a href="nestedm.html#cb28-26" aria-hidden="true" tabindex="-1"></a><span class="st">    ! Constrenir las varianzas del error de medicion a cero</span></span>
+<span id="cb28-27"><a href="nestedm.html#cb28-27" aria-hidden="true" tabindex="-1"></a><span class="st">      marchw01 - redesw05@0;</span></span>
+<span id="cb28-28"><a href="nestedm.html#cb28-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-29"><a href="nestedm.html#cb28-29" aria-hidden="true" tabindex="-1"></a><span class="st">    ! Estimar los efectos lagged</span></span>
+<span id="cb28-30"><a href="nestedm.html#cb28-30" aria-hidden="true" tabindex="-1"></a><span class="st">      cx2 ON cx1 cy1 (a d);</span></span>
+<span id="cb28-31"><a href="nestedm.html#cb28-31" aria-hidden="true" tabindex="-1"></a><span class="st">      cx3 ON cx2 cy2 (a d);</span></span>
+<span id="cb28-32"><a href="nestedm.html#cb28-32" aria-hidden="true" tabindex="-1"></a><span class="st">      cx4 ON cx3 cy3 (a d);</span></span>
+<span id="cb28-33"><a href="nestedm.html#cb28-33" aria-hidden="true" tabindex="-1"></a><span class="st">      cx5 ON cx4 cy4 (a d);</span></span>
+<span id="cb28-34"><a href="nestedm.html#cb28-34" aria-hidden="true" tabindex="-1"></a><span class="st">      cy2 ON cy1 (b);</span></span>
+<span id="cb28-35"><a href="nestedm.html#cb28-35" aria-hidden="true" tabindex="-1"></a><span class="st">      cy3 ON cy2 (b);</span></span>
+<span id="cb28-36"><a href="nestedm.html#cb28-36" aria-hidden="true" tabindex="-1"></a><span class="st">      cy4 ON cy3 (b);</span></span>
+<span id="cb28-37"><a href="nestedm.html#cb28-37" aria-hidden="true" tabindex="-1"></a><span class="st">      cy5 ON cy4 (b);</span></span>
+<span id="cb28-38"><a href="nestedm.html#cb28-38" aria-hidden="true" tabindex="-1"></a><span class="st">    </span></span>
+<span id="cb28-39"><a href="nestedm.html#cb28-39" aria-hidden="true" tabindex="-1"></a><span class="st">    ! Estimar la covarianza entre los componentes within t=1</span></span>
+<span id="cb28-40"><a href="nestedm.html#cb28-40" aria-hidden="true" tabindex="-1"></a><span class="st">      cx1 WITH cy1;</span></span>
+<span id="cb28-41"><a href="nestedm.html#cb28-41" aria-hidden="true" tabindex="-1"></a><span class="st">    </span></span>
+<span id="cb28-42"><a href="nestedm.html#cb28-42" aria-hidden="true" tabindex="-1"></a><span class="st">    ! Estimar las covarianzas entre los residuos del componente within (innovations)</span></span>
+<span id="cb28-43"><a href="nestedm.html#cb28-43" aria-hidden="true" tabindex="-1"></a><span class="st">      cx2 WITH cy2; </span></span>
+<span id="cb28-44"><a href="nestedm.html#cb28-44" aria-hidden="true" tabindex="-1"></a><span class="st">      cx3 WITH cy3; </span></span>
+<span id="cb28-45"><a href="nestedm.html#cb28-45" aria-hidden="true" tabindex="-1"></a><span class="st">      cx4 WITH cy4; </span></span>
+<span id="cb28-46"><a href="nestedm.html#cb28-46" aria-hidden="true" tabindex="-1"></a><span class="st">      cx5 WITH cy5;</span></span>
+<span id="cb28-47"><a href="nestedm.html#cb28-47" aria-hidden="true" tabindex="-1"></a><span class="st">      </span></span>
+<span id="cb28-48"><a href="nestedm.html#cb28-48" aria-hidden="true" tabindex="-1"></a><span class="st">    ! Estimar la covarianza entre los RI</span></span>
+<span id="cb28-49"><a href="nestedm.html#cb28-49" aria-hidden="true" tabindex="-1"></a><span class="st">      RI_x WITH RI_y;      </span></span>
+<span id="cb28-50"><a href="nestedm.html#cb28-50" aria-hidden="true" tabindex="-1"></a><span class="st">      </span></span>
+<span id="cb28-51"><a href="nestedm.html#cb28-51" aria-hidden="true" tabindex="-1"></a><span class="st">    ! Fijar la correlacion entre los RI y componentes within t=1 a cero </span></span>
+<span id="cb28-52"><a href="nestedm.html#cb28-52" aria-hidden="true" tabindex="-1"></a><span class="st">      RI_x WITH cx1@0 cy1@0;</span></span>
+<span id="cb28-53"><a href="nestedm.html#cb28-53" aria-hidden="true" tabindex="-1"></a><span class="st">      RI_y WITH cx1@0 cy1@0;</span></span>
+<span id="cb28-54"><a href="nestedm.html#cb28-54" aria-hidden="true" tabindex="-1"></a><span class="st">  &quot;</span></span>
+<span id="cb28-55"><a href="nestedm.html#cb28-55" aria-hidden="true" tabindex="-1"></a>,</span>
+<span id="cb28-56"><a href="nestedm.html#cb28-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-57"><a href="nestedm.html#cb28-57" aria-hidden="true" tabindex="-1"></a>  <span class="at">OUTPUT =</span> <span class="st">&quot;CINTERVAL sampstat mod stdyx tech1 tech4;&quot;</span>,</span>
+<span id="cb28-58"><a href="nestedm.html#cb28-58" aria-hidden="true" tabindex="-1"></a>  <span class="at">rdata =</span> elsoc)</span></code></pre></div>
+</div>
+<div id="D1" class="tabcontent">
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="nestedm.html#cb29-1" aria-hidden="true" tabindex="-1"></a>modelos[[<span class="st">&quot;m_D1&quot;</span>]] <span class="ot">&lt;-</span> <span class="fu">mplusObject</span>(</span>
+<span id="cb29-2"><a href="nestedm.html#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">TITLE =</span> <span class="st">&quot;RI CLPM - D1;&quot;</span>,</span>
+<span id="cb29-3"><a href="nestedm.html#cb29-3" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb29-4"><a href="nestedm.html#cb29-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">ANALYSIS=</span></span>
+<span id="cb29-5"><a href="nestedm.html#cb29-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;ESTIMATOR = mlr;</span></span>
+<span id="cb29-6"><a href="nestedm.html#cb29-6" aria-hidden="true" tabindex="-1"></a><span class="st">    ITERATIONS = 5000;&quot;</span>,</span>
+<span id="cb29-7"><a href="nestedm.html#cb29-7" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb29-8"><a href="nestedm.html#cb29-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">MODEL =</span> <span class="st">&quot;</span></span>
+<span id="cb29-9"><a href="nestedm.html#cb29-9" aria-hidden="true" tabindex="-1"></a><span class="st">    ! Crear los componentes between</span></span>
+<span id="cb29-10"><a href="nestedm.html#cb29-10" aria-hidden="true" tabindex="-1"></a><span class="st">      RI_x BY marchw01@1 marchw02@1 marchw03@1 marchw04@1 marchw05@1;</span></span>
+<span id="cb29-11"><a href="nestedm.html#cb29-11" aria-hidden="true" tabindex="-1"></a><span class="st">      RI_y BY redesw01@1 redesw02@1 redesw03@1 redesw04@1 redesw05@1;</span></span>
+<span id="cb29-12"><a href="nestedm.html#cb29-12" aria-hidden="true" tabindex="-1"></a><span class="st">    </span></span>
+<span id="cb29-13"><a href="nestedm.html#cb29-13" aria-hidden="true" tabindex="-1"></a><span class="st">    ! Crear los componentes within</span></span>
+<span id="cb29-14"><a href="nestedm.html#cb29-14" aria-hidden="true" tabindex="-1"></a><span class="st">      cx1 BY marchw01@1; </span></span>
+<span id="cb29-15"><a href="nestedm.html#cb29-15" aria-hidden="true" tabindex="-1"></a><span class="st">      cx2 BY marchw02@1; </span></span>
+<span id="cb29-16"><a href="nestedm.html#cb29-16" aria-hidden="true" tabindex="-1"></a><span class="st">      cx3 BY marchw03@1;</span></span>
+<span id="cb29-17"><a href="nestedm.html#cb29-17" aria-hidden="true" tabindex="-1"></a><span class="st">      cx4 BY marchw04@1; </span></span>
+<span id="cb29-18"><a href="nestedm.html#cb29-18" aria-hidden="true" tabindex="-1"></a><span class="st">      cx5 BY marchw05@1;</span></span>
+<span id="cb29-19"><a href="nestedm.html#cb29-19" aria-hidden="true" tabindex="-1"></a><span class="st">      </span></span>
+<span id="cb29-20"><a href="nestedm.html#cb29-20" aria-hidden="true" tabindex="-1"></a><span class="st">      cy1 BY redesw01@1;</span></span>
+<span id="cb29-21"><a href="nestedm.html#cb29-21" aria-hidden="true" tabindex="-1"></a><span class="st">      cy2 BY redesw02@1;</span></span>
+<span id="cb29-22"><a href="nestedm.html#cb29-22" aria-hidden="true" tabindex="-1"></a><span class="st">      cy3 BY redesw03@1;</span></span>
+<span id="cb29-23"><a href="nestedm.html#cb29-23" aria-hidden="true" tabindex="-1"></a><span class="st">      cy4 BY redesw04@1;</span></span>
+<span id="cb29-24"><a href="nestedm.html#cb29-24" aria-hidden="true" tabindex="-1"></a><span class="st">      cy5 BY redesw05@1;</span></span>
+<span id="cb29-25"><a href="nestedm.html#cb29-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-26"><a href="nestedm.html#cb29-26" aria-hidden="true" tabindex="-1"></a><span class="st">    ! Constrenir las varianzas del error de medicion a cero</span></span>
+<span id="cb29-27"><a href="nestedm.html#cb29-27" aria-hidden="true" tabindex="-1"></a><span class="st">      marchw01 - redesw05@0;</span></span>
+<span id="cb29-28"><a href="nestedm.html#cb29-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-29"><a href="nestedm.html#cb29-29" aria-hidden="true" tabindex="-1"></a><span class="st">    ! Estimar los efectos lagged</span></span>
+<span id="cb29-30"><a href="nestedm.html#cb29-30" aria-hidden="true" tabindex="-1"></a><span class="st">      cx2 ON cx1 cy1; </span></span>
+<span id="cb29-31"><a href="nestedm.html#cb29-31" aria-hidden="true" tabindex="-1"></a><span class="st">      cx3 ON cx2 cy2; </span></span>
+<span id="cb29-32"><a href="nestedm.html#cb29-32" aria-hidden="true" tabindex="-1"></a><span class="st">      cx4 ON cx3 cy3; </span></span>
+<span id="cb29-33"><a href="nestedm.html#cb29-33" aria-hidden="true" tabindex="-1"></a><span class="st">      cx5 ON cx4 cy4;</span></span>
+<span id="cb29-34"><a href="nestedm.html#cb29-34" aria-hidden="true" tabindex="-1"></a><span class="st">      cy2 ON cx1 cy1; </span></span>
+<span id="cb29-35"><a href="nestedm.html#cb29-35" aria-hidden="true" tabindex="-1"></a><span class="st">      cy3 ON cx2 cy2; </span></span>
+<span id="cb29-36"><a href="nestedm.html#cb29-36" aria-hidden="true" tabindex="-1"></a><span class="st">      cy4 ON cx3 cy3; </span></span>
+<span id="cb29-37"><a href="nestedm.html#cb29-37" aria-hidden="true" tabindex="-1"></a><span class="st">      cy5 ON cx4 cy4;</span></span>
+<span id="cb29-38"><a href="nestedm.html#cb29-38" aria-hidden="true" tabindex="-1"></a><span class="st">    </span></span>
+<span id="cb29-39"><a href="nestedm.html#cb29-39" aria-hidden="true" tabindex="-1"></a><span class="st">    ! Estimar la covarianza entre los componentes within t=1</span></span>
+<span id="cb29-40"><a href="nestedm.html#cb29-40" aria-hidden="true" tabindex="-1"></a><span class="st">      cx1 WITH cy1;</span></span>
+<span id="cb29-41"><a href="nestedm.html#cb29-41" aria-hidden="true" tabindex="-1"></a><span class="st">    </span></span>
+<span id="cb29-42"><a href="nestedm.html#cb29-42" aria-hidden="true" tabindex="-1"></a><span class="st">    ! Estimar las covarianzas entre los residuos del componente within (innovations)</span></span>
+<span id="cb29-43"><a href="nestedm.html#cb29-43" aria-hidden="true" tabindex="-1"></a><span class="st">      cx2 WITH cy2; </span></span>
+<span id="cb29-44"><a href="nestedm.html#cb29-44" aria-hidden="true" tabindex="-1"></a><span class="st">      cx3 WITH cy3; </span></span>
+<span id="cb29-45"><a href="nestedm.html#cb29-45" aria-hidden="true" tabindex="-1"></a><span class="st">      cx4 WITH cy4; </span></span>
+<span id="cb29-46"><a href="nestedm.html#cb29-46" aria-hidden="true" tabindex="-1"></a><span class="st">      cx5 WITH cy5;</span></span>
+<span id="cb29-47"><a href="nestedm.html#cb29-47" aria-hidden="true" tabindex="-1"></a><span class="st">      </span></span>
+<span id="cb29-48"><a href="nestedm.html#cb29-48" aria-hidden="true" tabindex="-1"></a><span class="st">    ! Estimar la covarianza entre los RI</span></span>
+<span id="cb29-49"><a href="nestedm.html#cb29-49" aria-hidden="true" tabindex="-1"></a><span class="st">      RI_x WITH RI_y;      </span></span>
+<span id="cb29-50"><a href="nestedm.html#cb29-50" aria-hidden="true" tabindex="-1"></a><span class="st">      </span></span>
+<span id="cb29-51"><a href="nestedm.html#cb29-51" aria-hidden="true" tabindex="-1"></a><span class="st">    ! Fijar la correlacion entre los RI y componentes within t=1 a cero </span></span>
+<span id="cb29-52"><a href="nestedm.html#cb29-52" aria-hidden="true" tabindex="-1"></a><span class="st">      RI_x WITH cx1@0 cy1@0;</span></span>
+<span id="cb29-53"><a href="nestedm.html#cb29-53" aria-hidden="true" tabindex="-1"></a><span class="st">      RI_y WITH cx1@0 cy1@0;</span></span>
+<span id="cb29-54"><a href="nestedm.html#cb29-54" aria-hidden="true" tabindex="-1"></a><span class="st">  &quot;</span></span>
+<span id="cb29-55"><a href="nestedm.html#cb29-55" aria-hidden="true" tabindex="-1"></a>,</span>
+<span id="cb29-56"><a href="nestedm.html#cb29-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-57"><a href="nestedm.html#cb29-57" aria-hidden="true" tabindex="-1"></a>  <span class="at">OUTPUT =</span> <span class="st">&quot;CINTERVAL sampstat mod stdyx tech1 tech4;&quot;</span>,</span>
+<span id="cb29-58"><a href="nestedm.html#cb29-58" aria-hidden="true" tabindex="-1"></a>  <span class="at">rdata =</span> elsoc)</span></code></pre></div>
+</div>
+<div id="D2" class="tabcontent">
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="nestedm.html#cb30-1" aria-hidden="true" tabindex="-1"></a>modelos[[<span class="st">&quot;m_D2&quot;</span>]] <span class="ot">&lt;-</span> <span class="fu">mplusObject</span>(</span>
+<span id="cb30-2"><a href="nestedm.html#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">TITLE =</span> <span class="st">&quot;RI CLPM - D2;&quot;</span>,</span>
+<span id="cb30-3"><a href="nestedm.html#cb30-3" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb30-4"><a href="nestedm.html#cb30-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">ANALYSIS=</span></span>
+<span id="cb30-5"><a href="nestedm.html#cb30-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;ESTIMATOR = mlr;</span></span>
+<span id="cb30-6"><a href="nestedm.html#cb30-6" aria-hidden="true" tabindex="-1"></a><span class="st">    ITERATIONS = 5000;&quot;</span>,</span>
+<span id="cb30-7"><a href="nestedm.html#cb30-7" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb30-8"><a href="nestedm.html#cb30-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">MODEL =</span> <span class="st">&quot;</span></span>
+<span id="cb30-9"><a href="nestedm.html#cb30-9" aria-hidden="true" tabindex="-1"></a><span class="st">    ! Crear los componentes between</span></span>
+<span id="cb30-10"><a href="nestedm.html#cb30-10" aria-hidden="true" tabindex="-1"></a><span class="st">      RI_x BY marchw01@1 marchw02@1 marchw03@1 marchw04@1 marchw05@1;</span></span>
+<span id="cb30-11"><a href="nestedm.html#cb30-11" aria-hidden="true" tabindex="-1"></a><span class="st">      RI_y BY redesw01@1 redesw02@1 redesw03@1 redesw04@1 redesw05@1;</span></span>
+<span id="cb30-12"><a href="nestedm.html#cb30-12" aria-hidden="true" tabindex="-1"></a><span class="st">    </span></span>
+<span id="cb30-13"><a href="nestedm.html#cb30-13" aria-hidden="true" tabindex="-1"></a><span class="st">    ! Crear los componentes within</span></span>
+<span id="cb30-14"><a href="nestedm.html#cb30-14" aria-hidden="true" tabindex="-1"></a><span class="st">      cx1 BY marchw01@1; </span></span>
+<span id="cb30-15"><a href="nestedm.html#cb30-15" aria-hidden="true" tabindex="-1"></a><span class="st">      cx2 BY marchw02@1; </span></span>
+<span id="cb30-16"><a href="nestedm.html#cb30-16" aria-hidden="true" tabindex="-1"></a><span class="st">      cx3 BY marchw03@1;</span></span>
+<span id="cb30-17"><a href="nestedm.html#cb30-17" aria-hidden="true" tabindex="-1"></a><span class="st">      cx4 BY marchw04@1; </span></span>
+<span id="cb30-18"><a href="nestedm.html#cb30-18" aria-hidden="true" tabindex="-1"></a><span class="st">      cx5 BY marchw05@1;</span></span>
+<span id="cb30-19"><a href="nestedm.html#cb30-19" aria-hidden="true" tabindex="-1"></a><span class="st">      </span></span>
+<span id="cb30-20"><a href="nestedm.html#cb30-20" aria-hidden="true" tabindex="-1"></a><span class="st">      cy1 BY redesw01@1;</span></span>
+<span id="cb30-21"><a href="nestedm.html#cb30-21" aria-hidden="true" tabindex="-1"></a><span class="st">      cy2 BY redesw02@1;</span></span>
+<span id="cb30-22"><a href="nestedm.html#cb30-22" aria-hidden="true" tabindex="-1"></a><span class="st">      cy3 BY redesw03@1;</span></span>
+<span id="cb30-23"><a href="nestedm.html#cb30-23" aria-hidden="true" tabindex="-1"></a><span class="st">      cy4 BY redesw04@1;</span></span>
+<span id="cb30-24"><a href="nestedm.html#cb30-24" aria-hidden="true" tabindex="-1"></a><span class="st">      cy5 BY redesw05@1;</span></span>
+<span id="cb30-25"><a href="nestedm.html#cb30-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-26"><a href="nestedm.html#cb30-26" aria-hidden="true" tabindex="-1"></a><span class="st">    ! Constrenir las varianzas del error de medicion a cero</span></span>
+<span id="cb30-27"><a href="nestedm.html#cb30-27" aria-hidden="true" tabindex="-1"></a><span class="st">      marchw01 - redesw05@0;</span></span>
+<span id="cb30-28"><a href="nestedm.html#cb30-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-29"><a href="nestedm.html#cb30-29" aria-hidden="true" tabindex="-1"></a><span class="st">    ! Estimar los efectos lagged</span></span>
+<span id="cb30-30"><a href="nestedm.html#cb30-30" aria-hidden="true" tabindex="-1"></a><span class="st">      cx2 ON cx1 cy1 (a d); </span></span>
+<span id="cb30-31"><a href="nestedm.html#cb30-31" aria-hidden="true" tabindex="-1"></a><span class="st">      cx3 ON cx2 cy2 (a d); </span></span>
+<span id="cb30-32"><a href="nestedm.html#cb30-32" aria-hidden="true" tabindex="-1"></a><span class="st">      cx4 ON cx3 cy3 (a d); </span></span>
+<span id="cb30-33"><a href="nestedm.html#cb30-33" aria-hidden="true" tabindex="-1"></a><span class="st">      cx5 ON cx4 cy4 (a d);</span></span>
+<span id="cb30-34"><a href="nestedm.html#cb30-34" aria-hidden="true" tabindex="-1"></a><span class="st">      cy2 ON cx1 cy1 (c b); </span></span>
+<span id="cb30-35"><a href="nestedm.html#cb30-35" aria-hidden="true" tabindex="-1"></a><span class="st">      cy3 ON cx2 cy2 (c b); </span></span>
+<span id="cb30-36"><a href="nestedm.html#cb30-36" aria-hidden="true" tabindex="-1"></a><span class="st">      cy4 ON cx3 cy3 (c b); </span></span>
+<span id="cb30-37"><a href="nestedm.html#cb30-37" aria-hidden="true" tabindex="-1"></a><span class="st">      cy5 ON cx4 cy4 (c b);</span></span>
+<span id="cb30-38"><a href="nestedm.html#cb30-38" aria-hidden="true" tabindex="-1"></a><span class="st">    </span></span>
+<span id="cb30-39"><a href="nestedm.html#cb30-39" aria-hidden="true" tabindex="-1"></a><span class="st">    ! Estimar la covarianza entre los componentes within t=1</span></span>
+<span id="cb30-40"><a href="nestedm.html#cb30-40" aria-hidden="true" tabindex="-1"></a><span class="st">      cx1 WITH cy1;</span></span>
+<span id="cb30-41"><a href="nestedm.html#cb30-41" aria-hidden="true" tabindex="-1"></a><span class="st">    </span></span>
+<span id="cb30-42"><a href="nestedm.html#cb30-42" aria-hidden="true" tabindex="-1"></a><span class="st">    ! Estimar las covarianzas entre los residuos del componente within (innovations)</span></span>
+<span id="cb30-43"><a href="nestedm.html#cb30-43" aria-hidden="true" tabindex="-1"></a><span class="st">      cx2 WITH cy2; </span></span>
+<span id="cb30-44"><a href="nestedm.html#cb30-44" aria-hidden="true" tabindex="-1"></a><span class="st">      cx3 WITH cy3; </span></span>
+<span id="cb30-45"><a href="nestedm.html#cb30-45" aria-hidden="true" tabindex="-1"></a><span class="st">      cx4 WITH cy4; </span></span>
+<span id="cb30-46"><a href="nestedm.html#cb30-46" aria-hidden="true" tabindex="-1"></a><span class="st">      cx5 WITH cy5;</span></span>
+<span id="cb30-47"><a href="nestedm.html#cb30-47" aria-hidden="true" tabindex="-1"></a><span class="st">      </span></span>
+<span id="cb30-48"><a href="nestedm.html#cb30-48" aria-hidden="true" tabindex="-1"></a><span class="st">    ! Estimar la covarianza entre los RI</span></span>
+<span id="cb30-49"><a href="nestedm.html#cb30-49" aria-hidden="true" tabindex="-1"></a><span class="st">      RI_x WITH RI_y;      </span></span>
+<span id="cb30-50"><a href="nestedm.html#cb30-50" aria-hidden="true" tabindex="-1"></a><span class="st">      </span></span>
+<span id="cb30-51"><a href="nestedm.html#cb30-51" aria-hidden="true" tabindex="-1"></a><span class="st">    ! Fijar la correlacion entre los RI y componentes within t=1 a cero </span></span>
+<span id="cb30-52"><a href="nestedm.html#cb30-52" aria-hidden="true" tabindex="-1"></a><span class="st">      RI_x WITH cx1@0 cy1@0;</span></span>
+<span id="cb30-53"><a href="nestedm.html#cb30-53" aria-hidden="true" tabindex="-1"></a><span class="st">      RI_y WITH cx1@0 cy1@0;</span></span>
+<span id="cb30-54"><a href="nestedm.html#cb30-54" aria-hidden="true" tabindex="-1"></a><span class="st">  &quot;</span></span>
+<span id="cb30-55"><a href="nestedm.html#cb30-55" aria-hidden="true" tabindex="-1"></a>,</span>
+<span id="cb30-56"><a href="nestedm.html#cb30-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-57"><a href="nestedm.html#cb30-57" aria-hidden="true" tabindex="-1"></a>  <span class="at">OUTPUT =</span> <span class="st">&quot;CINTERVAL sampstat mod stdyx tech1 tech4;&quot;</span>,</span>
+<span id="cb30-58"><a href="nestedm.html#cb30-58" aria-hidden="true" tabindex="-1"></a>  <span class="at">rdata =</span> elsoc)</span></code></pre></div>
+</div>
+<div id="Run" class="tabcontent">
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="nestedm.html#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq</span>(<span class="fu">names</span>(modelos))) {</span>
+<span id="cb31-2"><a href="nestedm.html#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mplusModeler</span>(modelos[[i]], </span>
+<span id="cb31-3"><a href="nestedm.html#cb31-3" aria-hidden="true" tabindex="-1"></a>               <span class="at">modelout =</span> <span class="fu">paste0</span>(<span class="st">&quot;mplus/&quot;</span>,<span class="fu">names</span>(modelos)[i],<span class="st">&quot;.inp&quot;</span>, <span class="at">sep=</span><span class="st">&quot;&quot;</span>), </span>
+<span id="cb31-4"><a href="nestedm.html#cb31-4" aria-hidden="true" tabindex="-1"></a>               <span class="at">run =</span> 1L, <span class="at">quiet=</span>T)</span>
+<span id="cb31-5"><a href="nestedm.html#cb31-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb31-6"><a href="nestedm.html#cb31-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-7"><a href="nestedm.html#cb31-7" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">readModels</span>(<span class="at">target =</span> <span class="st">&quot;mplus&quot;</span>, <span class="at">filefilter =</span> <span class="st">&quot;m_&quot;</span>, <span class="at">recursive =</span> F)</span></code></pre></div>
+</div>
+</div>
+<div id="indicadores-de-bondad-de-ajuste" class="section level2" number="3.1">
+<h2><span class="header-section-number">3.1</span> Indicadores de bondad de ajuste</h2>
+<div id="extraccion" class="section level3" number="3.1.1">
+<h3><span class="header-section-number">3.1.1</span> Extraccion</h3>
+<p>Usamos la siguiente funcion para extraer indicadores de bondad de ajuste:</p>
+<button class="tablinks" onclick="unrolltab(event, &#39;gof.measures&#39;)">
+gof.measures
+</button>
+<div id="gof.measures" class="tabcontent">
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="nestedm.html#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="do">## GOF function:</span></span>
+<span id="cb32-2"><a href="nestedm.html#cb32-2" aria-hidden="true" tabindex="-1"></a>gof.measures  <span class="ot">=</span> <span class="cf">function</span>(fit_list){</span>
+<span id="cb32-3"><a href="nestedm.html#cb32-3" aria-hidden="true" tabindex="-1"></a>  gof <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb32-4"><a href="nestedm.html#cb32-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(fit_list)) {</span>
+<span id="cb32-5"><a href="nestedm.html#cb32-5" aria-hidden="true" tabindex="-1"></a>    model        <span class="ot">&lt;-</span> <span class="fu">gsub</span>(<span class="st">&quot;.out&quot;</span>,<span class="st">&quot;&quot;</span>,<span class="fu">names</span>(fit_list)[i])</span>
+<span id="cb32-6"><a href="nestedm.html#cb32-6" aria-hidden="true" tabindex="-1"></a>    chisq_df     <span class="ot">&lt;-</span> fit_list[[i]][[<span class="st">&quot;summaries&quot;</span>]][[<span class="st">&quot;ChiSqM_DF&quot;</span>]]</span>
+<span id="cb32-7"><a href="nestedm.html#cb32-7" aria-hidden="true" tabindex="-1"></a>    chisq_value  <span class="ot">&lt;-</span> fit_list[[i]][[<span class="st">&quot;summaries&quot;</span>]][[<span class="st">&quot;ChiSqM_Value&quot;</span>]]</span>
+<span id="cb32-8"><a href="nestedm.html#cb32-8" aria-hidden="true" tabindex="-1"></a>    chisq_pvalue <span class="ot">&lt;-</span> fit_list[[i]][[<span class="st">&quot;summaries&quot;</span>]][[<span class="st">&quot;ChiSqM_PValue&quot;</span>]]</span>
+<span id="cb32-9"><a href="nestedm.html#cb32-9" aria-hidden="true" tabindex="-1"></a>    CFI          <span class="ot">&lt;-</span> fit_list[[i]][[<span class="st">&quot;summaries&quot;</span>]][[<span class="st">&quot;CFI&quot;</span>]]</span>
+<span id="cb32-10"><a href="nestedm.html#cb32-10" aria-hidden="true" tabindex="-1"></a>    TLI          <span class="ot">&lt;-</span> fit_list[[i]][[<span class="st">&quot;summaries&quot;</span>]][[<span class="st">&quot;TLI&quot;</span>]]</span>
+<span id="cb32-11"><a href="nestedm.html#cb32-11" aria-hidden="true" tabindex="-1"></a>    RMSEA        <span class="ot">&lt;-</span> fit_list[[i]][[<span class="st">&quot;summaries&quot;</span>]][[<span class="st">&quot;RMSEA_Estimate&quot;</span>]]</span>
+<span id="cb32-12"><a href="nestedm.html#cb32-12" aria-hidden="true" tabindex="-1"></a>    SRMR         <span class="ot">&lt;-</span> fit_list[[i]][[<span class="st">&quot;summaries&quot;</span>]][[<span class="st">&quot;SRMR&quot;</span>]]</span>
+<span id="cb32-13"><a href="nestedm.html#cb32-13" aria-hidden="true" tabindex="-1"></a>    AIC          <span class="ot">&lt;-</span> fit_list[[i]][[<span class="st">&quot;summaries&quot;</span>]][[<span class="st">&quot;AIC&quot;</span>]]</span>
+<span id="cb32-14"><a href="nestedm.html#cb32-14" aria-hidden="true" tabindex="-1"></a>    BIC          <span class="ot">&lt;-</span> fit_list[[i]][[<span class="st">&quot;summaries&quot;</span>]][[<span class="st">&quot;BIC&quot;</span>]]</span>
+<span id="cb32-15"><a href="nestedm.html#cb32-15" aria-hidden="true" tabindex="-1"></a>    aBIC         <span class="ot">&lt;-</span> fit_list[[i]][[<span class="st">&quot;summaries&quot;</span>]][[<span class="st">&quot;aBIC&quot;</span>]]</span>
+<span id="cb32-16"><a href="nestedm.html#cb32-16" aria-hidden="true" tabindex="-1"></a>    LL           <span class="ot">&lt;-</span> fit_list[[i]][[<span class="st">&quot;summaries&quot;</span>]][[<span class="st">&quot;LL&quot;</span>]]</span>
+<span id="cb32-17"><a href="nestedm.html#cb32-17" aria-hidden="true" tabindex="-1"></a>    free_par     <span class="ot">&lt;-</span> fit_list[[i]][[<span class="st">&quot;summaries&quot;</span>]][[<span class="st">&quot;Parameters&quot;</span>]]</span>
+<span id="cb32-18"><a href="nestedm.html#cb32-18" aria-hidden="true" tabindex="-1"></a>    LL_correctf  <span class="ot">&lt;-</span> fit_list[[i]][[<span class="st">&quot;summaries&quot;</span>]][[<span class="st">&quot;LLCorrectionFactor&quot;</span>]]</span>
+<span id="cb32-19"><a href="nestedm.html#cb32-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-20"><a href="nestedm.html#cb32-20" aria-hidden="true" tabindex="-1"></a>    gof[[model]] <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(model,chisq_df,chisq_value,chisq_pvalue,</span>
+<span id="cb32-21"><a href="nestedm.html#cb32-21" aria-hidden="true" tabindex="-1"></a>                               CFI,TLI,RMSEA,SRMR,</span>
+<span id="cb32-22"><a href="nestedm.html#cb32-22" aria-hidden="true" tabindex="-1"></a>                               AIC,BIC,aBIC,</span>
+<span id="cb32-23"><a href="nestedm.html#cb32-23" aria-hidden="true" tabindex="-1"></a>                               LL,free_par,LL_correctf)</span>
+<span id="cb32-24"><a href="nestedm.html#cb32-24" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb32-25"><a href="nestedm.html#cb32-25" aria-hidden="true" tabindex="-1"></a>  gof <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">bind_rows</span>(gof)</span>
+<span id="cb32-26"><a href="nestedm.html#cb32-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(gof)</span>
+<span id="cb32-27"><a href="nestedm.html#cb32-27" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+</div>
+<p><code>gof.measures()</code> solo requiere que se especifique como input una lista de modelos de tipo “mplus.model.list.” Corremos <code>gof.measures()</code> usando nuestra lista de modelos <code>fit</code> para reunir los indicadores en un dataframe llamado <code>dtgof</code>.</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="nestedm.html#cb33-1" aria-hidden="true" tabindex="-1"></a>dtgof <span class="ot">&lt;-</span> <span class="fu">gof.measures</span>(fit)</span>
+<span id="cb33-2"><a href="nestedm.html#cb33-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-3"><a href="nestedm.html#cb33-3" aria-hidden="true" tabindex="-1"></a>dtgof <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">-</span>LL,<span class="sc">-</span>free_par,<span class="sc">-</span>LL_correctf) <span class="sc">%&gt;%</span> </span>
+<span id="cb33-4"><a href="nestedm.html#cb33-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kbl</span>(<span class="at">digits =</span> <span class="dv">2</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb33-5"><a href="nestedm.html#cb33-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_styling</span>(<span class="at">bootstrap_options =</span> <span class="fu">c</span>(<span class="st">&quot;striped&quot;</span>, <span class="st">&quot;hover&quot;</span>, <span class="st">&quot;condensed&quot;</span>, <span class="st">&quot;responsive&quot;</span>))</span></code></pre></div>
+<table class="table table-striped table-hover table-condensed table-responsive" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+model
+</th>
+<th style="text-align:right;">
+chisq_df
+</th>
+<th style="text-align:right;">
+chisq_value
+</th>
+<th style="text-align:right;">
+chisq_pvalue
+</th>
+<th style="text-align:right;">
+CFI
+</th>
+<th style="text-align:right;">
+TLI
+</th>
+<th style="text-align:right;">
+RMSEA
+</th>
+<th style="text-align:right;">
+SRMR
+</th>
+<th style="text-align:right;">
+AIC
+</th>
+<th style="text-align:right;">
+BIC
+</th>
+<th style="text-align:right;">
+aBIC
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+m_a1
+</td>
+<td style="text-align:right;">
+29
+</td>
+<td style="text-align:right;">
+171.33
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0.96
+</td>
+<td style="text-align:right;">
+0.94
+</td>
+<td style="text-align:right;">
+0.04
+</td>
+<td style="text-align:right;">
+0.06
+</td>
+<td style="text-align:right;">
+54639.86
+</td>
+<td style="text-align:right;">
+54855.21
+</td>
+<td style="text-align:right;">
+54740.82
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+m_a2
+</td>
+<td style="text-align:right;">
+35
+</td>
+<td style="text-align:right;">
+202.24
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0.95
+</td>
+<td style="text-align:right;">
+0.94
+</td>
+<td style="text-align:right;">
+0.04
+</td>
+<td style="text-align:right;">
+0.07
+</td>
+<td style="text-align:right;">
+54700.06
+</td>
+<td style="text-align:right;">
+54879.51
+</td>
+<td style="text-align:right;">
+54784.19
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+m_b1
+</td>
+<td style="text-align:right;">
+25
+</td>
+<td style="text-align:right;">
+161.50
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0.96
+</td>
+<td style="text-align:right;">
+0.93
+</td>
+<td style="text-align:right;">
+0.04
+</td>
+<td style="text-align:right;">
+0.06
+</td>
+<td style="text-align:right;">
+54634.64
+</td>
+<td style="text-align:right;">
+54873.91
+</td>
+<td style="text-align:right;">
+54746.81
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+m_b2
+</td>
+<td style="text-align:right;">
+34
+</td>
+<td style="text-align:right;">
+197.35
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0.95
+</td>
+<td style="text-align:right;">
+0.94
+</td>
+<td style="text-align:right;">
+0.04
+</td>
+<td style="text-align:right;">
+0.07
+</td>
+<td style="text-align:right;">
+54694.43
+</td>
+<td style="text-align:right;">
+54879.86
+</td>
+<td style="text-align:right;">
+54781.36
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+m_c1
+</td>
+<td style="text-align:right;">
+25
+</td>
+<td style="text-align:right;">
+154.40
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0.96
+</td>
+<td style="text-align:right;">
+0.94
+</td>
+<td style="text-align:right;">
+0.04
+</td>
+<td style="text-align:right;">
+0.06
+</td>
+<td style="text-align:right;">
+54623.60
+</td>
+<td style="text-align:right;">
+54862.87
+</td>
+<td style="text-align:right;">
+54735.78
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+m_c2
+</td>
+<td style="text-align:right;">
+34
+</td>
+<td style="text-align:right;">
+200.89
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0.95
+</td>
+<td style="text-align:right;">
+0.94
+</td>
+<td style="text-align:right;">
+0.04
+</td>
+<td style="text-align:right;">
+0.07
+</td>
+<td style="text-align:right;">
+54701.75
+</td>
+<td style="text-align:right;">
+54887.19
+</td>
+<td style="text-align:right;">
+54788.69
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+m_d1
+</td>
+<td style="text-align:right;">
+21
+</td>
+<td style="text-align:right;">
+144.11
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0.97
+</td>
+<td style="text-align:right;">
+0.93
+</td>
+<td style="text-align:right;">
+0.04
+</td>
+<td style="text-align:right;">
+0.06
+</td>
+<td style="text-align:right;">
+54615.30
+</td>
+<td style="text-align:right;">
+54878.50
+</td>
+<td style="text-align:right;">
+54738.69
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+m_d2
+</td>
+<td style="text-align:right;">
+33
+</td>
+<td style="text-align:right;">
+195.39
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0.96
+</td>
+<td style="text-align:right;">
+0.94
+</td>
+<td style="text-align:right;">
+0.04
+</td>
+<td style="text-align:right;">
+0.07
+</td>
+<td style="text-align:right;">
+54694.53
+</td>
+<td style="text-align:right;">
+54885.94
+</td>
+<td style="text-align:right;">
+54784.26
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="comparacion-de-bondad-de-ajuste" class="section level2" number="3.2">
+<h2><span class="header-section-number">3.2</span> Comparacion de bondad de ajuste</h2>
+<p>En la tabla hemos dejado fuera del reporte las columnas Log-likelihood, su correccion y el numero de parametros libres. Estos nos serviran para calcular otros tests para comparar modelos. Para hacerlo, usamos la siguiente funcion:</p>
+<button class="tablinks" onclick="unrolltab(event, &#39;gof.comparison&#39;)">
+gof.comparison
+</button>
+<div id="gof.comparison" class="tabcontent">
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="nestedm.html#cb34-1" aria-hidden="true" tabindex="-1"></a>gof.comparison  <span class="ot">=</span> <span class="cf">function</span>(data,fuller,nested){</span>
+<span id="cb34-2"><a href="nestedm.html#cb34-2" aria-hidden="true" tabindex="-1"></a>  dt_gof <span class="ot">&lt;-</span> data.table<span class="sc">::</span><span class="fu">data.table</span>(data.table<span class="sc">::</span><span class="fu">copy</span>(data)) </span>
+<span id="cb34-3"><a href="nestedm.html#cb34-3" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb34-4"><a href="nestedm.html#cb34-4" aria-hidden="true" tabindex="-1"></a>  comparison  <span class="ot">&lt;-</span> <span class="fu">paste0</span>(nested,<span class="st">&quot; vs. &quot;</span>,fuller, <span class="at">sep=</span><span class="st">&quot;&quot;</span>)</span>
+<span id="cb34-5"><a href="nestedm.html#cb34-5" aria-hidden="true" tabindex="-1"></a>  CFI_delta   <span class="ot">&lt;-</span> dt_gof[model<span class="sc">==</span>nested,CFI] <span class="sc">-</span> dt_gof[model<span class="sc">==</span>fuller,CFI]</span>
+<span id="cb34-6"><a href="nestedm.html#cb34-6" aria-hidden="true" tabindex="-1"></a>  TLI_delta   <span class="ot">&lt;-</span> dt_gof[model<span class="sc">==</span>nested,TLI] <span class="sc">-</span> dt_gof[model<span class="sc">==</span>fuller,TLI]</span>
+<span id="cb34-7"><a href="nestedm.html#cb34-7" aria-hidden="true" tabindex="-1"></a>  RMSEA_delta <span class="ot">&lt;-</span> dt_gof[model<span class="sc">==</span>nested,RMSEA] <span class="sc">-</span> dt_gof[model<span class="sc">==</span>fuller,RMSEA]</span>
+<span id="cb34-8"><a href="nestedm.html#cb34-8" aria-hidden="true" tabindex="-1"></a>  SRMR_delta  <span class="ot">&lt;-</span> dt_gof[model<span class="sc">==</span>nested,SRMR] <span class="sc">-</span> dt_gof[model<span class="sc">==</span>fuller,SRMR]</span>
+<span id="cb34-9"><a href="nestedm.html#cb34-9" aria-hidden="true" tabindex="-1"></a>  AIC_delta   <span class="ot">&lt;-</span> dt_gof[model<span class="sc">==</span>nested,AIC] <span class="sc">-</span> dt_gof[model<span class="sc">==</span>fuller,AIC]</span>
+<span id="cb34-10"><a href="nestedm.html#cb34-10" aria-hidden="true" tabindex="-1"></a>  BIC_delta   <span class="ot">&lt;-</span> dt_gof[model<span class="sc">==</span>nested,BIC] <span class="sc">-</span> dt_gof[model<span class="sc">==</span>fuller,BIC]</span>
+<span id="cb34-11"><a href="nestedm.html#cb34-11" aria-hidden="true" tabindex="-1"></a>  aBIC_delta  <span class="ot">&lt;-</span> dt_gof[model<span class="sc">==</span>nested,aBIC] <span class="sc">-</span> dt_gof[model<span class="sc">==</span>fuller,aBIC]</span>
+<span id="cb34-12"><a href="nestedm.html#cb34-12" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb34-13"><a href="nestedm.html#cb34-13" aria-hidden="true" tabindex="-1"></a>  free_LLcorf_nested <span class="ot">&lt;-</span> dt_gof[model<span class="sc">==</span>nested,free_par]<span class="sc">*</span>dt_gof[model<span class="sc">==</span>nested,LL_correctf]</span>
+<span id="cb34-14"><a href="nestedm.html#cb34-14" aria-hidden="true" tabindex="-1"></a>  free_LLcorf_fuller <span class="ot">&lt;-</span> dt_gof[model<span class="sc">==</span>fuller,free_par]<span class="sc">*</span>dt_gof[model<span class="sc">==</span>fuller,LL_correctf]</span>
+<span id="cb34-15"><a href="nestedm.html#cb34-15" aria-hidden="true" tabindex="-1"></a>  free_par_delta <span class="ot">&lt;-</span> dt_gof[model<span class="sc">==</span>nested,free_par]<span class="sc">-</span>dt_gof[model<span class="sc">==</span>fuller,free_par]</span>
+<span id="cb34-16"><a href="nestedm.html#cb34-16" aria-hidden="true" tabindex="-1"></a>  CD <span class="ot">&lt;-</span> (free_LLcorf_nested<span class="sc">-</span>free_LLcorf_fuller)<span class="sc">/</span>free_par_delta</span>
+<span id="cb34-17"><a href="nestedm.html#cb34-17" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb34-18"><a href="nestedm.html#cb34-18" aria-hidden="true" tabindex="-1"></a>  LL_delta <span class="ot">&lt;-</span> dt_gof[model<span class="sc">==</span>nested,LL]<span class="sc">-</span>dt_gof[model<span class="sc">==</span>fuller,LL]</span>
+<span id="cb34-19"><a href="nestedm.html#cb34-19" aria-hidden="true" tabindex="-1"></a>  TRd <span class="ot">&lt;-</span> (<span class="sc">-</span><span class="dv">2</span><span class="sc">*</span>LL_delta)<span class="sc">/</span>CD</span>
+<span id="cb34-20"><a href="nestedm.html#cb34-20" aria-hidden="true" tabindex="-1"></a>  TRd_df <span class="ot">&lt;-</span> dt_gof[model<span class="sc">==</span>fuller,free_par]<span class="sc">-</span>dt_gof[model<span class="sc">==</span>nested,free_par]</span>
+<span id="cb34-21"><a href="nestedm.html#cb34-21" aria-hidden="true" tabindex="-1"></a>  TRd_pvalue <span class="ot">&lt;-</span> <span class="fu">pchisq</span>(TRd, TRd_df, <span class="at">lower.tail =</span> F)</span>
+<span id="cb34-22"><a href="nestedm.html#cb34-22" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb34-23"><a href="nestedm.html#cb34-23" aria-hidden="true" tabindex="-1"></a>  comp <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(nested,fuller,comparison,CFI_delta,TLI_delta,RMSEA_delta,SRMR_delta,AIC_delta,BIC_delta,aBIC_delta,CD,TRd,TRd_df,TRd_pvalue)</span>
+<span id="cb34-24"><a href="nestedm.html#cb34-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(comp)</span>
+<span id="cb34-25"><a href="nestedm.html#cb34-25" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+</div>
+<p><code>gof.comparison()</code> sirve para comparar pares de modelos.</p>
+<p>Por ejemplo, comparamos los modelos “m_d1” y “m_d2.”</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="nestedm.html#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">gof.comparison</span>(dtgof,<span class="at">fuller=</span><span class="st">&quot;m_d1&quot;</span>,<span class="at">nested=</span><span class="st">&quot;m_d2&quot;</span>) <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">-</span>comparison) <span class="sc">%&gt;%</span> </span>
+<span id="cb35-2"><a href="nestedm.html#cb35-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kbl</span>(<span class="at">digits =</span> <span class="dv">2</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb35-3"><a href="nestedm.html#cb35-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_styling</span>(<span class="at">bootstrap_options =</span> <span class="fu">c</span>(<span class="st">&quot;striped&quot;</span>, <span class="st">&quot;hover&quot;</span>, <span class="st">&quot;condensed&quot;</span>, <span class="st">&quot;responsive&quot;</span>))</span></code></pre></div>
+<table class="table table-striped table-hover table-condensed table-responsive" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+nested
+</th>
+<th style="text-align:left;">
+fuller
+</th>
+<th style="text-align:right;">
+CFI_delta
+</th>
+<th style="text-align:right;">
+TLI_delta
+</th>
+<th style="text-align:right;">
+RMSEA_delta
+</th>
+<th style="text-align:right;">
+SRMR_delta
+</th>
+<th style="text-align:right;">
+AIC_delta
+</th>
+<th style="text-align:right;">
+BIC_delta
+</th>
+<th style="text-align:right;">
+aBIC_delta
+</th>
+<th style="text-align:right;">
+CD
+</th>
+<th style="text-align:right;">
+TRd
+</th>
+<th style="text-align:right;">
+TRd_df
+</th>
+<th style="text-align:right;">
+TRd_pvalue
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+m_d2
+</td>
+<td style="text-align:left;">
+m_d1
+</td>
+<td style="text-align:right;">
+-0.01
+</td>
+<td style="text-align:right;">
+0.01
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0.01
+</td>
+<td style="text-align:right;">
+79.22
+</td>
+<td style="text-align:right;">
+7.44
+</td>
+<td style="text-align:right;">
+45.57
+</td>
+<td style="text-align:right;">
+1.94
+</td>
+<td style="text-align:right;">
+53.09
+</td>
+<td style="text-align:right;">
+12
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+</tbody>
+</table>
+<p>Podemos reunir todas las comparaciones en un mismo dataframe y visualizarlas en una misma tabla.</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="nestedm.html#cb36-1" aria-hidden="true" tabindex="-1"></a>gof_comp <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">bind_rows</span>(</span>
+<span id="cb36-2"><a href="nestedm.html#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="fu">gof.comparison</span>(dtgof,<span class="at">fuller=</span><span class="st">&quot;m_a1&quot;</span>,<span class="at">nested=</span><span class="st">&quot;m_a2&quot;</span>),</span>
+<span id="cb36-3"><a href="nestedm.html#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="fu">gof.comparison</span>(dtgof,<span class="at">fuller=</span><span class="st">&quot;m_b1&quot;</span>,<span class="at">nested=</span><span class="st">&quot;m_b2&quot;</span>),</span>
+<span id="cb36-4"><a href="nestedm.html#cb36-4" aria-hidden="true" tabindex="-1"></a><span class="fu">gof.comparison</span>(dtgof,<span class="at">nested=</span><span class="st">&quot;m_a2&quot;</span>,<span class="at">fuller=</span><span class="st">&quot;m_b2&quot;</span>),</span>
+<span id="cb36-5"><a href="nestedm.html#cb36-5" aria-hidden="true" tabindex="-1"></a><span class="fu">gof.comparison</span>(dtgof,<span class="at">fuller=</span><span class="st">&quot;m_c1&quot;</span>,<span class="at">nested=</span><span class="st">&quot;m_c2&quot;</span>),</span>
+<span id="cb36-6"><a href="nestedm.html#cb36-6" aria-hidden="true" tabindex="-1"></a><span class="fu">gof.comparison</span>(dtgof,<span class="at">nested=</span><span class="st">&quot;m_a2&quot;</span>,<span class="at">fuller=</span><span class="st">&quot;m_c2&quot;</span>),</span>
+<span id="cb36-7"><a href="nestedm.html#cb36-7" aria-hidden="true" tabindex="-1"></a><span class="fu">gof.comparison</span>(dtgof,<span class="at">fuller=</span><span class="st">&quot;m_d1&quot;</span>,<span class="at">nested=</span><span class="st">&quot;m_d2&quot;</span>),</span>
+<span id="cb36-8"><a href="nestedm.html#cb36-8" aria-hidden="true" tabindex="-1"></a><span class="fu">gof.comparison</span>(dtgof,<span class="at">nested=</span><span class="st">&quot;m_a2&quot;</span>,<span class="at">fuller=</span><span class="st">&quot;m_d2&quot;</span>),</span>
+<span id="cb36-9"><a href="nestedm.html#cb36-9" aria-hidden="true" tabindex="-1"></a><span class="fu">gof.comparison</span>(dtgof,<span class="at">nested=</span><span class="st">&quot;m_b2&quot;</span>,<span class="at">fuller=</span><span class="st">&quot;m_d2&quot;</span>),</span>
+<span id="cb36-10"><a href="nestedm.html#cb36-10" aria-hidden="true" tabindex="-1"></a><span class="fu">gof.comparison</span>(dtgof,<span class="at">nested=</span><span class="st">&quot;m_c2&quot;</span>,<span class="at">fuller=</span><span class="st">&quot;m_d2&quot;</span>))</span>
+<span id="cb36-11"><a href="nestedm.html#cb36-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-12"><a href="nestedm.html#cb36-12" aria-hidden="true" tabindex="-1"></a>gof_comp <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">-</span>comparison) <span class="sc">%&gt;%</span> </span>
+<span id="cb36-13"><a href="nestedm.html#cb36-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kbl</span>(<span class="at">digits =</span> <span class="dv">3</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb36-14"><a href="nestedm.html#cb36-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_styling</span>(<span class="at">bootstrap_options =</span> <span class="fu">c</span>(<span class="st">&quot;striped&quot;</span>, <span class="st">&quot;hover&quot;</span>, <span class="st">&quot;condensed&quot;</span>, <span class="st">&quot;responsive&quot;</span>))</span></code></pre></div>
+<table class="table table-striped table-hover table-condensed table-responsive" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+nested
+</th>
+<th style="text-align:left;">
+fuller
+</th>
+<th style="text-align:right;">
+CFI_delta
+</th>
+<th style="text-align:right;">
+TLI_delta
+</th>
+<th style="text-align:right;">
+RMSEA_delta
+</th>
+<th style="text-align:right;">
+SRMR_delta
+</th>
+<th style="text-align:right;">
+AIC_delta
+</th>
+<th style="text-align:right;">
+BIC_delta
+</th>
+<th style="text-align:right;">
+aBIC_delta
+</th>
+<th style="text-align:right;">
+CD
+</th>
+<th style="text-align:right;">
+TRd
+</th>
+<th style="text-align:right;">
+TRd_df
+</th>
+<th style="text-align:right;">
+TRd_pvalue
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+m_a2
+</td>
+<td style="text-align:left;">
+m_a1
+</td>
+<td style="text-align:right;">
+-0.007
+</td>
+<td style="text-align:right;">
+0.002
+</td>
+<td style="text-align:right;">
+-0.001
+</td>
+<td style="text-align:right;">
+0.008
+</td>
+<td style="text-align:right;">
+60.192
+</td>
+<td style="text-align:right;">
+24.301
+</td>
+<td style="text-align:right;">
+43.366
+</td>
+<td style="text-align:right;">
+2.269
+</td>
+<td style="text-align:right;">
+31.819
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+m_b2
+</td>
+<td style="text-align:left;">
+m_b1
+</td>
+<td style="text-align:right;">
+-0.008
+</td>
+<td style="text-align:right;">
+0.008
+</td>
+<td style="text-align:right;">
+-0.002
+</td>
+<td style="text-align:right;">
+0.009
+</td>
+<td style="text-align:right;">
+59.791
+</td>
+<td style="text-align:right;">
+5.956
+</td>
+<td style="text-align:right;">
+34.552
+</td>
+<td style="text-align:right;">
+2.037
+</td>
+<td style="text-align:right;">
+38.188
+</td>
+<td style="text-align:right;">
+9
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+m_a2
+</td>
+<td style="text-align:left;">
+m_b2
+</td>
+<td style="text-align:right;">
+-0.001
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+-0.001
+</td>
+<td style="text-align:right;">
+0.001
+</td>
+<td style="text-align:right;">
+5.628
+</td>
+<td style="text-align:right;">
+-0.354
+</td>
+<td style="text-align:right;">
+2.824
+</td>
+<td style="text-align:right;">
+1.598
+</td>
+<td style="text-align:right;">
+4.772
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.029
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+m_c2
+</td>
+<td style="text-align:left;">
+m_c1
+</td>
+<td style="text-align:right;">
+-0.011
+</td>
+<td style="text-align:right;">
+0.003
+</td>
+<td style="text-align:right;">
+-0.001
+</td>
+<td style="text-align:right;">
+0.011
+</td>
+<td style="text-align:right;">
+78.153
+</td>
+<td style="text-align:right;">
+24.317
+</td>
+<td style="text-align:right;">
+52.913
+</td>
+<td style="text-align:right;">
+2.029
+</td>
+<td style="text-align:right;">
+47.385
+</td>
+<td style="text-align:right;">
+9
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+m_a2
+</td>
+<td style="text-align:left;">
+m_c2
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+0.002
+</td>
+<td style="text-align:right;">
+-0.001
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+-1.698
+</td>
+<td style="text-align:right;">
+-7.679
+</td>
+<td style="text-align:right;">
+-4.502
+</td>
+<td style="text-align:right;">
+1.450
+</td>
+<td style="text-align:right;">
+0.208
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.648
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+m_d2
+</td>
+<td style="text-align:left;">
+m_d1
+</td>
+<td style="text-align:right;">
+-0.011
+</td>
+<td style="text-align:right;">
+0.012
+</td>
+<td style="text-align:right;">
+-0.004
+</td>
+<td style="text-align:right;">
+0.012
+</td>
+<td style="text-align:right;">
+79.224
+</td>
+<td style="text-align:right;">
+7.443
+</td>
+<td style="text-align:right;">
+45.571
+</td>
+<td style="text-align:right;">
+1.944
+</td>
+<td style="text-align:right;">
+53.091
+</td>
+<td style="text-align:right;">
+12
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+m_a2
+</td>
+<td style="text-align:left;">
+m_d2
+</td>
+<td style="text-align:right;">
+-0.002
+</td>
+<td style="text-align:right;">
+0.002
+</td>
+<td style="text-align:right;">
+-0.001
+</td>
+<td style="text-align:right;">
+0.001
+</td>
+<td style="text-align:right;">
+5.530
+</td>
+<td style="text-align:right;">
+-6.433
+</td>
+<td style="text-align:right;">
+-0.078
+</td>
+<td style="text-align:right;">
+1.570
+</td>
+<td style="text-align:right;">
+6.070
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+0.048
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+m_b2
+</td>
+<td style="text-align:left;">
+m_d2
+</td>
+<td style="text-align:right;">
+-0.001
+</td>
+<td style="text-align:right;">
+0.002
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+-0.098
+</td>
+<td style="text-align:right;">
+-6.079
+</td>
+<td style="text-align:right;">
+-2.902
+</td>
+<td style="text-align:right;">
+1.542
+</td>
+<td style="text-align:right;">
+1.234
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.267
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+m_c2
+</td>
+<td style="text-align:left;">
+m_d2
+</td>
+<td style="text-align:right;">
+-0.002
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+0.001
+</td>
+<td style="text-align:right;">
+7.228
+</td>
+<td style="text-align:right;">
+1.246
+</td>
+<td style="text-align:right;">
+4.424
+</td>
+<td style="text-align:right;">
+1.690
+</td>
+<td style="text-align:right;">
+5.459
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.019
+</td>
+</tr>
+</tbody>
+</table>
+<p>Rutkowski &amp; Svetina (2014), Chen (2007)</p>
+<ul>
+<li><p>Comparacion entre modelos libres y constreñidos. Si los modelos constreñidos no cambian sustancialmente el CFI y RMSEA, se recomienda retener el modelo mas parsimonioso (constreñido).</p></li>
+<li><p>Comparacion entre modelos distintos. Para muestras mayores a 300 casos, se recomienda que:</p>
+<ul>
+<li><span class="math inline">\(\Delta CFI &lt; 0.02\)</span></li>
+<li><span class="math inline">\(\Delta RMSEA &lt; 0.03\)</span></li>
+</ul></li>
+</ul>
+<!-- ## Interpretacion de coeficientes -->
+<!-- ```{r results='asis'} -->
+<!-- screenreg(fit_mplus, type = "stdyx", -->
+<!--           params = c("regression","undirected"), -->
+<!--           summaries = c("ChiSqM_Value", "ChiSqM_PValue", -->
+<!--                         "CFI", "TLI", "RMSEA_Estimate", -->
+<!--                         "Observations"),  -->
+<!--           custom.header    = list("RICLPM"=1), -->
+<!--           custom.model.names = c(" "), -->
+<!--           digits = 3, single.row=TRUE) -->
+<!-- ``` -->
+<!-- ```{r} -->
+<!-- screenreg(fit_mplus, type = "stdyx", -->
+<!--           params = c("regression","undirected"), -->
+<!--           summaries = c("ChiSqM_Value", "ChiSqM_PValue", -->
+<!--                         "CFI", "TLI", "RMSEA_Estimate", -->
+<!--                         "Observations"),  -->
+<!--           custom.header    = list("RICLPM"=1), -->
+<!--           custom.model.names = c(" "), -->
+<!--           digits = 3, single.row=TRUE) -->
+<!-- ``` -->
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="estimacion.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="interpretacion-de-coeficientes.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": true,
+"facebook": false,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "section",
+"scroll_highlight": true
+},
+"search": true,
+"info": false
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

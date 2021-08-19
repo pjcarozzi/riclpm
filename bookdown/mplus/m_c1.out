@@ -1,0 +1,1467 @@
+Mplus VERSION 7
+MUTHEN & MUTHEN
+08/19/2021  11:58 AM
+
+INPUT INSTRUCTIONS
+
+  TITLE:
+  RI CLPM - C1;
+  DATA:
+  FILE = "mplus/modelo_basico_0d9373767802af8792c779fb3d387dfb.dat";
+
+  VARIABLE:
+  NAMES = marchw01 marchw02 marchw03 marchw04 marchw05 redesw01 redesw02 redesw03
+       redesw04 redesw05;
+   MISSING=.;
+
+  ANALYSIS:
+  ESTIMATOR = mlr;
+      ITERATIONS = 5000;
+  MODEL:
+
+      ! Crear los componentes between
+        RI_x BY marchw01@1 marchw02@1 marchw03@1 marchw04@1 marchw05@1;
+        RI_y BY redesw01@1 redesw02@1 redesw03@1 redesw04@1 redesw05@1;
+
+      ! Crear los componentes within
+        cx1 BY marchw01@1;
+        cx2 BY marchw02@1;
+        cx3 BY marchw03@1;
+        cx4 BY marchw04@1;
+        cx5 BY marchw05@1;
+
+        cy1 BY redesw01@1;
+        cy2 BY redesw02@1;
+        cy3 BY redesw03@1;
+        cy4 BY redesw04@1;
+        cy5 BY redesw05@1;
+
+      ! Constrenir las varianzas del error de medicion a cero
+        marchw01 - redesw05@0;
+
+      ! Estimar los efectos lagged
+        cx2 ON cx1 cy1;
+        cx3 ON cx2 cy2;
+        cx4 ON cx3 cy3;
+        cx5 ON cx4 cy4;
+        cy2 ON cy1;
+        cy3 ON cy2;
+        cy4 ON cy3;
+        cy5 ON cy4;
+
+      ! Estimar la covarianza entre los componentes within t=1
+        cx1 WITH cy1;
+
+      ! Estimar las covarianzas entre los residuos del componente within (innovations)
+        cx2 WITH cy2;
+        cx3 WITH cy3;
+        cx4 WITH cy4;
+        cx5 WITH cy5;
+
+      ! Estimar la covarianza entre los RI
+        RI_x WITH RI_y;
+
+      ! Fijar la correlacion entre los RI y componentes within t=1 a cero
+        RI_x WITH cx1@0 cy1@0;
+        RI_y WITH cx1@0 cy1@0;
+
+  OUTPUT:
+  CINTERVAL sampstat mod stdyx tech1 tech4;
+
+
+
+*** WARNING
+  Data set contains cases with missing on all variables.
+  These cases were not included in the analysis.
+  Number of cases with missing on all variables:  1
+   1 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
+
+
+
+
+RI CLPM - C1;
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Number of observations                                        2927
+
+Number of dependent variables                                   10
+Number of independent variables                                  0
+Number of continuous latent variables                           12
+
+Observed dependent variables
+
+  Continuous
+   MARCHW01    MARCHW02    MARCHW03    MARCHW04    MARCHW05    REDESW01
+   REDESW02    REDESW03    REDESW04    REDESW05
+
+Continuous latent variables
+   RI_X        RI_Y        CX1         CX2         CX3         CX4
+   CX5         CY1         CY2         CY3         CY4         CY5
+
+
+Estimator                                                      MLR
+Information matrix                                        OBSERVED
+Maximum number of iterations                                  5000
+Convergence criterion                                    0.500D-04
+Maximum number of steepest descent iterations                   20
+Maximum number of iterations for H1                           2000
+Convergence criterion for H1                             0.100D-03
+
+Input data file(s)
+  mplus/modelo_basico_0d9373767802af8792c779fb3d387dfb.dat
+
+Input data format  FREE
+
+
+SUMMARY OF DATA
+
+     Number of missing data patterns            23
+
+
+COVARIANCE COVERAGE OF DATA
+
+Minimum covariance coverage value   0.100
+
+
+     PROPORTION OF DATA PRESENT
+
+
+           Covariance Coverage
+              MARCHW01      MARCHW02      MARCHW03      MARCHW04      MARCHW05
+              ________      ________      ________      ________      ________
+ MARCHW01       0.998
+ MARCHW02       0.844         0.845
+ MARCHW03       0.759         0.719         0.761
+ MARCHW04       0.735         0.698         0.682         0.736
+ MARCHW05       0.594         0.565         0.554         0.566         0.594
+ REDESW01       0.997         0.843         0.758         0.734         0.593
+ REDESW02       0.844         0.845         0.719         0.698         0.565
+ REDESW03       0.758         0.718         0.760         0.681         0.554
+ REDESW04       0.735         0.698         0.682         0.736         0.566
+ REDESW05       0.594         0.565         0.554         0.566         0.594
+
+
+           Covariance Coverage
+              REDESW01      REDESW02      REDESW03      REDESW04      REDESW05
+              ________      ________      ________      ________      ________
+ REDESW01       0.997
+ REDESW02       0.843         0.845
+ REDESW03       0.757         0.718         0.760
+ REDESW04       0.734         0.698         0.681         0.736
+ REDESW05       0.593         0.565         0.554         0.566         0.594
+
+
+SAMPLE STATISTICS
+
+
+     ESTIMATED SAMPLE STATISTICS
+
+
+           Means
+              MARCHW01      MARCHW02      MARCHW03      MARCHW04      MARCHW05
+              ________      ________      ________      ________      ________
+      1         1.313         1.218         1.188         1.500         1.192
+
+
+           Means
+              REDESW01      REDESW02      REDESW03      REDESW04      REDESW05
+              ________      ________      ________      ________      ________
+      1         1.714         1.609         1.605         1.865         1.815
+
+
+           Covariances
+              MARCHW01      MARCHW02      MARCHW03      MARCHW04      MARCHW05
+              ________      ________      ________      ________      ________
+ MARCHW01       0.602
+ MARCHW02       0.208         0.414
+ MARCHW03       0.181         0.170         0.351
+ MARCHW04       0.277         0.234         0.244         0.984
+ MARCHW05       0.127         0.095         0.104         0.309         0.401
+ REDESW01       0.374         0.194         0.181         0.346         0.157
+ REDESW02       0.209         0.294         0.175         0.329         0.116
+ REDESW03       0.229         0.219         0.238         0.360         0.114
+ REDESW04       0.259         0.237         0.218         0.565         0.241
+ REDESW05       0.248         0.232         0.209         0.442         0.214
+
+
+           Covariances
+              REDESW01      REDESW02      REDESW03      REDESW04      REDESW05
+              ________      ________      ________      ________      ________
+ REDESW01       1.386
+ REDESW02       0.551         1.187
+ REDESW03       0.553         0.598         1.131
+ REDESW04       0.640         0.642         0.740         1.644
+ REDESW05       0.590         0.571         0.622         0.939         1.464
+
+
+           Correlations
+              MARCHW01      MARCHW02      MARCHW03      MARCHW04      MARCHW05
+              ________      ________      ________      ________      ________
+ MARCHW01       1.000
+ MARCHW02       0.417         1.000
+ MARCHW03       0.394         0.447         1.000
+ MARCHW04       0.360         0.367         0.414         1.000
+ MARCHW05       0.258         0.232         0.276         0.492         1.000
+ REDESW01       0.410         0.256         0.260         0.297         0.210
+ REDESW02       0.247         0.419         0.271         0.304         0.168
+ REDESW03       0.278         0.320         0.378         0.342         0.169
+ REDESW04       0.261         0.288         0.287         0.445         0.297
+ REDESW05       0.264         0.298         0.292         0.368         0.279
+
+
+           Correlations
+              REDESW01      REDESW02      REDESW03      REDESW04      REDESW05
+              ________      ________      ________      ________      ________
+ REDESW01       1.000
+ REDESW02       0.430         1.000
+ REDESW03       0.442         0.516         1.000
+ REDESW04       0.424         0.460         0.543         1.000
+ REDESW05       0.414         0.433         0.484         0.606         1.000
+
+
+     MAXIMUM LOG-LIKELIHOOD VALUE FOR THE UNRESTRICTED (H1) MODEL IS  -27136.359
+
+
+THE MODEL ESTIMATION TERMINATED NORMALLY
+
+
+
+MODEL FIT INFORMATION
+
+Number of Free Parameters                       40
+
+Loglikelihood
+
+          H0 Value                      -27271.801
+          H0 Scaling Correction Factor      2.1287
+            for MLR
+          H1 Value                      -27136.359
+          H1 Scaling Correction Factor      1.9847
+            for MLR
+
+Information Criteria
+
+          Akaike (AIC)                   54623.601
+          Bayesian (BIC)                 54862.870
+          Sample-Size Adjusted BIC       54735.776
+            (n* = (n + 2) / 24)
+
+Chi-Square Test of Model Fit
+
+          Value                            154.400*
+          Degrees of Freedom                    25
+          P-Value                           0.0000
+          Scaling Correction Factor         1.7544
+            for MLR
+
+*   The chi-square value for MLM, MLMV, MLR, ULSMV, WLSM and WLSMV cannot be used
+    for chi-square difference testing in the regular way.  MLM, MLR and WLSM
+    chi-square difference testing is described on the Mplus website.  MLMV, WLSMV,
+    and ULSMV difference testing is done using the DIFFTEST option.
+
+RMSEA (Root Mean Square Error Of Approximation)
+
+          Estimate                           0.042
+          90 Percent C.I.                    0.036  0.049
+          Probability RMSEA <= .05           0.979
+
+CFI/TLI
+
+          CFI                                0.964
+          TLI                                0.935
+
+Chi-Square Test of Model Fit for the Baseline Model
+
+          Value                           3632.161
+          Degrees of Freedom                    45
+          P-Value                           0.0000
+
+SRMR (Standardized Root Mean Square Residual)
+
+          Value                              0.059
+
+
+
+MODEL RESULTS
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+ RI_X     BY
+    MARCHW01           1.000      0.000    999.000    999.000
+    MARCHW02           1.000      0.000    999.000    999.000
+    MARCHW03           1.000      0.000    999.000    999.000
+    MARCHW04           1.000      0.000    999.000    999.000
+    MARCHW05           1.000      0.000    999.000    999.000
+
+ RI_Y     BY
+    REDESW01           1.000      0.000    999.000    999.000
+    REDESW02           1.000      0.000    999.000    999.000
+    REDESW03           1.000      0.000    999.000    999.000
+    REDESW04           1.000      0.000    999.000    999.000
+    REDESW05           1.000      0.000    999.000    999.000
+
+ CX1      BY
+    MARCHW01           1.000      0.000    999.000    999.000
+
+ CX2      BY
+    MARCHW02           1.000      0.000    999.000    999.000
+
+ CX3      BY
+    MARCHW03           1.000      0.000    999.000    999.000
+
+ CX4      BY
+    MARCHW04           1.000      0.000    999.000    999.000
+
+ CX5      BY
+    MARCHW05           1.000      0.000    999.000    999.000
+
+ CY1      BY
+    REDESW01           1.000      0.000    999.000    999.000
+
+ CY2      BY
+    REDESW02           1.000      0.000    999.000    999.000
+
+ CY3      BY
+    REDESW03           1.000      0.000    999.000    999.000
+
+ CY4      BY
+    REDESW04           1.000      0.000    999.000    999.000
+
+ CY5      BY
+    REDESW05           1.000      0.000    999.000    999.000
+
+ CX2      ON
+    CX1                0.130      0.038      3.435      0.001
+    CY1               -0.036      0.018     -1.936      0.053
+
+ CX3      ON
+    CX2                0.114      0.051      2.221      0.026
+    CY2               -0.030      0.021     -1.421      0.155
+
+ CX4      ON
+    CX3                0.223      0.078      2.870      0.004
+    CY3                0.104      0.038      2.754      0.006
+
+ CX5      ON
+    CX4                0.168      0.030      5.524      0.000
+    CY4                0.033      0.021      1.579      0.114
+
+ CY2      ON
+    CY1               -0.007      0.035     -0.210      0.833
+
+ CY3      ON
+    CY2                0.080      0.043      1.853      0.064
+
+ CY4      ON
+    CY3                0.246      0.047      5.197      0.000
+
+ CY5      ON
+    CY4                0.322      0.031     10.250      0.000
+
+ CX1      WITH
+    CY1                0.157      0.021      7.296      0.000
+
+ CX2      WITH
+    CY2                0.098      0.018      5.561      0.000
+
+ CX3      WITH
+    CY3                0.054      0.017      3.250      0.001
+
+ CX4      WITH
+    CY4                0.234      0.028      8.273      0.000
+
+ CX5      WITH
+    CY5                0.022      0.017      1.256      0.209
+
+ RI_X     WITH
+    RI_Y               0.193      0.017     11.613      0.000
+    CX1                0.000      0.000    999.000    999.000
+    CY1                0.000      0.000    999.000    999.000
+
+ RI_Y     WITH
+    CX1                0.000      0.000    999.000    999.000
+    CY1                0.000      0.000    999.000    999.000
+
+ Intercepts
+    MARCHW01           1.313      0.014     91.510      0.000
+    MARCHW02           1.217      0.013     95.237      0.000
+    MARCHW03           1.189      0.012     96.382      0.000
+    MARCHW04           1.501      0.021     72.089      0.000
+    MARCHW05           1.188      0.014     84.431      0.000
+    REDESW01           1.714      0.022     78.690      0.000
+    REDESW02           1.609      0.022     74.572      0.000
+    REDESW03           1.607      0.022     73.633      0.000
+    REDESW04           1.865      0.027     70.149      0.000
+    REDESW05           1.817      0.027     67.552      0.000
+
+ Variances
+    RI_X               0.144      0.018      8.066      0.000
+    RI_Y               0.554      0.029     19.080      0.000
+    CX1                0.431      0.029     15.006      0.000
+    CY1                0.821      0.036     22.754      0.000
+
+ Residual Variances
+    MARCHW01           0.000      0.000    999.000    999.000
+    MARCHW02           0.000      0.000    999.000    999.000
+    MARCHW03           0.000      0.000    999.000    999.000
+    MARCHW04           0.000      0.000    999.000    999.000
+    MARCHW05           0.000      0.000    999.000    999.000
+    REDESW01           0.000      0.000    999.000    999.000
+    REDESW02           0.000      0.000    999.000    999.000
+    REDESW03           0.000      0.000    999.000    999.000
+    REDESW04           0.000      0.000    999.000    999.000
+    REDESW05           0.000      0.000    999.000    999.000
+    CX2                0.263      0.021     12.567      0.000
+    CX3                0.209      0.021      9.991      0.000
+    CX4                0.718      0.037     19.634      0.000
+    CX5                0.285      0.025     11.334      0.000
+    CY2                0.638      0.037     17.143      0.000
+    CY3                0.582      0.033     17.529      0.000
+    CY4                0.957      0.039     24.310      0.000
+    CY5                0.771      0.038     20.399      0.000
+
+
+STANDARDIZED MODEL RESULTS
+
+
+STDYX Standardization
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+ RI_X     BY
+    MARCHW01           0.501      0.029     17.113      0.000
+    MARCHW02           0.590      0.030     19.858      0.000
+    MARCHW03           0.636      0.031     20.237      0.000
+    MARCHW04           0.404      0.024     16.654      0.000
+    MARCHW05           0.563      0.027     20.953      0.000
+
+ RI_Y     BY
+    REDESW01           0.635      0.015     43.626      0.000
+    REDESW02           0.682      0.016     43.501      0.000
+    REDESW03           0.697      0.015     46.276      0.000
+    REDESW04           0.599      0.014     41.864      0.000
+    REDESW05           0.623      0.015     42.031      0.000
+
+ CX1      BY
+    MARCHW01           0.866      0.017     51.201      0.000
+
+ CX2      BY
+    MARCHW02           0.808      0.022     37.231      0.000
+
+ CX3      BY
+    MARCHW03           0.772      0.026     29.822      0.000
+
+ CX4      BY
+    MARCHW04           0.915      0.011     85.379      0.000
+
+ CX5      BY
+    MARCHW05           0.826      0.018     45.123      0.000
+
+ CY1      BY
+    REDESW01           0.773      0.012     64.605      0.000
+
+ CY2      BY
+    REDESW02           0.731      0.015     50.042      0.000
+
+ CY3      BY
+    REDESW03           0.717      0.015     48.898      0.000
+
+ CY4      BY
+    REDESW04           0.801      0.011     74.906      0.000
+
+ CY5      BY
+    REDESW05           0.782      0.012     66.212      0.000
+
+ CX2      ON
+    CX1                0.164      0.047      3.489      0.000
+    CY1               -0.062      0.032     -1.940      0.052
+
+ CX3      ON
+    CX2                0.129      0.058      2.238      0.025
+    CY2               -0.051      0.036     -1.425      0.154
+
+ CX4      ON
+    CX3                0.120      0.043      2.805      0.005
+    CY3                0.093      0.034      2.741      0.006
+
+ CX5      ON
+    CX4                0.259      0.042      6.165      0.000
+    CY4                0.058      0.037      1.596      0.111
+
+ CY2      ON
+    CY1               -0.008      0.040     -0.210      0.834
+
+ CY3      ON
+    CY2                0.084      0.045      1.849      0.064
+
+ CY4      ON
+    CY3                0.189      0.037      5.097      0.000
+
+ CY5      ON
+    CY4                0.343      0.032     10.684      0.000
+
+ CX1      WITH
+    CY1                0.263      0.031      8.616      0.000
+
+ CX2      WITH
+    CY2                0.239      0.036      6.623      0.000
+
+ CX3      WITH
+    CY3                0.155      0.043      3.646      0.000
+
+ CX4      WITH
+    CY4                0.282      0.030      9.277      0.000
+
+ CX5      WITH
+    CY5                0.046      0.036      1.285      0.199
+
+ RI_X     WITH
+    RI_Y               0.684      0.031     22.251      0.000
+    CX1                0.000      0.000    999.000    999.000
+    CY1                0.000      0.000    999.000    999.000
+
+ RI_Y     WITH
+    CX1                0.000      0.000    999.000    999.000
+    CY1                0.000      0.000    999.000    999.000
+
+ Intercepts
+    MARCHW01           1.733      0.029     59.534      0.000
+    MARCHW02           1.893      0.046     41.103      0.000
+    MARCHW03           1.993      0.059     33.811      0.000
+    MARCHW04           1.598      0.020     80.922      0.000
+    MARCHW05           1.764      0.057     30.875      0.000
+    REDESW01           1.461      0.013    116.304      0.000
+    REDESW02           1.474      0.015     99.635      0.000
+    REDESW03           1.505      0.017     89.524      0.000
+    REDESW04           1.499      0.015     99.474      0.000
+    REDESW05           1.520      0.019     80.615      0.000
+
+ Variances
+    RI_X               1.000      0.000    999.000    999.000
+    RI_Y               1.000      0.000    999.000    999.000
+    CX1                1.000      0.000    999.000    999.000
+    CY1                1.000      0.000    999.000    999.000
+
+ Residual Variances
+    MARCHW01           0.000    999.000    999.000    999.000
+    MARCHW02           0.000    999.000    999.000    999.000
+    MARCHW03           0.000    999.000    999.000    999.000
+    MARCHW04           0.000    999.000    999.000    999.000
+    MARCHW05           0.000    999.000    999.000    999.000
+    REDESW01           0.000    999.000    999.000    999.000
+    REDESW02           0.000    999.000    999.000    999.000
+    REDESW03           0.000    999.000    999.000    999.000
+    REDESW04           0.000    999.000    999.000    999.000
+    REDESW05           0.000    999.000    999.000    999.000
+    CX2                0.975      0.014     69.147      0.000
+    CX3                0.984      0.014     71.736      0.000
+    CX4                0.974      0.013     75.550      0.000
+    CX5                0.921      0.024     38.268      0.000
+    CY2                1.000      0.001   1517.716      0.000
+    CY3                0.993      0.008    131.577      0.000
+    CY4                0.964      0.014     69.011      0.000
+    CY5                0.882      0.022     40.034      0.000
+
+
+R-SQUARE
+
+    Observed                                        Two-Tailed
+    Variable        Estimate       S.E.  Est./S.E.    P-Value
+
+    MARCHW01           1.000    999.000    999.000    999.000
+    MARCHW02           1.000    999.000    999.000    999.000
+    MARCHW03           1.000    999.000    999.000    999.000
+    MARCHW04           1.000    999.000    999.000    999.000
+    MARCHW05           1.000    999.000    999.000    999.000
+    REDESW01           1.000    999.000    999.000    999.000
+    REDESW02           1.000    999.000    999.000    999.000
+    REDESW03           1.000    999.000    999.000    999.000
+    REDESW04           1.000    999.000    999.000    999.000
+    REDESW05           1.000    999.000    999.000    999.000
+
+     Latent                                         Two-Tailed
+    Variable        Estimate       S.E.  Est./S.E.    P-Value
+
+    CX2                0.025      0.014      1.796      0.072
+    CX3                0.016      0.014      1.173      0.241
+    CX4                0.026      0.013      2.046      0.041
+    CX5                0.079      0.024      3.298      0.001
+    CY2                0.000      0.001      0.105      0.916
+    CY3                0.007      0.008      0.925      0.355
+    CY4                0.036      0.014      2.549      0.011
+    CY5                0.118      0.022      5.342      0.000
+
+
+QUALITY OF NUMERICAL RESULTS
+
+     Condition Number for the Information Matrix              0.479E-02
+       (ratio of smallest to largest eigenvalue)
+
+
+CONFIDENCE INTERVALS OF MODEL RESULTS
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+ RI_X     BY
+    MARCHW01         1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    MARCHW02         1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    MARCHW03         1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    MARCHW04         1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    MARCHW05         1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+ RI_Y     BY
+    REDESW01         1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    REDESW02         1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    REDESW03         1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    REDESW04         1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    REDESW05         1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+ CX1      BY
+    MARCHW01         1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+ CX2      BY
+    MARCHW02         1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+ CX3      BY
+    MARCHW03         1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+ CX4      BY
+    MARCHW04         1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+ CX5      BY
+    MARCHW05         1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+ CY1      BY
+    REDESW01         1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+ CY2      BY
+    REDESW02         1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+ CY3      BY
+    REDESW03         1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+ CY4      BY
+    REDESW04         1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+ CY5      BY
+    REDESW05         1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+ CX2      ON
+    CX1              0.032       0.056       0.068       0.130       0.192       0.204       0.227
+    CY1             -0.083      -0.072      -0.066      -0.036      -0.005       0.000       0.012
+
+ CX3      ON
+    CX2             -0.018       0.013       0.030       0.114       0.199       0.215       0.247
+    CY2             -0.083      -0.070      -0.064      -0.030       0.005       0.011       0.024
+
+ CX4      ON
+    CX3              0.023       0.071       0.095       0.223       0.351       0.376       0.424
+    CY3              0.007       0.030       0.042       0.104       0.167       0.179       0.202
+
+ CX5      ON
+    CX4              0.090       0.108       0.118       0.168       0.218       0.227       0.246
+    CY4             -0.021      -0.008      -0.001       0.033       0.067       0.073       0.086
+
+ CY2      ON
+    CY1             -0.097      -0.076      -0.065      -0.007       0.050       0.061       0.082
+
+ CY3      ON
+    CY2             -0.031      -0.005       0.009       0.080       0.151       0.165       0.191
+
+ CY4      ON
+    CY3              0.124       0.153       0.168       0.246       0.323       0.338       0.367
+
+ CY5      ON
+    CY4              0.241       0.260       0.270       0.322       0.374       0.384       0.403
+
+ CX1      WITH
+    CY1              0.101       0.114       0.121       0.157       0.192       0.199       0.212
+
+ CX2      WITH
+    CY2              0.052       0.063       0.069       0.098       0.127       0.132       0.143
+
+ CX3      WITH
+    CY3              0.011       0.021       0.027       0.054       0.081       0.087       0.097
+
+ CX4      WITH
+    CY4              0.161       0.178       0.187       0.234       0.280       0.289       0.306
+
+ CX5      WITH
+    CY5             -0.023      -0.012      -0.007       0.022       0.050       0.056       0.066
+
+ RI_X     WITH
+    RI_Y             0.150       0.161       0.166       0.193       0.220       0.226       0.236
+    CX1              0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    CY1              0.000       0.000       0.000       0.000       0.000       0.000       0.000
+
+ RI_Y     WITH
+    CX1              0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    CY1              0.000       0.000       0.000       0.000       0.000       0.000       0.000
+
+ Intercepts
+    MARCHW01         1.276       1.285       1.290       1.313       1.337       1.341       1.350
+    MARCHW02         1.185       1.192       1.196       1.217       1.238       1.243       1.250
+    MARCHW03         1.157       1.165       1.169       1.189       1.209       1.213       1.221
+    MARCHW04         1.447       1.460       1.467       1.501       1.535       1.542       1.554
+    MARCHW05         1.152       1.161       1.165       1.188       1.211       1.216       1.225
+    REDESW01         1.658       1.671       1.678       1.714       1.750       1.756       1.770
+    REDESW02         1.553       1.567       1.573       1.609       1.644       1.651       1.665
+    REDESW03         1.551       1.564       1.571       1.607       1.643       1.650       1.663
+    REDESW04         1.796       1.813       1.821       1.865       1.909       1.917       1.933
+    REDESW05         1.748       1.764       1.773       1.817       1.861       1.870       1.886
+
+ Variances
+    RI_X             0.098       0.109       0.115       0.144       0.173       0.179       0.190
+    RI_Y             0.480       0.498       0.507       0.554       0.602       0.611       0.629
+    CX1              0.357       0.374       0.383       0.431       0.478       0.487       0.504
+    CY1              0.728       0.750       0.762       0.821       0.880       0.892       0.914
+
+ Residual Variances
+    MARCHW01         0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    MARCHW02         0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    MARCHW03         0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    MARCHW04         0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    MARCHW05         0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    REDESW01         0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    REDESW02         0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    REDESW03         0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    REDESW04         0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    REDESW05         0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    CX2              0.209       0.222       0.229       0.263       0.297       0.304       0.317
+    CX3              0.155       0.168       0.174       0.209       0.243       0.250       0.262
+    CX4              0.624       0.647       0.658       0.718       0.778       0.790       0.812
+    CX5              0.220       0.236       0.244       0.285       0.327       0.335       0.350
+    CY2              0.542       0.565       0.577       0.638       0.699       0.711       0.734
+    CY3              0.496       0.517       0.527       0.582       0.636       0.647       0.667
+    CY4              0.855       0.880       0.892       0.957       1.022       1.034       1.058
+    CY5              0.673       0.697       0.708       0.771       0.833       0.845       0.868
+
+
+CONFIDENCE INTERVALS OF STANDARDIZED MODEL RESULTS
+
+
+STDYX Standardization
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+ RI_X     BY
+    MARCHW01         0.425       0.443       0.452       0.501       0.549       0.558       0.576
+    MARCHW02         0.513       0.532       0.541       0.590       0.639       0.648       0.666
+    MARCHW03         0.555       0.574       0.584       0.636       0.687       0.697       0.717
+    MARCHW04         0.342       0.356       0.364       0.404       0.444       0.452       0.466
+    MARCHW05         0.494       0.510       0.519       0.563       0.607       0.616       0.632
+
+ RI_Y     BY
+    REDESW01         0.597       0.606       0.611       0.635       0.659       0.663       0.672
+    REDESW02         0.642       0.651       0.656       0.682       0.708       0.713       0.722
+    REDESW03         0.658       0.668       0.673       0.697       0.722       0.727       0.736
+    REDESW04         0.562       0.571       0.575       0.599       0.622       0.627       0.636
+    REDESW05         0.585       0.594       0.599       0.623       0.648       0.652       0.661
+
+ CX1      BY
+    MARCHW01         0.822       0.833       0.838       0.866       0.894       0.899       0.909
+
+ CX2      BY
+    MARCHW02         0.752       0.765       0.772       0.808       0.843       0.850       0.863
+
+ CX3      BY
+    MARCHW03         0.705       0.721       0.729       0.772       0.814       0.823       0.839
+
+ CX4      BY
+    MARCHW04         0.887       0.894       0.897       0.915       0.932       0.936       0.942
+
+ CX5      BY
+    MARCHW05         0.779       0.790       0.796       0.826       0.856       0.862       0.874
+
+ CY1      BY
+    REDESW01         0.742       0.749       0.753       0.773       0.792       0.796       0.803
+
+ CY2      BY
+    REDESW02         0.694       0.703       0.707       0.731       0.755       0.760       0.769
+
+ CY3      BY
+    REDESW03         0.679       0.688       0.693       0.717       0.741       0.746       0.755
+
+ CY4      BY
+    REDESW04         0.773       0.780       0.783       0.801       0.819       0.822       0.828
+
+ CY5      BY
+    REDESW05         0.752       0.759       0.763       0.782       0.802       0.805       0.813
+
+ CX2      ON
+    CX1              0.043       0.072       0.087       0.164       0.241       0.256       0.285
+    CY1             -0.145      -0.125      -0.115      -0.062      -0.009       0.001       0.020
+
+ CX3      ON
+    CX2             -0.019       0.016       0.034       0.129       0.223       0.242       0.277
+    CY2             -0.144      -0.122      -0.110      -0.051       0.008       0.019       0.041
+
+ CX4      ON
+    CX3              0.010       0.036       0.050       0.120       0.190       0.203       0.230
+    CY3              0.006       0.027       0.037       0.093       0.149       0.160       0.181
+
+ CX5      ON
+    CX4              0.151       0.177       0.190       0.259       0.328       0.341       0.367
+    CY4             -0.036      -0.013      -0.002       0.058       0.119       0.130       0.153
+
+ CY2      ON
+    CY1             -0.110      -0.086      -0.073      -0.008       0.057       0.069       0.094
+
+ CY3      ON
+    CY2             -0.033      -0.005       0.009       0.084       0.158       0.172       0.200
+
+ CY4      ON
+    CY3              0.093       0.116       0.128       0.189       0.250       0.261       0.284
+
+ CY5      ON
+    CY4              0.260       0.280       0.290       0.343       0.396       0.406       0.426
+
+ CX1      WITH
+    CY1              0.185       0.203       0.213       0.263       0.314       0.323       0.342
+
+ CX2      WITH
+    CY2              0.146       0.168       0.179       0.239       0.298       0.309       0.332
+
+ CX3      WITH
+    CY3              0.046       0.072       0.085       0.155       0.225       0.238       0.265
+
+ CX4      WITH
+    CY4              0.204       0.222       0.232       0.282       0.332       0.341       0.360
+
+ CX5      WITH
+    CY5             -0.046      -0.024      -0.013       0.046       0.105       0.117       0.139
+
+ RI_X     WITH
+    RI_Y             0.605       0.623       0.633       0.684       0.734       0.744       0.763
+    CX1              0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    CY1              0.000       0.000       0.000       0.000       0.000       0.000       0.000
+
+ RI_Y     WITH
+    CX1              0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    CY1              0.000       0.000       0.000       0.000       0.000       0.000       0.000
+
+ Intercepts
+    MARCHW01         1.658       1.676       1.685       1.733       1.781       1.790       1.808
+    MARCHW02         1.774       1.803       1.817       1.893       1.969       1.983       2.011
+    MARCHW03         1.841       1.877       1.896       1.993       2.090       2.108       2.144
+    MARCHW04         1.548       1.560       1.566       1.598       1.631       1.637       1.649
+    MARCHW05         1.617       1.652       1.670       1.764       1.858       1.876       1.911
+    REDESW01         1.429       1.437       1.441       1.461       1.482       1.486       1.494
+    REDESW02         1.435       1.445       1.449       1.474       1.498       1.502       1.512
+    REDESW03         1.461       1.472       1.477       1.505       1.532       1.538       1.548
+    REDESW04         1.461       1.470       1.475       1.499       1.524       1.529       1.538
+    REDESW05         1.472       1.483       1.489       1.520       1.551       1.557       1.569
+
+ Variances
+    RI_X             1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    RI_Y             1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    CX1              1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    CY1              1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+ Residual Variances
+    MARCHW01       999.000     999.000     999.000       0.000     999.000     999.000     999.000
+    MARCHW02       999.000     999.000     999.000       0.000     999.000     999.000     999.000
+    MARCHW03       999.000     999.000     999.000       0.000     999.000     999.000     999.000
+    MARCHW04       999.000     999.000     999.000       0.000     999.000     999.000     999.000
+    MARCHW05       999.000     999.000     999.000       0.000     999.000     999.000     999.000
+    REDESW01       999.000     999.000     999.000       0.000     999.000     999.000     999.000
+    REDESW02       999.000     999.000     999.000       0.000     999.000     999.000     999.000
+    REDESW03       999.000     999.000     999.000       0.000     999.000     999.000     999.000
+    REDESW04       999.000     999.000     999.000       0.000     999.000     999.000     999.000
+    REDESW05       999.000     999.000     999.000       0.000     999.000     999.000     999.000
+    CX2              0.938       0.947       0.951       0.975       0.998       1.002       1.011
+    CX3              0.949       0.957       0.961       0.984       1.006       1.011       1.019
+    CX4              0.940       0.948       0.952       0.974       0.995       0.999       1.007
+    CX5              0.859       0.873       0.881       0.921       0.960       0.968       0.983
+    CY2              0.998       0.999       0.999       1.000       1.001       1.001       1.002
+    CY3              0.974       0.978       0.981       0.993       1.005       1.008       1.012
+    CY4              0.928       0.937       0.941       0.964       0.987       0.992       1.000
+    CY5              0.826       0.839       0.846       0.882       0.919       0.925       0.939
+
+
+MODEL MODIFICATION INDICES
+
+NOTE:  Modification indices for direct effects of observed dependent variables
+regressed on covariates may not be included.  To include these, request
+MODINDICES (ALL).
+
+Minimum M.I. value for printing the modification index    10.000
+
+                            M.I.     E.P.C.  Std E.P.C.  StdYX E.P.C.
+
+BY Statements
+
+RI_X     BY MARCHW01       14.256     0.257      0.098        0.129
+RI_X     BY MARCHW04       87.569     0.824      0.312        0.333
+RI_X     BY MARCHW05       91.017    -0.705     -0.267       -0.397
+RI_Y     BY MARCHW04       64.885     0.318      0.237        0.252
+RI_Y     BY MARCHW05       57.975    -0.238     -0.177       -0.263
+CX1      BY MARCHW04       21.694     0.181      0.119        0.127
+CX2      BY MARCHW04       13.211     0.191      0.099        0.106
+CX2      BY MARCHW05       18.197    -0.192     -0.100       -0.148
+CX3      BY MARCHW01       12.434     0.183      0.084        0.111
+CX3      BY MARCHW04       10.697     1.023      0.471        0.502
+CX3      BY MARCHW05       10.687    -0.172     -0.079       -0.117
+CX4      BY MARCHW01       16.268     0.094      0.081        0.107
+CX5      BY MARCHW04       23.258     2.213      1.232        1.312
+CY3      BY MARCHW04       13.436     0.630      0.482        0.514
+CY3      BY MARCHW05       13.429    -0.106     -0.081       -0.120
+
+ON/BY Statements
+
+RI_X     ON CX1      /
+CX1      BY RI_X           13.516     0.102      0.176        0.176
+RI_X     ON CX4      /
+CX4      BY RI_X           28.027     0.109      0.246        0.246
+RI_X     ON CX5      /
+CX5      BY RI_X           26.889    -0.234     -0.344       -0.344
+RI_Y     ON CX4      /
+CX4      BY RI_Y           15.513     0.121      0.140        0.140
+CX1      ON RI_X     /
+RI_X     BY CX1            15.841     0.290      0.167        0.167
+CX1      ON CX3      /
+CX3      BY CX1            12.683     0.190      0.133        0.133
+CX1      ON CX4      /
+CX4      BY CX1            20.746     0.112      0.146        0.146
+CX4      ON RI_X     /
+RI_X     BY CX4            64.132     0.758      0.335        0.335
+CX4      ON RI_Y     /
+RI_Y     BY CX4            45.840     0.281      0.243        0.243
+CX4      ON CX1      /
+CX1      BY CX4            19.925     0.182      0.139        0.139
+CX4      ON CX5      /
+CX5      BY CX4            23.241     2.212      1.434        1.434
+CX5      ON RI_X     /
+RI_X     BY CX5            91.017    -0.705     -0.480       -0.480
+CX5      ON RI_Y     /
+RI_Y     BY CX5            57.975    -0.238     -0.318       -0.318
+CX5      ON CX2      /
+CX2      BY CX5            18.197    -0.192     -0.179       -0.179
+CX5      ON CX3      /
+CX3      BY CX5            10.687    -0.172     -0.142       -0.142
+CX5      ON CY3      /
+CY3      BY CX5            13.429    -0.106     -0.145       -0.145
+
+WITH Statements
+
+MARCHW02 WITH MARCHW01     10.855    -0.306     -0.306      999.000
+MARCHW03 WITH MARCHW02     16.342    -0.170     -0.170      999.000
+MARCHW04 WITH MARCHW01     13.225     0.056      0.056      999.000
+MARCHW05 WITH MARCHW04     17.618     0.596      0.596      999.000
+CX1      WITH RI_X         14.267     0.045      0.179        0.179
+CX3      WITH CX1          10.840     0.036      0.120        0.120
+CX3      WITH CX2          11.258    -0.173     -0.739       -0.739
+CX4      WITH RI_X         26.843     0.074      0.231        0.231
+CX4      WITH RI_Y         12.938     0.077      0.122        0.122
+CX4      WITH CX1          15.674     0.066      0.120        0.120
+CX5      WITH RI_X         43.836    -0.076     -0.375       -0.375
+CX5      WITH RI_Y         14.580    -0.061     -0.153       -0.153
+CX5      WITH CX2          10.492    -0.036     -0.131       -0.131
+CX5      WITH CX4          17.606     0.596      1.316        1.316
+CY2      WITH CX3          10.319     1.089      2.986        2.986
+
+Variances/Residual Variances
+
+MARCHW02                   11.343     1.523      1.523        3.681
+MARCHW04                   17.541    -3.542     -3.542       -4.018
+
+
+TECHNICAL 1 OUTPUT
+
+
+     PARAMETER SPECIFICATION
+
+
+           NU
+              MARCHW01      MARCHW02      MARCHW03      MARCHW04      MARCHW05
+              ________      ________      ________      ________      ________
+      1           1             2             3             4             5
+
+
+           NU
+              REDESW01      REDESW02      REDESW03      REDESW04      REDESW05
+              ________      ________      ________      ________      ________
+      1           6             7             8             9            10
+
+
+           LAMBDA
+              RI_X          RI_Y          CX1           CX2           CX3
+              ________      ________      ________      ________      ________
+ MARCHW01           0             0             0             0             0
+ MARCHW02           0             0             0             0             0
+ MARCHW03           0             0             0             0             0
+ MARCHW04           0             0             0             0             0
+ MARCHW05           0             0             0             0             0
+ REDESW01           0             0             0             0             0
+ REDESW02           0             0             0             0             0
+ REDESW03           0             0             0             0             0
+ REDESW04           0             0             0             0             0
+ REDESW05           0             0             0             0             0
+
+
+           LAMBDA
+              CX4           CX5           CY1           CY2           CY3
+              ________      ________      ________      ________      ________
+ MARCHW01           0             0             0             0             0
+ MARCHW02           0             0             0             0             0
+ MARCHW03           0             0             0             0             0
+ MARCHW04           0             0             0             0             0
+ MARCHW05           0             0             0             0             0
+ REDESW01           0             0             0             0             0
+ REDESW02           0             0             0             0             0
+ REDESW03           0             0             0             0             0
+ REDESW04           0             0             0             0             0
+ REDESW05           0             0             0             0             0
+
+
+           LAMBDA
+              CY4           CY5
+              ________      ________
+ MARCHW01           0             0
+ MARCHW02           0             0
+ MARCHW03           0             0
+ MARCHW04           0             0
+ MARCHW05           0             0
+ REDESW01           0             0
+ REDESW02           0             0
+ REDESW03           0             0
+ REDESW04           0             0
+ REDESW05           0             0
+
+
+           THETA
+              MARCHW01      MARCHW02      MARCHW03      MARCHW04      MARCHW05
+              ________      ________      ________      ________      ________
+ MARCHW01           0
+ MARCHW02           0             0
+ MARCHW03           0             0             0
+ MARCHW04           0             0             0             0
+ MARCHW05           0             0             0             0             0
+ REDESW01           0             0             0             0             0
+ REDESW02           0             0             0             0             0
+ REDESW03           0             0             0             0             0
+ REDESW04           0             0             0             0             0
+ REDESW05           0             0             0             0             0
+
+
+           THETA
+              REDESW01      REDESW02      REDESW03      REDESW04      REDESW05
+              ________      ________      ________      ________      ________
+ REDESW01           0
+ REDESW02           0             0
+ REDESW03           0             0             0
+ REDESW04           0             0             0             0
+ REDESW05           0             0             0             0             0
+
+
+           ALPHA
+              RI_X          RI_Y          CX1           CX2           CX3
+              ________      ________      ________      ________      ________
+      1           0             0             0             0             0
+
+
+           ALPHA
+              CX4           CX5           CY1           CY2           CY3
+              ________      ________      ________      ________      ________
+      1           0             0             0             0             0
+
+
+           ALPHA
+              CY4           CY5
+              ________      ________
+      1           0             0
+
+
+           BETA
+              RI_X          RI_Y          CX1           CX2           CX3
+              ________      ________      ________      ________      ________
+ RI_X               0             0             0             0             0
+ RI_Y               0             0             0             0             0
+ CX1                0             0             0             0             0
+ CX2                0             0            11             0             0
+ CX3                0             0             0            13             0
+ CX4                0             0             0             0            15
+ CX5                0             0             0             0             0
+ CY1                0             0             0             0             0
+ CY2                0             0             0             0             0
+ CY3                0             0             0             0             0
+ CY4                0             0             0             0             0
+ CY5                0             0             0             0             0
+
+
+           BETA
+              CX4           CX5           CY1           CY2           CY3
+              ________      ________      ________      ________      ________
+ RI_X               0             0             0             0             0
+ RI_Y               0             0             0             0             0
+ CX1                0             0             0             0             0
+ CX2                0             0            12             0             0
+ CX3                0             0             0            14             0
+ CX4                0             0             0             0            16
+ CX5               17             0             0             0             0
+ CY1                0             0             0             0             0
+ CY2                0             0            19             0             0
+ CY3                0             0             0            20             0
+ CY4                0             0             0             0            21
+ CY5                0             0             0             0             0
+
+
+           BETA
+              CY4           CY5
+              ________      ________
+ RI_X               0             0
+ RI_Y               0             0
+ CX1                0             0
+ CX2                0             0
+ CX3                0             0
+ CX4                0             0
+ CX5               18             0
+ CY1                0             0
+ CY2                0             0
+ CY3                0             0
+ CY4                0             0
+ CY5               22             0
+
+
+           PSI
+              RI_X          RI_Y          CX1           CX2           CX3
+              ________      ________      ________      ________      ________
+ RI_X              23
+ RI_Y              24            25
+ CX1                0             0            26
+ CX2                0             0             0            27
+ CX3                0             0             0             0            28
+ CX4                0             0             0             0             0
+ CX5                0             0             0             0             0
+ CY1                0             0            31             0             0
+ CY2                0             0             0            33             0
+ CY3                0             0             0             0            35
+ CY4                0             0             0             0             0
+ CY5                0             0             0             0             0
+
+
+           PSI
+              CX4           CX5           CY1           CY2           CY3
+              ________      ________      ________      ________      ________
+ CX4               29
+ CX5                0            30
+ CY1                0             0            32
+ CY2                0             0             0            34
+ CY3                0             0             0             0            36
+ CY4               37             0             0             0             0
+ CY5                0            39             0             0             0
+
+
+           PSI
+              CY4           CY5
+              ________      ________
+ CY4               38
+ CY5                0            40
+
+
+     STARTING VALUES
+
+
+           NU
+              MARCHW01      MARCHW02      MARCHW03      MARCHW04      MARCHW05
+              ________      ________      ________      ________      ________
+      1         1.313         1.215         1.184         1.499         1.203
+
+
+           NU
+              REDESW01      REDESW02      REDESW03      REDESW04      REDESW05
+              ________      ________      ________      ________      ________
+      1         1.714         1.605         1.593         1.859         1.837
+
+
+           LAMBDA
+              RI_X          RI_Y          CX1           CX2           CX3
+              ________      ________      ________      ________      ________
+ MARCHW01       1.000         0.000         1.000         0.000         0.000
+ MARCHW02       1.000         0.000         0.000         1.000         0.000
+ MARCHW03       1.000         0.000         0.000         0.000         1.000
+ MARCHW04       1.000         0.000         0.000         0.000         0.000
+ MARCHW05       1.000         0.000         0.000         0.000         0.000
+ REDESW01       0.000         1.000         0.000         0.000         0.000
+ REDESW02       0.000         1.000         0.000         0.000         0.000
+ REDESW03       0.000         1.000         0.000         0.000         0.000
+ REDESW04       0.000         1.000         0.000         0.000         0.000
+ REDESW05       0.000         1.000         0.000         0.000         0.000
+
+
+           LAMBDA
+              CX4           CX5           CY1           CY2           CY3
+              ________      ________      ________      ________      ________
+ MARCHW01       0.000         0.000         0.000         0.000         0.000
+ MARCHW02       0.000         0.000         0.000         0.000         0.000
+ MARCHW03       0.000         0.000         0.000         0.000         0.000
+ MARCHW04       1.000         0.000         0.000         0.000         0.000
+ MARCHW05       0.000         1.000         0.000         0.000         0.000
+ REDESW01       0.000         0.000         1.000         0.000         0.000
+ REDESW02       0.000         0.000         0.000         1.000         0.000
+ REDESW03       0.000         0.000         0.000         0.000         1.000
+ REDESW04       0.000         0.000         0.000         0.000         0.000
+ REDESW05       0.000         0.000         0.000         0.000         0.000
+
+
+           LAMBDA
+              CY4           CY5
+              ________      ________
+ MARCHW01       0.000         0.000
+ MARCHW02       0.000         0.000
+ MARCHW03       0.000         0.000
+ MARCHW04       0.000         0.000
+ MARCHW05       0.000         0.000
+ REDESW01       0.000         0.000
+ REDESW02       0.000         0.000
+ REDESW03       0.000         0.000
+ REDESW04       1.000         0.000
+ REDESW05       0.000         1.000
+
+
+           THETA
+              MARCHW01      MARCHW02      MARCHW03      MARCHW04      MARCHW05
+              ________      ________      ________      ________      ________
+ MARCHW01       0.000
+ MARCHW02       0.000         0.000
+ MARCHW03       0.000         0.000         0.000
+ MARCHW04       0.000         0.000         0.000         0.000
+ MARCHW05       0.000         0.000         0.000         0.000         0.000
+ REDESW01       0.000         0.000         0.000         0.000         0.000
+ REDESW02       0.000         0.000         0.000         0.000         0.000
+ REDESW03       0.000         0.000         0.000         0.000         0.000
+ REDESW04       0.000         0.000         0.000         0.000         0.000
+ REDESW05       0.000         0.000         0.000         0.000         0.000
+
+
+           THETA
+              REDESW01      REDESW02      REDESW03      REDESW04      REDESW05
+              ________      ________      ________      ________      ________
+ REDESW01       0.000
+ REDESW02       0.000         0.000
+ REDESW03       0.000         0.000         0.000
+ REDESW04       0.000         0.000         0.000         0.000
+ REDESW05       0.000         0.000         0.000         0.000         0.000
+
+
+           ALPHA
+              RI_X          RI_Y          CX1           CX2           CX3
+              ________      ________      ________      ________      ________
+      1         0.000         0.000         0.000         0.000         0.000
+
+
+           ALPHA
+              CX4           CX5           CY1           CY2           CY3
+              ________      ________      ________      ________      ________
+      1         0.000         0.000         0.000         0.000         0.000
+
+
+           ALPHA
+              CY4           CY5
+              ________      ________
+      1         0.000         0.000
+
+
+           BETA
+              RI_X          RI_Y          CX1           CX2           CX3
+              ________      ________      ________      ________      ________
+ RI_X           0.000         0.000         0.000         0.000         0.000
+ RI_Y           0.000         0.000         0.000         0.000         0.000
+ CX1            0.000         0.000         0.000         0.000         0.000
+ CX2            0.000         0.000         0.000         0.000         0.000
+ CX3            0.000         0.000         0.000         0.000         0.000
+ CX4            0.000         0.000         0.000         0.000         0.000
+ CX5            0.000         0.000         0.000         0.000         0.000
+ CY1            0.000         0.000         0.000         0.000         0.000
+ CY2            0.000         0.000         0.000         0.000         0.000
+ CY3            0.000         0.000         0.000         0.000         0.000
+ CY4            0.000         0.000         0.000         0.000         0.000
+ CY5            0.000         0.000         0.000         0.000         0.000
+
+
+           BETA
+              CX4           CX5           CY1           CY2           CY3
+              ________      ________      ________      ________      ________
+ RI_X           0.000         0.000         0.000         0.000         0.000
+ RI_Y           0.000         0.000         0.000         0.000         0.000
+ CX1            0.000         0.000         0.000         0.000         0.000
+ CX2            0.000         0.000         0.000         0.000         0.000
+ CX3            0.000         0.000         0.000         0.000         0.000
+ CX4            0.000         0.000         0.000         0.000         0.000
+ CX5            0.000         0.000         0.000         0.000         0.000
+ CY1            0.000         0.000         0.000         0.000         0.000
+ CY2            0.000         0.000         0.000         0.000         0.000
+ CY3            0.000         0.000         0.000         0.000         0.000
+ CY4            0.000         0.000         0.000         0.000         0.000
+ CY5            0.000         0.000         0.000         0.000         0.000
+
+
+           BETA
+              CY4           CY5
+              ________      ________
+ RI_X           0.000         0.000
+ RI_Y           0.000         0.000
+ CX1            0.000         0.000
+ CX2            0.000         0.000
+ CX3            0.000         0.000
+ CX4            0.000         0.000
+ CX5            0.000         0.000
+ CY1            0.000         0.000
+ CY2            0.000         0.000
+ CY3            0.000         0.000
+ CY4            0.000         0.000
+ CY5            0.000         0.000
+
+
+           PSI
+              RI_X          RI_Y          CX1           CX2           CX3
+              ________      ________      ________      ________      ________
+ RI_X           0.050
+ RI_Y           0.000         0.050
+ CX1            0.000         0.000         0.050
+ CX2            0.000         0.000         0.000         0.050
+ CX3            0.000         0.000         0.000         0.000         0.050
+ CX4            0.000         0.000         0.000         0.000         0.000
+ CX5            0.000         0.000         0.000         0.000         0.000
+ CY1            0.000         0.000         0.000         0.000         0.000
+ CY2            0.000         0.000         0.000         0.000         0.000
+ CY3            0.000         0.000         0.000         0.000         0.000
+ CY4            0.000         0.000         0.000         0.000         0.000
+ CY5            0.000         0.000         0.000         0.000         0.000
+
+
+           PSI
+              CX4           CX5           CY1           CY2           CY3
+              ________      ________      ________      ________      ________
+ CX4            0.050
+ CX5            0.000         0.050
+ CY1            0.000         0.000         0.050
+ CY2            0.000         0.000         0.000         0.050
+ CY3            0.000         0.000         0.000         0.000         0.050
+ CY4            0.000         0.000         0.000         0.000         0.000
+ CY5            0.000         0.000         0.000         0.000         0.000
+
+
+           PSI
+              CY4           CY5
+              ________      ________
+ CY4            0.050
+ CY5            0.000         0.050
+
+
+TECHNICAL 4 OUTPUT
+
+
+     ESTIMATES DERIVED FROM THE MODEL
+
+
+           ESTIMATED MEANS FOR THE LATENT VARIABLES
+              RI_X          RI_Y          CX1           CX2           CX3
+              ________      ________      ________      ________      ________
+      1         0.000         0.000         0.000         0.000         0.000
+
+
+           ESTIMATED MEANS FOR THE LATENT VARIABLES
+              CX4           CX5           CY1           CY2           CY3
+              ________      ________      ________      ________      ________
+      1         0.000         0.000         0.000         0.000         0.000
+
+
+           ESTIMATED MEANS FOR THE LATENT VARIABLES
+              CY4           CY5
+              ________      ________
+      1         0.000         0.000
+
+
+           ESTIMATED COVARIANCE MATRIX FOR THE LATENT VARIABLES
+              RI_X          RI_Y          CX1           CX2           CX3
+              ________      ________      ________      ________      ________
+ RI_X           0.144
+ RI_Y           0.193         0.554
+ CX1            0.000         0.000         0.431
+ CX2            0.000         0.000         0.050         0.270
+ CX3            0.000         0.000         0.006         0.028         0.212
+ CX4            0.000         0.000         0.001         0.007         0.053
+ CX5            0.000         0.000         0.000         0.001         0.009
+ CY1            0.000         0.000         0.157        -0.009        -0.001
+ CY2            0.000         0.000        -0.001         0.098        -0.008
+ CY3            0.000         0.000         0.000         0.008         0.053
+ CY4            0.000         0.000         0.000         0.002         0.013
+ CY5            0.000         0.000         0.000         0.001         0.004
+
+
+           ESTIMATED COVARIANCE MATRIX FOR THE LATENT VARIABLES
+              CX4           CX5           CY1           CY2           CY3
+              ________      ________      ________      ________      ________
+ CX4            0.738
+ CX5            0.132         0.310
+ CY1            0.000         0.000         0.821
+ CY2            0.004         0.001        -0.006         0.638
+ CY3            0.073         0.017         0.000         0.051         0.586
+ CY4            0.252         0.075         0.000         0.013         0.144
+ CY5            0.081         0.046         0.000         0.004         0.046
+
+
+           ESTIMATED COVARIANCE MATRIX FOR THE LATENT VARIABLES
+              CY4           CY5
+              ________      ________
+ CY4            0.992
+ CY5            0.319         0.873
+
+
+           ESTIMATED CORRELATION MATRIX FOR THE LATENT VARIABLES
+              RI_X          RI_Y          CX1           CX2           CX3
+              ________      ________      ________      ________      ________
+ RI_X           1.000
+ RI_Y           0.684         1.000
+ CX1            0.000         0.000         1.000
+ CX2            0.000         0.000         0.147         1.000
+ CX3            0.000         0.000         0.019         0.117         1.000
+ CX4            0.000         0.000         0.002         0.016         0.134
+ CX5            0.000         0.000         0.001         0.004         0.036
+ CY1            0.000         0.000         0.263        -0.019        -0.002
+ CY2            0.000         0.000        -0.002         0.236        -0.021
+ CY3            0.000         0.000         0.000         0.020         0.152
+ CY4            0.000         0.000         0.000         0.004         0.029
+ CY5            0.000         0.000         0.000         0.001         0.010
+
+
+           ESTIMATED CORRELATION MATRIX FOR THE LATENT VARIABLES
+              CX4           CX5           CY1           CY2           CY3
+              ________      ________      ________      ________      ________
+ CX4            1.000
+ CX5            0.276         1.000
+ CY1            0.000         0.000         1.000
+ CY2            0.005         0.002        -0.008         1.000
+ CY3            0.111         0.040        -0.001         0.084         1.000
+ CY4            0.294         0.135         0.000         0.016         0.189
+ CY5            0.101         0.088         0.000         0.005         0.065
+
+
+           ESTIMATED CORRELATION MATRIX FOR THE LATENT VARIABLES
+              CY4           CY5
+              ________      ________
+ CY4            1.000
+ CY5            0.343         1.000
+
+
+     Beginning Time:  11:58:00
+        Ending Time:  11:58:01
+       Elapsed Time:  00:00:01
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2012 Muthen & Muthen

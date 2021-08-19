@@ -1,0 +1,15 @@
+# Referencias
+
+Hamaker, E. L., Kuiper, R. M., & Grasman, R. P. P. P. (2015). A critique of the cross-lagged panel model. Psychological Methods, 20(1), 102–116. https://doi.org/10.1037/a0038889
+
+Hamaker, E. L. (2018). How to run the RI‐CLPM with Mplus (MAR 2018), (21), 1–9.
+
+Hamaker, E. L. (2018). How to run the RI‐CLPM with Mplus (NOV 2018), 1(2), 2018. 
+
+Osborne, D., & Sibley, C. G. (2020). Does Openness to Experience predict changes in conservatism? A nine-wave longitudinal investigation into the personality roots to ideology. Journal of Research in Personality, 87(xxxx), 103979. https://doi.org/10.1016/j.jrp.2020.103979
+
+Lüdtke, O., & Robitzsch, A. (2021). A Critique of the Random Intercept Cross-Lagged Panel Model.
+
+Mulder, J. D., & Hamaker, E. L. (2021). Three Extensions of the Random Intercept Cross-Lagged Panel Model. Structural Equation Modeling, 28(4), 638–648. https://doi.org/10.1080/10705511.2020.1784738
+
+Usami, S. (2021). On the Differences between General Cross-Lagged Panel Model and Random-Intercept Cross-Lagged Panel Model: Interpretation of Cross-Lagged Parameters and Model Choice. Structural Equation Modeling, 28(3), 331–344. https://doi.org/10.1080/10705511.2020.1821690

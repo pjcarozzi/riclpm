@@ -1,0 +1,384 @@
+# Estimacion {#estimacion}
+
+Para estimar los modelos usamos las siguientes librerias:
+
+- `MplusAutomation` (Hallquist et al., 2021), si queremos estimar los modelos usando Mplus desde R, facilitando la creacion de modelos, estimacion de grupos de modelos, extraccion y tabulación de parametros y, en general, mantener un flujo de trabajo mas organizado.
+- `lavaan` (Rosseel,2012), si queremos estimar los modelos directamente desde R. 
+
+
+```{r include=FALSE}
+library(dplyr)
+library(tidyr)
+library(data.table)
+library(skimr)
+library(MplusAutomation)
+library(lavaan)
+library(semoutput)
+# library(semPlot)
+# library(sjPlot)
+
+library(kableExtra)
+library(texreg)
+
+
+# Datos
+load("data/elsoc_onlineoffline.rdata")
+
+elsoc[elsoc=="-999"] <- NA
+elsoc[elsoc=="-888"] <- NA
+
+elsoc <- data.table(elsoc)
+elsoc <- elsoc[muestra=="1"]
+
+names_old <- c("c08_02_w01","c08_02_w02","c08_02_w03","c08_02_w04","c08_02_w05",
+               "c08_04_w01","c08_04_w02","c08_04_w03","c08_04_w04","c08_04_w05",
+               "m0_edad_w01","m01_w01","m0_sexo_w01")
+
+names_new <- c("marchw01","marchw02","marchw03","marchw04","marchw05",
+               "redesw01","redesw02","redesw03","redesw04","redesw05",
+               "edad","educ","sexo")
+
+setnames(elsoc,names_old,names_new)
+elsoc <- elsoc[, ..names_new]
+rm(names_old,names_new)
+elsoc <- as.data.frame(elsoc)
+# save(elsoc, file = "data/elsoc_onoffline.Rdata")
+```
+
+Resumen de los datos:
+
+```{r}
+skim(elsoc)
+```
+
+## Sintaxis
+
+Para especificar el RI-CLPM necesitamos 4 partes:
+
+1. Componente _between_, los interceptos aleatorios. 
+
+Los interceptos aleatorios son especificados creando variables latentes, con las medidas repetidas en $t$ como indicadores. Las cargas factoriales son fijadas en 1 porque RI-CLPM se basa en el supuesto de que los interceptos aleatorios tienen igual influencia en cada ocasión. Se asume que los interceptos aleatorios están correlacionados entre si. 
+
+Mplus:
+```
+    ! Crear los componentes between
+      RI_x BY marchw01@1 marchw02@1 marchw03@1 marchw04@1 marchw05@1;
+      RI_y BY redesw01@1 redesw02@1 redesw03@1 redesw04@1 redesw05@1;
+```
+
+Lavaan:
+```
+    # Crear los componentes between
+    RI_x =~ 1*marchw01 + 1*marchw02 + 1*marchw03 + 1*marchw04 + 1*marchw05
+    RI_y =~ 1*redesw01 + 1*redesw02 + 1*redesw03 + 1*redesw04 + 1*redesw05
+```
+
+2. Componente _within_, fluctuaciones intra-individuos. 
+
+Las diferencias _within_ son especificadas como variables latentes explicadas por sus respectivas medidas observadas en cada ocasion.
+
+Mplus:
+```
+    ! Crear los componentes within
+      cx1 BY marchw01@1; 
+      cx2 BY marchw02@1; 
+      cx3 BY marchw03@1;
+      cx4 BY marchw04@1; 
+      cx5 BY marchw05@1;
+      
+      cy1 BY redesw01@1;
+      cy2 BY redesw02@1;
+      cy3 BY redesw03@1;
+      cy4 BY redesw04@1;
+      cy5 BY redesw05@1;
+```
+
+Lavaan:
+```
+    # Crear los componentes within
+    cx1 =~ 1*marchw01
+    cx2 =~ 1*marchw02
+    cx3 =~ 1*marchw03
+    cx4 =~ 1*marchw04
+    cx5 =~ 1*marchw05
+    
+    cy1 =~ 1*redesw01
+    cy2 =~ 1*redesw02
+    cy3 =~ 1*redesw03
+    cy4 =~ 1*redesw04
+    cy5 =~ 1*redesw05
+```
+
+Se constriñen las varianzas del error de medicion a cero, no hay error de medicion.
+
+Mplus:
+```
+    ! Constrenir las varianzas del error de medicion a cero
+      marchw01 - redesw05@0;
+```
+
+Lavaan:
+```
+    # Constrenir las varianzas del error de medicion a cero
+    marchw01 ~~ 0*marchw01
+    marchw02 ~~ 0*marchw02
+    marchw03 ~~ 0*marchw03
+    marchw04 ~~ 0*marchw04
+    marchw05 ~~ 0*marchw05
+    
+    redesw01 ~~ 0*redesw01
+    redesw02 ~~ 0*redesw02
+    redesw03 ~~ 0*redesw03
+    redesw04 ~~ 0*redesw04
+    redesw05 ~~ 0*redesw05
+```
+
+3. Las regresiones lagged (autorregresivas y crosslagged) entre los componentes _within_
+
+Mplus:
+```
+    ! Estimar los efectos lagged
+      cx2 ON cx1 cy1; 
+      cx3 ON cx2 cy2; 
+      cx4 ON cx3 cy3; 
+      cx5 ON cx4 cy4;
+      cy2 ON cx1 cy1; 
+      cy3 ON cx2 cy2; 
+      cy4 ON cx3 cy3; 
+      cy5 ON cx4 cy4;
+```
+
+Lavaan:
+```
+    # Estimar los efectos lagged
+    cx2 ~ cx1 + cy1
+    cx3 ~ cx2 + cy2
+    cx4 ~ cx3 + cy3
+    cx5 ~ cx4 + cy4
+    cy2 ~ cx1 + cy1
+    cy3 ~ cx2 + cy2
+    cy4 ~ cx3 + cy3
+    cy5 ~ cx4 + cy4
+```
+
+4. Covarianzas relevantes en los componentes _between_ y _within_
+
+Tanto en la primera ola (exogenas) como sus residuos desde la ola 2 se especifica que los componentes _within_ esten correlacionados dentro de cada ola.
+
+Mplus:
+```
+    ! Estimar la covarianza entre los componentes within t=1
+      cx1 WITH cy1;
+    
+    ! Estimar las covarianzas entre los residuos del componente within (innovations)
+      cx2 WITH cy2; 
+      cx3 WITH cy3; 
+      cx4 WITH cy4; 
+      cx5 WITH cy5;
+```
+
+Lavaan:
+```
+    # Estimar la covarianza entre los componentes within t=1
+    cx1 ~~ cy1
+    
+    # Estimar las covarianzas entre los residuos del componente within (innovations)
+    cx2 ~~ cy2
+    cx3 ~~ cy3
+    cx4 ~~ cy4
+    cx5 ~~ cy5
+```
+
+En el componente _between_, se especifica que los interceptos aleatorios estan correlacionados.
+
+Además, se indica que los componentes _within_ en la primera ola y los interceptos aleatorios no estan correlacionados. Las observaciones por lo general empiezan en un punto arbitrario del tiempo durante un proceso en desarrollo, por lo que no existen razones para asumir que estan relacionados.
+
+Mplus:
+```
+    ! Estimar la covarianza entre los RI
+      RI_x WITH RI_y;      
+      
+    ! Fijar la correlacion entre los RI y componentes within t=1 a cero 
+      RI_x WITH cx1@0 cy1@0;
+      RI_y WITH cx1@0 cy1@0;
+```
+
+Lavaan:
+```
+    # Estimar la varianza y covarianza entre los RI. 
+    RI_x ~~ RI_x
+    RI_y ~~ RI_y
+    RI_x ~~ RI_y
+    
+    # Fijar la correlacion entre los RI y componentes within t=1 a cero 
+    RI_x ~~ 0*cx1
+    RI_x ~~ 0*cy1
+    RI_y ~~ 0*cx1
+    RI_y ~~ 0*cy1 
+```
+
+## Modelo basico 
+
+<button class="tablinks" onclick="unrolltab(event, 'MPLUS')">MPLUS</button>
+<button class="tablinks" onclick="unrolltab(event, 'lavaan')">lavaan</button>
+
+::: {#MPLUS .tabcontent}
+
+Creamos el objeto `model_mplus` que contiene el modelo usando la funcion `mplusObject( )`
+```{r}
+model_mplus <- mplusObject(
+  TITLE = "RI CLPM;",
+  
+  ANALYSIS=
+    "ESTIMATOR IS ML ;
+    ITERATIONS = 5000;",
+  
+  MODEL = "
+    ! Crear los componentes between
+      RI_x BY marchw01@1 marchw02@1 marchw03@1 marchw04@1 marchw05@1;
+      RI_y BY redesw01@1 redesw02@1 redesw03@1 redesw04@1 redesw05@1;
+    
+    ! Crear los componentes within
+      cx1 BY marchw01@1; 
+      cx2 BY marchw02@1; 
+      cx3 BY marchw03@1;
+      cx4 BY marchw04@1; 
+      cx5 BY marchw05@1;
+      
+      cy1 BY redesw01@1;
+      cy2 BY redesw02@1;
+      cy3 BY redesw03@1;
+      cy4 BY redesw04@1;
+      cy5 BY redesw05@1;
+
+    ! Constrenir las varianzas del error de medicion a cero
+      marchw01 - redesw05@0;
+
+    ! Estimar los efectos lagged
+      cx2 ON cx1 cy1; 
+      cx3 ON cx2 cy2; 
+      cx4 ON cx3 cy3; 
+      cx5 ON cx4 cy4;
+      cy2 ON cx1 cy1; 
+      cy3 ON cx2 cy2; 
+      cy4 ON cx3 cy3; 
+      cy5 ON cx4 cy4;
+    
+    ! Estimar la covarianza entre los componentes within t=1
+      cx1 WITH cy1;
+    
+    ! Estimar las covarianzas entre los residuos del componente within (innovations)
+      cx2 WITH cy2; 
+      cx3 WITH cy3; 
+      cx4 WITH cy4; 
+      cx5 WITH cy5;
+      
+    ! Estimar la covarianza entre los RI
+      RI_x WITH RI_y;      
+      
+    ! Fijar la correlacion entre los RI y componentes within t=1 a cero 
+      RI_x WITH cx1@0 cy1@0;
+      RI_y WITH cx1@0 cy1@0;
+  "
+,
+
+  OUTPUT = "CINTERVAL sampstat mod stdyx tech1 tech4;",
+  rdata = elsoc)
+```
+
+Estimamos el objeto `model_mplus` usando la funcion `mplusModeler( )`
+
+```{r}
+fit_mplus <- mplusModeler(model_mplus, modelout = "mplus/modelo_basico.inp", run = 1L)
+
+screenreg(fit_mplus, type = "stdyx",
+          # params = "regression",
+          summaries = c("ChiSqM_Value", "ChiSqM_PValue",
+                        "CFI", "TLI", "RMSEA_Estimate",
+                        "Observations"), 
+          # custom.header	= list("RICLPM"=1),
+          custom.model.names = c("RICLPM basico"),
+          digits = 3, single.row=TRUE)
+```
+
+:::
+::: {#lavaan .tabcontent}
+
+Creamos el objeto `model_lavaan` que contiene el modelo
+
+```{r}
+model_lavaan <- '
+    # Crear los componentes between
+    RI_x =~ 1*marchw01  + 1*marchw02 + 1*marchw03 + 1*marchw04 + 1*marchw05
+    RI_y =~ 1*redesw01 + 1*redesw02 + 1*redesw03 + 1*redesw04 + 1*redesw05
+    
+    # Crear los componentes within
+    cx1 =~ 1*marchw01
+    cx2 =~ 1*marchw02
+    cx3 =~ 1*marchw03
+    cx4 =~ 1*marchw04
+    cx5 =~ 1*marchw05
+    
+    cy1 =~ 1*redesw01
+    cy2 =~ 1*redesw02
+    cy3 =~ 1*redesw03
+    cy4 =~ 1*redesw04
+    cy5 =~ 1*redesw05
+    
+    # Constrenir las varianzas del error de medicion a cero
+    marchw01 ~~ 0*marchw01
+    marchw02 ~~ 0*marchw02
+    marchw03 ~~ 0*marchw03
+    marchw04 ~~ 0*marchw04
+    marchw05 ~~ 0*marchw05
+    
+    redesw01 ~~ 0*redesw01
+    redesw02 ~~ 0*redesw02
+    redesw03 ~~ 0*redesw03
+    redesw04 ~~ 0*redesw04
+    redesw05 ~~ 0*redesw05
+    
+    # Estimar los efectos lagged
+    cx2 ~ cx1 + cy1
+    cx3 ~ cx2 + cy2
+    cx4 ~ cx3 + cy3
+    cx5 ~ cx4 + cy4
+    cy2 ~ cx1 + cy1
+    cy3 ~ cx2 + cy2
+    cy4 ~ cx3 + cy3
+    cy5 ~ cx4 + cy4
+    
+    # Estimar la covarianza entre los componentes within t=1
+    cx1 ~~ cy1
+    
+    # Estimar las covarianzas entre los residuos del componente within (innovations)
+    cx2 ~~ cy2
+    cx3 ~~ cy3
+    cx4 ~~ cy4
+    cx5 ~~ cy5
+    
+    # Estimar la varianza y covarianza entre los RI. 
+    RI_x ~~ RI_x
+    RI_y ~~ RI_y
+    RI_x ~~ RI_y
+    
+    # Fijar la correlacion entre los RI y componentes within t=1 a cero 
+    RI_x ~~ 0*cx1
+    RI_x ~~ 0*cy1
+    RI_y ~~ 0*cx1
+    RI_y ~~ 0*cy1 
+'
+```
+
+Estimamos el objeto `model_lavaan` usando la funcion `sem( )`
+
+```{r warning=FALSE}
+fit_lavaan <- sem(model_lavaan, data=elsoc, missing = "fiml")
+
+summary(fit_lavaan, fit.measures=TRUE, standardized = T)
+```
+
+:::
+
+
+

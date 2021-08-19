@@ -1,0 +1,1410 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>2 Estimacion | Random Intercept Cross-Lagged Panel Model</title>
+  <meta name="description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="2 Estimacion | Random Intercept Cross-Lagged Panel Model" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="2 Estimacion | Random Intercept Cross-Lagged Panel Model" />
+  
+  <meta name="twitter:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  
+
+<meta name="author" content="-" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="modelo.html"/>
+<link rel="next" href="nestedm.html"/>
+<script src="libs/header-attrs-2.10/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<script>
+  function unrolltab(evt, tabName) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+      tabcontent[i].style.display = "none";
+    }
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+      tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+    document.getElementById(tabName).style.display = "block";
+    evt.currentTarget.className += " active";
+  }
+</script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">RICLPM</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Prerequisites</a></li>
+<li class="chapter" data-level="1" data-path="modelo.html"><a href="modelo.html"><i class="fa fa-check"></i><b>1</b> Modelo</a></li>
+<li class="chapter" data-level="2" data-path="estimacion.html"><a href="estimacion.html"><i class="fa fa-check"></i><b>2</b> Estimacion</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="estimacion.html"><a href="estimacion.html#sintaxis"><i class="fa fa-check"></i><b>2.1</b> Sintaxis</a></li>
+<li class="chapter" data-level="2.2" data-path="estimacion.html"><a href="estimacion.html#modelo-basico"><i class="fa fa-check"></i><b>2.2</b> Modelo basico</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="nestedm.html"><a href="nestedm.html"><i class="fa fa-check"></i><b>3</b> Modelos anidados</a>
+<ul>
+<li class="chapter" data-level="3.0.1" data-path="nestedm.html"><a href="nestedm.html#sintaxis-constraints"><i class="fa fa-check"></i><b>3.0.1</b> Sintaxis constraints</a></li>
+<li class="chapter" data-level="3.1" data-path="nestedm.html"><a href="nestedm.html#indicadores-de-bondad-de-ajuste"><i class="fa fa-check"></i><b>3.1</b> Indicadores de bondad de ajuste</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="nestedm.html"><a href="nestedm.html#extraccion"><i class="fa fa-check"></i><b>3.1.1</b> Extraccion</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="nestedm.html"><a href="nestedm.html#comparacion-de-bondad-de-ajuste"><i class="fa fa-check"></i><b>3.2</b> Comparacion de bondad de ajuste</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="interpretacion-de-coeficientes.html"><a href="interpretacion-de-coeficientes.html"><i class="fa fa-check"></i><b>4</b> Interpretacion de coeficientes</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="interpretacion-de-coeficientes.html"><a href="interpretacion-de-coeficientes.html#componente-between"><i class="fa fa-check"></i><b>4.1</b> Componente Between</a></li>
+<li class="chapter" data-level="4.2" data-path="interpretacion-de-coeficientes.html"><a href="interpretacion-de-coeficientes.html#componente-within"><i class="fa fa-check"></i><b>4.2</b> Componente Within</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i><b>5</b> Referencias</a></li>
+<li class="divider"></li>
+<li style="text-align:center;" xmlns:dct="http://purl.org/dc/terms/" xmlns:cc="http://creativecommons.org/ns#"><a href="https://bookdown.org" target="_blank">Creado con bookdown</a> <a href="https://creativecommons.org/licenses/by-nc-sa/4.0"><img style="height:22px!important;margin-left: 3px;vertical-align:text-bottom;" src="https://search.creativecommons.org/static/img/cc_icon.svg" /><img  style="height:22px!important;margin-left: 3px;vertical-align:text-bottom;" src="https://search.creativecommons.org/static/img/cc-by_icon.svg" /><img  style="height:22px!important;margin-left: 3px;vertical-align:text-bottom;" src="https://search.creativecommons.org/static/img/cc-nc_icon.svg" /><img  style="height:22px!important;margin-left: 3px;vertical-align:text-bottom;" src="https://search.creativecommons.org/static/img/cc-sa_icon.svg" /></a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Random Intercept Cross-Lagged Panel Model</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="estimacion" class="section level1" number="2">
+<h1><span class="header-section-number">2</span> Estimacion</h1>
+<p>Para estimar los modelos usamos las siguientes librerias:</p>
+<ul>
+<li><code>MplusAutomation</code> (Hallquist et al., 2021), si queremos estimar los modelos usando Mplus desde R, facilitando la creacion de modelos, estimacion de grupos de modelos, extraccion y tabulación de parametros y, en general, mantener un flujo de trabajo mas organizado.</li>
+<li><code>lavaan</code> (Rosseel,2012), si queremos estimar los modelos directamente desde R.</li>
+</ul>
+<p>Resumen de los datos:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="estimacion.html#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">skim</span>(elsoc)</span></code></pre></div>
+<table style="width: auto;" class="table table-condensed">
+<caption>
+<span id="tab:unnamed-chunk-4">Tabla 2.1: </span>Data summary
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:left;">
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Name
+</td>
+<td style="text-align:left;">
+elsoc
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Number of rows
+</td>
+<td style="text-align:left;">
+2928
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Number of columns
+</td>
+<td style="text-align:left;">
+13
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+_______________________
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Column type frequency:
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+numeric
+</td>
+<td style="text-align:left;">
+13
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+________________________
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Group variables
+</td>
+<td style="text-align:left;">
+None
+</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Variable type: numeric</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+skim_variable
+</th>
+<th style="text-align:right;">
+n_missing
+</th>
+<th style="text-align:right;">
+complete_rate
+</th>
+<th style="text-align:right;">
+mean
+</th>
+<th style="text-align:right;">
+sd
+</th>
+<th style="text-align:right;">
+p0
+</th>
+<th style="text-align:right;">
+p25
+</th>
+<th style="text-align:right;">
+p50
+</th>
+<th style="text-align:right;">
+p75
+</th>
+<th style="text-align:right;">
+p100
+</th>
+<th style="text-align:left;">
+hist
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+marchw01
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+1.00
+</td>
+<td style="text-align:right;">
+1.31
+</td>
+<td style="text-align:right;">
+0.78
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:left;">
+&lt;U+2587&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+marchw02
+</td>
+<td style="text-align:right;">
+455
+</td>
+<td style="text-align:right;">
+0.84
+</td>
+<td style="text-align:right;">
+1.22
+</td>
+<td style="text-align:right;">
+0.64
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:left;">
+&lt;U+2587&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+marchw03
+</td>
+<td style="text-align:right;">
+701
+</td>
+<td style="text-align:right;">
+0.76
+</td>
+<td style="text-align:right;">
+1.18
+</td>
+<td style="text-align:right;">
+0.59
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:left;">
+&lt;U+2587&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+marchw04
+</td>
+<td style="text-align:right;">
+775
+</td>
+<td style="text-align:right;">
+0.74
+</td>
+<td style="text-align:right;">
+1.50
+</td>
+<td style="text-align:right;">
+0.99
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:left;">
+&lt;U+2587&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+marchw05
+</td>
+<td style="text-align:right;">
+1188
+</td>
+<td style="text-align:right;">
+0.59
+</td>
+<td style="text-align:right;">
+1.20
+</td>
+<td style="text-align:right;">
+0.64
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:left;">
+&lt;U+2587&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+redesw01
+</td>
+<td style="text-align:right;">
+10
+</td>
+<td style="text-align:right;">
+1.00
+</td>
+<td style="text-align:right;">
+1.71
+</td>
+<td style="text-align:right;">
+1.18
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:left;">
+&lt;U+2587&gt;&lt;U+2581&gt;&lt;U+2582&gt;&lt;U+2581&gt;&lt;U+2581&gt;
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+redesw02
+</td>
+<td style="text-align:right;">
+455
+</td>
+<td style="text-align:right;">
+0.84
+</td>
+<td style="text-align:right;">
+1.60
+</td>
+<td style="text-align:right;">
+1.09
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:left;">
+&lt;U+2587&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+redesw03
+</td>
+<td style="text-align:right;">
+703
+</td>
+<td style="text-align:right;">
+0.76
+</td>
+<td style="text-align:right;">
+1.59
+</td>
+<td style="text-align:right;">
+1.06
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:left;">
+&lt;U+2587&gt;&lt;U+2581&gt;&lt;U+2582&gt;&lt;U+2581&gt;&lt;U+2581&gt;
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+redesw04
+</td>
+<td style="text-align:right;">
+775
+</td>
+<td style="text-align:right;">
+0.74
+</td>
+<td style="text-align:right;">
+1.86
+</td>
+<td style="text-align:right;">
+1.28
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:left;">
+&lt;U+2587&gt;&lt;U+2581&gt;&lt;U+2582&gt;&lt;U+2581&gt;&lt;U+2581&gt;
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+redesw05
+</td>
+<td style="text-align:right;">
+1188
+</td>
+<td style="text-align:right;">
+0.59
+</td>
+<td style="text-align:right;">
+1.84
+</td>
+<td style="text-align:right;">
+1.22
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:left;">
+&lt;U+2587&gt;&lt;U+2581&gt;&lt;U+2582&gt;&lt;U+2581&gt;&lt;U+2581&gt;
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+edad
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1.00
+</td>
+<td style="text-align:right;">
+46.09
+</td>
+<td style="text-align:right;">
+15.29
+</td>
+<td style="text-align:right;">
+18
+</td>
+<td style="text-align:right;">
+33
+</td>
+<td style="text-align:right;">
+46
+</td>
+<td style="text-align:right;">
+58
+</td>
+<td style="text-align:right;">
+88
+</td>
+<td style="text-align:left;">
+&lt;U+2586&gt;&lt;U+2587&gt;&lt;U+2587&gt;&lt;U+2585&gt;&lt;U+2581&gt;
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+educ
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+1.00
+</td>
+<td style="text-align:right;">
+5.26
+</td>
+<td style="text-align:right;">
+2.20
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+10
+</td>
+<td style="text-align:left;">
+&lt;U+2583&gt;&lt;U+2586&gt;&lt;U+2587&gt;&lt;U+2585&gt;&lt;U+2583&gt;
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+sexo
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1.00
+</td>
+<td style="text-align:right;">
+1.60
+</td>
+<td style="text-align:right;">
+0.49
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+&lt;U+2585&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2587&gt;
+</td>
+</tr>
+</tbody>
+</table>
+<div id="sintaxis" class="section level2" number="2.1">
+<h2><span class="header-section-number">2.1</span> Sintaxis</h2>
+<p>Para especificar el RI-CLPM necesitamos 4 partes:</p>
+<ol style="list-style-type: decimal">
+<li>Componente <em>between</em>, los interceptos aleatorios.</li>
+</ol>
+<p>Los interceptos aleatorios son especificados creando variables latentes, con las medidas repetidas en <span class="math inline">\(t\)</span> como indicadores. Las cargas factoriales son fijadas en 1 porque RI-CLPM se basa en el supuesto de que los interceptos aleatorios tienen igual influencia en cada ocasión. Se asume que los interceptos aleatorios están correlacionados entre si.</p>
+<p>Mplus:</p>
+<pre><code>    ! Crear los componentes between
+      RI_x BY marchw01@1 marchw02@1 marchw03@1 marchw04@1 marchw05@1;
+      RI_y BY redesw01@1 redesw02@1 redesw03@1 redesw04@1 redesw05@1;</code></pre>
+<p>Lavaan:</p>
+<pre><code>    # Crear los componentes between
+    RI_x =~ 1*marchw01 + 1*marchw02 + 1*marchw03 + 1*marchw04 + 1*marchw05
+    RI_y =~ 1*redesw01 + 1*redesw02 + 1*redesw03 + 1*redesw04 + 1*redesw05</code></pre>
+<ol start="2" style="list-style-type: decimal">
+<li>Componente <em>within</em>, fluctuaciones intra-individuos.</li>
+</ol>
+<p>Las diferencias <em>within</em> son especificadas como variables latentes explicadas por sus respectivas medidas observadas en cada ocasion.</p>
+<p>Mplus:</p>
+<pre><code>    ! Crear los componentes within
+      cx1 BY marchw01@1; 
+      cx2 BY marchw02@1; 
+      cx3 BY marchw03@1;
+      cx4 BY marchw04@1; 
+      cx5 BY marchw05@1;
+      
+      cy1 BY redesw01@1;
+      cy2 BY redesw02@1;
+      cy3 BY redesw03@1;
+      cy4 BY redesw04@1;
+      cy5 BY redesw05@1;</code></pre>
+<p>Lavaan:</p>
+<pre><code>    # Crear los componentes within
+    cx1 =~ 1*marchw01
+    cx2 =~ 1*marchw02
+    cx3 =~ 1*marchw03
+    cx4 =~ 1*marchw04
+    cx5 =~ 1*marchw05
+    
+    cy1 =~ 1*redesw01
+    cy2 =~ 1*redesw02
+    cy3 =~ 1*redesw03
+    cy4 =~ 1*redesw04
+    cy5 =~ 1*redesw05</code></pre>
+<p>Se constriñen las varianzas del error de medicion a cero, no hay error de medicion.</p>
+<p>Mplus:</p>
+<pre><code>    ! Constrenir las varianzas del error de medicion a cero
+      marchw01 - redesw05@0;</code></pre>
+<p>Lavaan:</p>
+<pre><code>    # Constrenir las varianzas del error de medicion a cero
+    marchw01 ~~ 0*marchw01
+    marchw02 ~~ 0*marchw02
+    marchw03 ~~ 0*marchw03
+    marchw04 ~~ 0*marchw04
+    marchw05 ~~ 0*marchw05
+    
+    redesw01 ~~ 0*redesw01
+    redesw02 ~~ 0*redesw02
+    redesw03 ~~ 0*redesw03
+    redesw04 ~~ 0*redesw04
+    redesw05 ~~ 0*redesw05</code></pre>
+<ol start="3" style="list-style-type: decimal">
+<li>Las regresiones lagged (autorregresivas y crosslagged) entre los componentes <em>within</em></li>
+</ol>
+<p>Mplus:</p>
+<pre><code>    ! Estimar los efectos lagged
+      cx2 ON cx1 cy1; 
+      cx3 ON cx2 cy2; 
+      cx4 ON cx3 cy3; 
+      cx5 ON cx4 cy4;
+      cy2 ON cx1 cy1; 
+      cy3 ON cx2 cy2; 
+      cy4 ON cx3 cy3; 
+      cy5 ON cx4 cy4;</code></pre>
+<p>Lavaan:</p>
+<pre><code>    # Estimar los efectos lagged
+    cx2 ~ cx1 + cy1
+    cx3 ~ cx2 + cy2
+    cx4 ~ cx3 + cy3
+    cx5 ~ cx4 + cy4
+    cy2 ~ cx1 + cy1
+    cy3 ~ cx2 + cy2
+    cy4 ~ cx3 + cy3
+    cy5 ~ cx4 + cy4</code></pre>
+<ol start="4" style="list-style-type: decimal">
+<li>Covarianzas relevantes en los componentes <em>between</em> y <em>within</em></li>
+</ol>
+<p>Tanto en la primera ola (exogenas) como sus residuos desde la ola 2 se especifica que los componentes <em>within</em> esten correlacionados dentro de cada ola.</p>
+<p>Mplus:</p>
+<pre><code>    ! Estimar la covarianza entre los componentes within t=1
+      cx1 WITH cy1;
+    
+    ! Estimar las covarianzas entre los residuos del componente within (innovations)
+      cx2 WITH cy2; 
+      cx3 WITH cy3; 
+      cx4 WITH cy4; 
+      cx5 WITH cy5;</code></pre>
+<p>Lavaan:</p>
+<pre><code>    # Estimar la covarianza entre los componentes within t=1
+    cx1 ~~ cy1
+    
+    # Estimar las covarianzas entre los residuos del componente within (innovations)
+    cx2 ~~ cy2
+    cx3 ~~ cy3
+    cx4 ~~ cy4
+    cx5 ~~ cy5</code></pre>
+<p>En el componente <em>between</em>, se especifica que los interceptos aleatorios estan correlacionados.</p>
+<p>Además, se indica que los componentes <em>within</em> en la primera ola y los interceptos aleatorios no estan correlacionados. Las observaciones por lo general empiezan en un punto arbitrario del tiempo durante un proceso en desarrollo, por lo que no existen razones para asumir que estan relacionados.</p>
+<p>Mplus:</p>
+<pre><code>    ! Estimar la covarianza entre los RI
+      RI_x WITH RI_y;      
+      
+    ! Fijar la correlacion entre los RI y componentes within t=1 a cero 
+      RI_x WITH cx1@0 cy1@0;
+      RI_y WITH cx1@0 cy1@0;</code></pre>
+<p>Lavaan:</p>
+<pre><code>    # Estimar la varianza y covarianza entre los RI. 
+    RI_x ~~ RI_x
+    RI_y ~~ RI_y
+    RI_x ~~ RI_y
+    
+    # Fijar la correlacion entre los RI y componentes within t=1 a cero 
+    RI_x ~~ 0*cx1
+    RI_x ~~ 0*cy1
+    RI_y ~~ 0*cx1
+    RI_y ~~ 0*cy1 </code></pre>
+</div>
+<div id="modelo-basico" class="section level2" number="2.2">
+<h2><span class="header-section-number">2.2</span> Modelo basico</h2>
+<button class="tablinks" onclick="unrolltab(event, &#39;MPLUS&#39;)">
+MPLUS
+</button>
+<button class="tablinks" onclick="unrolltab(event, &#39;lavaan&#39;)">
+lavaan
+</button>
+<div id="MPLUS" class="tabcontent">
+<p>Creamos el objeto <code>model_mplus</code> que contiene el modelo usando la funcion <code>mplusObject( )</code></p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="estimacion.html#cb15-1" aria-hidden="true" tabindex="-1"></a>model_mplus <span class="ot">&lt;-</span> <span class="fu">mplusObject</span>(</span>
+<span id="cb15-2"><a href="estimacion.html#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">TITLE =</span> <span class="st">&quot;RI CLPM;&quot;</span>,</span>
+<span id="cb15-3"><a href="estimacion.html#cb15-3" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb15-4"><a href="estimacion.html#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">ANALYSIS=</span></span>
+<span id="cb15-5"><a href="estimacion.html#cb15-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;ESTIMATOR IS ML ;</span></span>
+<span id="cb15-6"><a href="estimacion.html#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="st">    ITERATIONS = 5000;&quot;</span>,</span>
+<span id="cb15-7"><a href="estimacion.html#cb15-7" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb15-8"><a href="estimacion.html#cb15-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">MODEL =</span> <span class="st">&quot;</span></span>
+<span id="cb15-9"><a href="estimacion.html#cb15-9" aria-hidden="true" tabindex="-1"></a><span class="st">    ! Crear los componentes between</span></span>
+<span id="cb15-10"><a href="estimacion.html#cb15-10" aria-hidden="true" tabindex="-1"></a><span class="st">      RI_x BY marchw01@1 marchw02@1 marchw03@1 marchw04@1 marchw05@1;</span></span>
+<span id="cb15-11"><a href="estimacion.html#cb15-11" aria-hidden="true" tabindex="-1"></a><span class="st">      RI_y BY redesw01@1 redesw02@1 redesw03@1 redesw04@1 redesw05@1;</span></span>
+<span id="cb15-12"><a href="estimacion.html#cb15-12" aria-hidden="true" tabindex="-1"></a><span class="st">    </span></span>
+<span id="cb15-13"><a href="estimacion.html#cb15-13" aria-hidden="true" tabindex="-1"></a><span class="st">    ! Crear los componentes within</span></span>
+<span id="cb15-14"><a href="estimacion.html#cb15-14" aria-hidden="true" tabindex="-1"></a><span class="st">      cx1 BY marchw01@1; </span></span>
+<span id="cb15-15"><a href="estimacion.html#cb15-15" aria-hidden="true" tabindex="-1"></a><span class="st">      cx2 BY marchw02@1; </span></span>
+<span id="cb15-16"><a href="estimacion.html#cb15-16" aria-hidden="true" tabindex="-1"></a><span class="st">      cx3 BY marchw03@1;</span></span>
+<span id="cb15-17"><a href="estimacion.html#cb15-17" aria-hidden="true" tabindex="-1"></a><span class="st">      cx4 BY marchw04@1; </span></span>
+<span id="cb15-18"><a href="estimacion.html#cb15-18" aria-hidden="true" tabindex="-1"></a><span class="st">      cx5 BY marchw05@1;</span></span>
+<span id="cb15-19"><a href="estimacion.html#cb15-19" aria-hidden="true" tabindex="-1"></a><span class="st">      </span></span>
+<span id="cb15-20"><a href="estimacion.html#cb15-20" aria-hidden="true" tabindex="-1"></a><span class="st">      cy1 BY redesw01@1;</span></span>
+<span id="cb15-21"><a href="estimacion.html#cb15-21" aria-hidden="true" tabindex="-1"></a><span class="st">      cy2 BY redesw02@1;</span></span>
+<span id="cb15-22"><a href="estimacion.html#cb15-22" aria-hidden="true" tabindex="-1"></a><span class="st">      cy3 BY redesw03@1;</span></span>
+<span id="cb15-23"><a href="estimacion.html#cb15-23" aria-hidden="true" tabindex="-1"></a><span class="st">      cy4 BY redesw04@1;</span></span>
+<span id="cb15-24"><a href="estimacion.html#cb15-24" aria-hidden="true" tabindex="-1"></a><span class="st">      cy5 BY redesw05@1;</span></span>
+<span id="cb15-25"><a href="estimacion.html#cb15-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-26"><a href="estimacion.html#cb15-26" aria-hidden="true" tabindex="-1"></a><span class="st">    ! Constrenir las varianzas del error de medicion a cero</span></span>
+<span id="cb15-27"><a href="estimacion.html#cb15-27" aria-hidden="true" tabindex="-1"></a><span class="st">      marchw01 - redesw05@0;</span></span>
+<span id="cb15-28"><a href="estimacion.html#cb15-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-29"><a href="estimacion.html#cb15-29" aria-hidden="true" tabindex="-1"></a><span class="st">    ! Estimar los efectos lagged</span></span>
+<span id="cb15-30"><a href="estimacion.html#cb15-30" aria-hidden="true" tabindex="-1"></a><span class="st">      cx2 ON cx1 cy1; </span></span>
+<span id="cb15-31"><a href="estimacion.html#cb15-31" aria-hidden="true" tabindex="-1"></a><span class="st">      cx3 ON cx2 cy2; </span></span>
+<span id="cb15-32"><a href="estimacion.html#cb15-32" aria-hidden="true" tabindex="-1"></a><span class="st">      cx4 ON cx3 cy3; </span></span>
+<span id="cb15-33"><a href="estimacion.html#cb15-33" aria-hidden="true" tabindex="-1"></a><span class="st">      cx5 ON cx4 cy4;</span></span>
+<span id="cb15-34"><a href="estimacion.html#cb15-34" aria-hidden="true" tabindex="-1"></a><span class="st">      cy2 ON cx1 cy1; </span></span>
+<span id="cb15-35"><a href="estimacion.html#cb15-35" aria-hidden="true" tabindex="-1"></a><span class="st">      cy3 ON cx2 cy2; </span></span>
+<span id="cb15-36"><a href="estimacion.html#cb15-36" aria-hidden="true" tabindex="-1"></a><span class="st">      cy4 ON cx3 cy3; </span></span>
+<span id="cb15-37"><a href="estimacion.html#cb15-37" aria-hidden="true" tabindex="-1"></a><span class="st">      cy5 ON cx4 cy4;</span></span>
+<span id="cb15-38"><a href="estimacion.html#cb15-38" aria-hidden="true" tabindex="-1"></a><span class="st">    </span></span>
+<span id="cb15-39"><a href="estimacion.html#cb15-39" aria-hidden="true" tabindex="-1"></a><span class="st">    ! Estimar la covarianza entre los componentes within t=1</span></span>
+<span id="cb15-40"><a href="estimacion.html#cb15-40" aria-hidden="true" tabindex="-1"></a><span class="st">      cx1 WITH cy1;</span></span>
+<span id="cb15-41"><a href="estimacion.html#cb15-41" aria-hidden="true" tabindex="-1"></a><span class="st">    </span></span>
+<span id="cb15-42"><a href="estimacion.html#cb15-42" aria-hidden="true" tabindex="-1"></a><span class="st">    ! Estimar las covarianzas entre los residuos del componente within (innovations)</span></span>
+<span id="cb15-43"><a href="estimacion.html#cb15-43" aria-hidden="true" tabindex="-1"></a><span class="st">      cx2 WITH cy2; </span></span>
+<span id="cb15-44"><a href="estimacion.html#cb15-44" aria-hidden="true" tabindex="-1"></a><span class="st">      cx3 WITH cy3; </span></span>
+<span id="cb15-45"><a href="estimacion.html#cb15-45" aria-hidden="true" tabindex="-1"></a><span class="st">      cx4 WITH cy4; </span></span>
+<span id="cb15-46"><a href="estimacion.html#cb15-46" aria-hidden="true" tabindex="-1"></a><span class="st">      cx5 WITH cy5;</span></span>
+<span id="cb15-47"><a href="estimacion.html#cb15-47" aria-hidden="true" tabindex="-1"></a><span class="st">      </span></span>
+<span id="cb15-48"><a href="estimacion.html#cb15-48" aria-hidden="true" tabindex="-1"></a><span class="st">    ! Estimar la covarianza entre los RI</span></span>
+<span id="cb15-49"><a href="estimacion.html#cb15-49" aria-hidden="true" tabindex="-1"></a><span class="st">      RI_x WITH RI_y;      </span></span>
+<span id="cb15-50"><a href="estimacion.html#cb15-50" aria-hidden="true" tabindex="-1"></a><span class="st">      </span></span>
+<span id="cb15-51"><a href="estimacion.html#cb15-51" aria-hidden="true" tabindex="-1"></a><span class="st">    ! Fijar la correlacion entre los RI y componentes within t=1 a cero </span></span>
+<span id="cb15-52"><a href="estimacion.html#cb15-52" aria-hidden="true" tabindex="-1"></a><span class="st">      RI_x WITH cx1@0 cy1@0;</span></span>
+<span id="cb15-53"><a href="estimacion.html#cb15-53" aria-hidden="true" tabindex="-1"></a><span class="st">      RI_y WITH cx1@0 cy1@0;</span></span>
+<span id="cb15-54"><a href="estimacion.html#cb15-54" aria-hidden="true" tabindex="-1"></a><span class="st">  &quot;</span></span>
+<span id="cb15-55"><a href="estimacion.html#cb15-55" aria-hidden="true" tabindex="-1"></a>,</span>
+<span id="cb15-56"><a href="estimacion.html#cb15-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-57"><a href="estimacion.html#cb15-57" aria-hidden="true" tabindex="-1"></a>  <span class="at">OUTPUT =</span> <span class="st">&quot;CINTERVAL sampstat mod stdyx tech1 tech4;&quot;</span>,</span>
+<span id="cb15-58"><a href="estimacion.html#cb15-58" aria-hidden="true" tabindex="-1"></a>  <span class="at">rdata =</span> elsoc)</span></code></pre></div>
+<p>Estimamos el objeto <code>model_mplus</code> usando la funcion <code>mplusModeler( )</code></p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="estimacion.html#cb16-1" aria-hidden="true" tabindex="-1"></a>fit_mplus <span class="ot">&lt;-</span> <span class="fu">mplusModeler</span>(model_mplus, <span class="at">modelout =</span> <span class="st">&quot;mplus/modelo_basico.inp&quot;</span>, <span class="at">run =</span> 1L)</span>
+<span id="cb16-2"><a href="estimacion.html#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="estimacion.html#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="fu">screenreg</span>(fit_mplus, <span class="at">type =</span> <span class="st">&quot;stdyx&quot;</span>,</span>
+<span id="cb16-4"><a href="estimacion.html#cb16-4" aria-hidden="true" tabindex="-1"></a>          <span class="co"># params = &quot;regression&quot;,</span></span>
+<span id="cb16-5"><a href="estimacion.html#cb16-5" aria-hidden="true" tabindex="-1"></a>          <span class="at">summaries =</span> <span class="fu">c</span>(<span class="st">&quot;ChiSqM_Value&quot;</span>, <span class="st">&quot;ChiSqM_PValue&quot;</span>,</span>
+<span id="cb16-6"><a href="estimacion.html#cb16-6" aria-hidden="true" tabindex="-1"></a>                        <span class="st">&quot;CFI&quot;</span>, <span class="st">&quot;TLI&quot;</span>, <span class="st">&quot;RMSEA_Estimate&quot;</span>,</span>
+<span id="cb16-7"><a href="estimacion.html#cb16-7" aria-hidden="true" tabindex="-1"></a>                        <span class="st">&quot;Observations&quot;</span>), </span>
+<span id="cb16-8"><a href="estimacion.html#cb16-8" aria-hidden="true" tabindex="-1"></a>          <span class="co"># custom.header   = list(&quot;RICLPM&quot;=1),</span></span>
+<span id="cb16-9"><a href="estimacion.html#cb16-9" aria-hidden="true" tabindex="-1"></a>          <span class="at">custom.model.names =</span> <span class="fu">c</span>(<span class="st">&quot;RICLPM basico&quot;</span>),</span>
+<span id="cb16-10"><a href="estimacion.html#cb16-10" aria-hidden="true" tabindex="-1"></a>          <span class="at">digits =</span> <span class="dv">3</span>, <span class="at">single.row=</span><span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code>## 
+## =============================================
+##                        RICLPM basico         
+## ---------------------------------------------
+##  CX2&lt;-CX1                 0.172   (0.028) ***
+##  CX2&lt;-CY1                -0.040   (0.028)    
+##  CX3&lt;-CX2                 0.156   (0.035) ***
+##  CX3&lt;-CY2                -0.042   (0.032)    
+##  CX4&lt;-CX3                 0.130   (0.030) ***
+##  CX4&lt;-CY3                 0.119   (0.028) ***
+##  CX5&lt;-CX4                 0.273   (0.028) ***
+##  CX5&lt;-CY4                 0.052   (0.029)    
+##  CY2&lt;-CX1                 0.006   (0.029)    
+##  CY2&lt;-CY1                -0.002   (0.031)    
+##  CY3&lt;-CX2                 0.077   (0.033) *  
+##  CY3&lt;-CY2                 0.078   (0.035) *  
+##  CY4&lt;-CX3                 0.003   (0.029)    
+##  CY4&lt;-CY3                 0.195   (0.029) ***
+##  CY5&lt;-CX4                 0.090   (0.026) ** 
+##  CY5&lt;-CY4                 0.316   (0.027) ***
+##  MARCHW01&lt;-RI_X           0.492   (0.015) ***
+##  MARCHW02&lt;-RI_X           0.577   (0.018) ***
+##  MARCHW03&lt;-RI_X           0.625   (0.018) ***
+##  MARCHW04&lt;-RI_X           0.395   (0.014) ***
+##  MARCHW05&lt;-RI_X           0.557   (0.014) ***
+##  REDESW01&lt;-RI_Y           0.631   (0.012) ***
+##  REDESW02&lt;-RI_Y           0.676   (0.013) ***
+##  REDESW03&lt;-RI_Y           0.691   (0.013) ***
+##  REDESW04&lt;-RI_Y           0.595   (0.012) ***
+##  REDESW05&lt;-RI_Y           0.620   (0.012) ***
+##  MARCHW01&lt;-CX1            0.871   (0.009) ***
+##  MARCHW02&lt;-CX2            0.817   (0.012) ***
+##  MARCHW03&lt;-CX3            0.781   (0.014) ***
+##  MARCHW04&lt;-CX4            0.919   (0.006) ***
+##  MARCHW05&lt;-CX5            0.830   (0.010) ***
+##  REDESW01&lt;-CY1            0.776   (0.010) ***
+##  REDESW02&lt;-CY2            0.737   (0.012) ***
+##  REDESW03&lt;-CY3            0.723   (0.012) ***
+##  REDESW04&lt;-CY4            0.804   (0.009) ***
+##  REDESW05&lt;-CY5            0.785   (0.009) ***
+##  CX1&lt;-&gt;CY1                0.271   (0.022) ***
+##  CX2&lt;-&gt;CY2                0.265   (0.028) ***
+##  CX3&lt;-&gt;CY3                0.176   (0.029) ***
+##  CX4&lt;-&gt;CY4                0.293   (0.022) ***
+##  CX5&lt;-&gt;CY5                0.047   (0.027)    
+##  RI_X&lt;-&gt;RI_Y              0.664   (0.025) ***
+##  RI_X&lt;-&gt;CX1               0.000   (0.000)    
+##  RI_X&lt;-&gt;CY1               0.000   (0.000)    
+##  RI_Y&lt;-&gt;CX1               0.000   (0.000)    
+##  RI_Y&lt;-&gt;CY1               0.000   (0.000)    
+##  MARCHW01&lt;-Intercepts     1.734   (0.028) ***
+##  MARCHW02&lt;-Intercepts     1.886   (0.032) ***
+##  MARCHW03&lt;-Intercepts     1.994   (0.035) ***
+##  MARCHW04&lt;-Intercepts     1.592   (0.031) ***
+##  MARCHW05&lt;-Intercepts     1.778   (0.039) ***
+##  REDESW01&lt;-Intercepts     1.464   (0.026) ***
+##  REDESW02&lt;-Intercepts     1.473   (0.028) ***
+##  REDESW03&lt;-Intercepts     1.503   (0.029) ***
+##  REDESW04&lt;-Intercepts     1.502   (0.029) ***
+##  REDESW05&lt;-Intercepts     1.523   (0.032) ***
+##  RI_X&lt;-&gt;RI_X              1.000   (0.000)    
+##  RI_Y&lt;-&gt;RI_Y              1.000   (0.000)    
+##  CX1&lt;-&gt;CX1                1.000   (0.000)    
+##  CY1&lt;-&gt;CY1                1.000   (0.000)    
+##  MARCHW01&lt;-&gt;MARCHW01      0.000 (999.000)    
+##  MARCHW02&lt;-&gt;MARCHW02      0.000 (999.000)    
+##  MARCHW03&lt;-&gt;MARCHW03      0.000 (999.000)    
+##  MARCHW04&lt;-&gt;MARCHW04      0.000 (999.000)    
+##  MARCHW05&lt;-&gt;MARCHW05      0.000 (999.000)    
+##  REDESW01&lt;-&gt;REDESW01      0.000 (999.000)    
+##  REDESW02&lt;-&gt;REDESW02      0.000 (999.000)    
+##  REDESW03&lt;-&gt;REDESW03      0.000 (999.000)    
+##  REDESW04&lt;-&gt;REDESW04      0.000 (999.000)    
+##  REDESW05&lt;-&gt;REDESW05      0.000 (999.000)    
+##  CX2&lt;-&gt;CX2                0.973   (0.009) ***
+##  CX3&lt;-&gt;CX3                0.977   (0.010) ***
+##  CX4&lt;-&gt;CX4                0.963   (0.012) ***
+##  CX5&lt;-&gt;CX5                0.914   (0.015) ***
+##  CY2&lt;-&gt;CY2                1.000   (0.000) ***
+##  CY3&lt;-&gt;CY3                0.985   (0.009) ***
+##  CY4&lt;-&gt;CY4                0.962   (0.011) ***
+##  CY5&lt;-&gt;CY5                0.874   (0.018) ***
+## ---------------------------------------------
+## ChiSqM_Value            254.584              
+## ChiSqM_PValue             0.000              
+## CFI                       0.966              
+## TLI                       0.927              
+## RMSEA_Estimate            0.062              
+## Observations           2927                  
+## =============================================
+## *** p &lt; 0.001; ** p &lt; 0.01; * p &lt; 0.05</code></pre>
+</div>
+<div id="lavaan" class="tabcontent">
+<p>Creamos el objeto <code>model_lavaan</code> que contiene el modelo</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="estimacion.html#cb18-1" aria-hidden="true" tabindex="-1"></a>model_lavaan <span class="ot">&lt;-</span> <span class="st">&#39;</span></span>
+<span id="cb18-2"><a href="estimacion.html#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="st">    # Crear los componentes between</span></span>
+<span id="cb18-3"><a href="estimacion.html#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="st">    RI_x =~ 1*marchw01  + 1*marchw02 + 1*marchw03 + 1*marchw04 + 1*marchw05</span></span>
+<span id="cb18-4"><a href="estimacion.html#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="st">    RI_y =~ 1*redesw01 + 1*redesw02 + 1*redesw03 + 1*redesw04 + 1*redesw05</span></span>
+<span id="cb18-5"><a href="estimacion.html#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="st">    </span></span>
+<span id="cb18-6"><a href="estimacion.html#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="st">    # Crear los componentes within</span></span>
+<span id="cb18-7"><a href="estimacion.html#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="st">    cx1 =~ 1*marchw01</span></span>
+<span id="cb18-8"><a href="estimacion.html#cb18-8" aria-hidden="true" tabindex="-1"></a><span class="st">    cx2 =~ 1*marchw02</span></span>
+<span id="cb18-9"><a href="estimacion.html#cb18-9" aria-hidden="true" tabindex="-1"></a><span class="st">    cx3 =~ 1*marchw03</span></span>
+<span id="cb18-10"><a href="estimacion.html#cb18-10" aria-hidden="true" tabindex="-1"></a><span class="st">    cx4 =~ 1*marchw04</span></span>
+<span id="cb18-11"><a href="estimacion.html#cb18-11" aria-hidden="true" tabindex="-1"></a><span class="st">    cx5 =~ 1*marchw05</span></span>
+<span id="cb18-12"><a href="estimacion.html#cb18-12" aria-hidden="true" tabindex="-1"></a><span class="st">    </span></span>
+<span id="cb18-13"><a href="estimacion.html#cb18-13" aria-hidden="true" tabindex="-1"></a><span class="st">    cy1 =~ 1*redesw01</span></span>
+<span id="cb18-14"><a href="estimacion.html#cb18-14" aria-hidden="true" tabindex="-1"></a><span class="st">    cy2 =~ 1*redesw02</span></span>
+<span id="cb18-15"><a href="estimacion.html#cb18-15" aria-hidden="true" tabindex="-1"></a><span class="st">    cy3 =~ 1*redesw03</span></span>
+<span id="cb18-16"><a href="estimacion.html#cb18-16" aria-hidden="true" tabindex="-1"></a><span class="st">    cy4 =~ 1*redesw04</span></span>
+<span id="cb18-17"><a href="estimacion.html#cb18-17" aria-hidden="true" tabindex="-1"></a><span class="st">    cy5 =~ 1*redesw05</span></span>
+<span id="cb18-18"><a href="estimacion.html#cb18-18" aria-hidden="true" tabindex="-1"></a><span class="st">    </span></span>
+<span id="cb18-19"><a href="estimacion.html#cb18-19" aria-hidden="true" tabindex="-1"></a><span class="st">    # Constrenir las varianzas del error de medicion a cero</span></span>
+<span id="cb18-20"><a href="estimacion.html#cb18-20" aria-hidden="true" tabindex="-1"></a><span class="st">    marchw01 ~~ 0*marchw01</span></span>
+<span id="cb18-21"><a href="estimacion.html#cb18-21" aria-hidden="true" tabindex="-1"></a><span class="st">    marchw02 ~~ 0*marchw02</span></span>
+<span id="cb18-22"><a href="estimacion.html#cb18-22" aria-hidden="true" tabindex="-1"></a><span class="st">    marchw03 ~~ 0*marchw03</span></span>
+<span id="cb18-23"><a href="estimacion.html#cb18-23" aria-hidden="true" tabindex="-1"></a><span class="st">    marchw04 ~~ 0*marchw04</span></span>
+<span id="cb18-24"><a href="estimacion.html#cb18-24" aria-hidden="true" tabindex="-1"></a><span class="st">    marchw05 ~~ 0*marchw05</span></span>
+<span id="cb18-25"><a href="estimacion.html#cb18-25" aria-hidden="true" tabindex="-1"></a><span class="st">    </span></span>
+<span id="cb18-26"><a href="estimacion.html#cb18-26" aria-hidden="true" tabindex="-1"></a><span class="st">    redesw01 ~~ 0*redesw01</span></span>
+<span id="cb18-27"><a href="estimacion.html#cb18-27" aria-hidden="true" tabindex="-1"></a><span class="st">    redesw02 ~~ 0*redesw02</span></span>
+<span id="cb18-28"><a href="estimacion.html#cb18-28" aria-hidden="true" tabindex="-1"></a><span class="st">    redesw03 ~~ 0*redesw03</span></span>
+<span id="cb18-29"><a href="estimacion.html#cb18-29" aria-hidden="true" tabindex="-1"></a><span class="st">    redesw04 ~~ 0*redesw04</span></span>
+<span id="cb18-30"><a href="estimacion.html#cb18-30" aria-hidden="true" tabindex="-1"></a><span class="st">    redesw05 ~~ 0*redesw05</span></span>
+<span id="cb18-31"><a href="estimacion.html#cb18-31" aria-hidden="true" tabindex="-1"></a><span class="st">    </span></span>
+<span id="cb18-32"><a href="estimacion.html#cb18-32" aria-hidden="true" tabindex="-1"></a><span class="st">    # Estimar los efectos lagged</span></span>
+<span id="cb18-33"><a href="estimacion.html#cb18-33" aria-hidden="true" tabindex="-1"></a><span class="st">    cx2 ~ cx1 + cy1</span></span>
+<span id="cb18-34"><a href="estimacion.html#cb18-34" aria-hidden="true" tabindex="-1"></a><span class="st">    cx3 ~ cx2 + cy2</span></span>
+<span id="cb18-35"><a href="estimacion.html#cb18-35" aria-hidden="true" tabindex="-1"></a><span class="st">    cx4 ~ cx3 + cy3</span></span>
+<span id="cb18-36"><a href="estimacion.html#cb18-36" aria-hidden="true" tabindex="-1"></a><span class="st">    cx5 ~ cx4 + cy4</span></span>
+<span id="cb18-37"><a href="estimacion.html#cb18-37" aria-hidden="true" tabindex="-1"></a><span class="st">    cy2 ~ cx1 + cy1</span></span>
+<span id="cb18-38"><a href="estimacion.html#cb18-38" aria-hidden="true" tabindex="-1"></a><span class="st">    cy3 ~ cx2 + cy2</span></span>
+<span id="cb18-39"><a href="estimacion.html#cb18-39" aria-hidden="true" tabindex="-1"></a><span class="st">    cy4 ~ cx3 + cy3</span></span>
+<span id="cb18-40"><a href="estimacion.html#cb18-40" aria-hidden="true" tabindex="-1"></a><span class="st">    cy5 ~ cx4 + cy4</span></span>
+<span id="cb18-41"><a href="estimacion.html#cb18-41" aria-hidden="true" tabindex="-1"></a><span class="st">    </span></span>
+<span id="cb18-42"><a href="estimacion.html#cb18-42" aria-hidden="true" tabindex="-1"></a><span class="st">    # Estimar la covarianza entre los componentes within t=1</span></span>
+<span id="cb18-43"><a href="estimacion.html#cb18-43" aria-hidden="true" tabindex="-1"></a><span class="st">    cx1 ~~ cy1</span></span>
+<span id="cb18-44"><a href="estimacion.html#cb18-44" aria-hidden="true" tabindex="-1"></a><span class="st">    </span></span>
+<span id="cb18-45"><a href="estimacion.html#cb18-45" aria-hidden="true" tabindex="-1"></a><span class="st">    # Estimar las covarianzas entre los residuos del componente within (innovations)</span></span>
+<span id="cb18-46"><a href="estimacion.html#cb18-46" aria-hidden="true" tabindex="-1"></a><span class="st">    cx2 ~~ cy2</span></span>
+<span id="cb18-47"><a href="estimacion.html#cb18-47" aria-hidden="true" tabindex="-1"></a><span class="st">    cx3 ~~ cy3</span></span>
+<span id="cb18-48"><a href="estimacion.html#cb18-48" aria-hidden="true" tabindex="-1"></a><span class="st">    cx4 ~~ cy4</span></span>
+<span id="cb18-49"><a href="estimacion.html#cb18-49" aria-hidden="true" tabindex="-1"></a><span class="st">    cx5 ~~ cy5</span></span>
+<span id="cb18-50"><a href="estimacion.html#cb18-50" aria-hidden="true" tabindex="-1"></a><span class="st">    </span></span>
+<span id="cb18-51"><a href="estimacion.html#cb18-51" aria-hidden="true" tabindex="-1"></a><span class="st">    # Estimar la varianza y covarianza entre los RI. </span></span>
+<span id="cb18-52"><a href="estimacion.html#cb18-52" aria-hidden="true" tabindex="-1"></a><span class="st">    RI_x ~~ RI_x</span></span>
+<span id="cb18-53"><a href="estimacion.html#cb18-53" aria-hidden="true" tabindex="-1"></a><span class="st">    RI_y ~~ RI_y</span></span>
+<span id="cb18-54"><a href="estimacion.html#cb18-54" aria-hidden="true" tabindex="-1"></a><span class="st">    RI_x ~~ RI_y</span></span>
+<span id="cb18-55"><a href="estimacion.html#cb18-55" aria-hidden="true" tabindex="-1"></a><span class="st">    </span></span>
+<span id="cb18-56"><a href="estimacion.html#cb18-56" aria-hidden="true" tabindex="-1"></a><span class="st">    # Fijar la correlacion entre los RI y componentes within t=1 a cero </span></span>
+<span id="cb18-57"><a href="estimacion.html#cb18-57" aria-hidden="true" tabindex="-1"></a><span class="st">    RI_x ~~ 0*cx1</span></span>
+<span id="cb18-58"><a href="estimacion.html#cb18-58" aria-hidden="true" tabindex="-1"></a><span class="st">    RI_x ~~ 0*cy1</span></span>
+<span id="cb18-59"><a href="estimacion.html#cb18-59" aria-hidden="true" tabindex="-1"></a><span class="st">    RI_y ~~ 0*cx1</span></span>
+<span id="cb18-60"><a href="estimacion.html#cb18-60" aria-hidden="true" tabindex="-1"></a><span class="st">    RI_y ~~ 0*cy1 </span></span>
+<span id="cb18-61"><a href="estimacion.html#cb18-61" aria-hidden="true" tabindex="-1"></a><span class="st">&#39;</span></span></code></pre></div>
+<p>Estimamos el objeto <code>model_lavaan</code> usando la funcion <code>sem( )</code></p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="estimacion.html#cb19-1" aria-hidden="true" tabindex="-1"></a>fit_lavaan <span class="ot">&lt;-</span> <span class="fu">sem</span>(model_lavaan, <span class="at">data=</span>elsoc, <span class="at">missing =</span> <span class="st">&quot;fiml&quot;</span>)</span>
+<span id="cb19-2"><a href="estimacion.html#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="estimacion.html#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit_lavaan, <span class="at">fit.measures=</span><span class="cn">TRUE</span>, <span class="at">standardized =</span> T)</span></code></pre></div>
+<pre><code>## lavaan 0.6-9 ended normally after 50 iterations
+## 
+##   Estimator                                         ML
+##   Optimization method                           NLMINB
+##   Number of model parameters                        44
+##                                                       
+##                                                   Used       Total
+##   Number of observations                          2927        2928
+##   Number of missing patterns                        23            
+##                                                                   
+## Model Test User Model:
+##                                                       
+##   Test statistic                               254.584
+##   Degrees of freedom                                21
+##   P-value (Chi-square)                           0.000
+## 
+## Model Test Baseline Model:
+## 
+##   Test statistic                              6865.547
+##   Degrees of freedom                                45
+##   P-value                                        0.000
+## 
+## User Model versus Baseline Model:
+## 
+##   Comparative Fit Index (CFI)                    0.966
+##   Tucker-Lewis Index (TLI)                       0.927
+## 
+## Loglikelihood and Information Criteria:
+## 
+##   Loglikelihood user model (H0)             -27263.651
+##   Loglikelihood unrestricted model (H1)     -27136.359
+##                                                       
+##   Akaike (AIC)                               54615.302
+##   Bayesian (BIC)                             54878.498
+##   Sample-size adjusted Bayesian (BIC)        54738.694
+## 
+## Root Mean Square Error of Approximation:
+## 
+##   RMSEA                                          0.062
+##   90 Percent confidence interval - lower         0.055
+##   90 Percent confidence interval - upper         0.069
+##   P-value RMSEA &lt;= 0.05                          0.002
+## 
+## Standardized Root Mean Square Residual:
+## 
+##   SRMR                                           0.061
+## 
+## Parameter Estimates:
+## 
+##   Standard errors                             Standard
+##   Information                                 Observed
+##   Observed information based on                Hessian
+## 
+## Latent Variables:
+##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+##   RI_x =~                                                               
+##     marchw01          1.000                               0.373    0.492
+##     marchw02          1.000                               0.373    0.577
+##     marchw03          1.000                               0.373    0.625
+##     marchw04          1.000                               0.373    0.395
+##     marchw05          1.000                               0.373    0.557
+##   RI_y =~                                                               
+##     redesw01          1.000                               0.739    0.631
+##     redesw02          1.000                               0.739    0.676
+##     redesw03          1.000                               0.739    0.691
+##     redesw04          1.000                               0.739    0.595
+##     redesw05          1.000                               0.739    0.620
+##   cx1 =~                                                                
+##     marchw01          1.000                               0.659    0.871
+##   cx2 =~                                                                
+##     marchw02          1.000                               0.527    0.817
+##   cx3 =~                                                                
+##     marchw03          1.000                               0.465    0.781
+##   cx4 =~                                                                
+##     marchw04          1.000                               0.866    0.919
+##   cx5 =~                                                                
+##     marchw05          1.000                               0.555    0.830
+##   cy1 =~                                                                
+##     redesw01          1.000                               0.908    0.776
+##   cy2 =~                                                                
+##     redesw02          1.000                               0.804    0.737
+##   cy3 =~                                                                
+##     redesw03          1.000                               0.772    0.723
+##   cy4 =~                                                                
+##     redesw04          1.000                               0.998    0.804
+##   cy5 =~                                                                
+##     redesw05          1.000                               0.935    0.785
+## 
+## Regressions:
+##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+##   cx2 ~                                                                 
+##     cx1               0.138    0.023    5.944    0.000    0.172    0.172
+##     cy1              -0.023    0.016   -1.418    0.156   -0.040   -0.040
+##   cx3 ~                                                                 
+##     cx2               0.138    0.031    4.422    0.000    0.156    0.156
+##     cy2              -0.024    0.019   -1.292    0.196   -0.042   -0.042
+##   cx4 ~                                                                 
+##     cx3               0.241    0.055    4.412    0.000    0.130    0.130
+##     cy3               0.134    0.031    4.328    0.000    0.119    0.119
+##   cx5 ~                                                                 
+##     cx4               0.175    0.018    9.686    0.000    0.273    0.273
+##     cy4               0.029    0.016    1.774    0.076    0.052    0.052
+##   cy2 ~                                                                 
+##     cx1               0.007    0.035    0.196    0.844    0.006    0.006
+##     cy1              -0.002    0.028   -0.056    0.956   -0.002   -0.002
+##   cy3 ~                                                                 
+##     cx2               0.113    0.048    2.360    0.018    0.077    0.077
+##     cy2               0.075    0.033    2.256    0.024    0.078    0.078
+##   cy4 ~                                                                 
+##     cx3               0.006    0.062    0.095    0.924    0.003    0.003
+##     cy3               0.252    0.037    6.763    0.000    0.195    0.195
+##   cy5 ~                                                                 
+##     cx4               0.097    0.028    3.408    0.001    0.090    0.090
+##     cy4               0.297    0.026   11.327    0.000    0.316    0.316
+## 
+## Covariances:
+##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+##   cx1 ~~                                                                
+##     cy1               0.162    0.015   10.484    0.000    0.271    0.271
+##  .cx2 ~~                                                                
+##    .cy2               0.111    0.014    8.090    0.000    0.266    0.266
+##  .cx3 ~~                                                                
+##    .cy3               0.062    0.011    5.629    0.000    0.176    0.176
+##  .cx4 ~~                                                                
+##    .cy4               0.244    0.021   11.724    0.000    0.293    0.293
+##  .cx5 ~~                                                                
+##    .cy5               0.022    0.013    1.692    0.091    0.047    0.047
+##   RI_x ~~                                                               
+##     RI_y              0.183    0.011   16.314    0.000    0.664    0.664
+##     cx1               0.000                               0.000    0.000
+##     cy1               0.000                               0.000    0.000
+##   RI_y ~~                                                               
+##     cx1               0.000                               0.000    0.000
+##     cy1               0.000                               0.000    0.000
+## 
+## Intercepts:
+##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+##    .marchw01          1.313    0.014   93.761    0.000    1.313    1.734
+##    .marchw02          1.217    0.013   95.359    0.000    1.217    1.886
+##    .marchw03          1.189    0.012   96.627    0.000    1.189    1.994
+##    .marchw04          1.501    0.020   75.015    0.000    1.501    1.592
+##    .marchw05          1.189    0.015   77.732    0.000    1.189    1.778
+##    .redesw01          1.714    0.022   79.128    0.000    1.714    1.464
+##    .redesw02          1.609    0.022   74.657    0.000    1.609    1.473
+##    .redesw03          1.607    0.022   73.702    0.000    1.607    1.503
+##    .redesw04          1.865    0.026   72.139    0.000    1.865    1.502
+##    .redesw05          1.815    0.027   68.183    0.000    1.815    1.523
+##     RI_x              0.000                               0.000    0.000
+##     RI_y              0.000                               0.000    0.000
+##     cx1               0.000                               0.000    0.000
+##    .cx2               0.000                               0.000    0.000
+##    .cx3               0.000                               0.000    0.000
+##    .cx4               0.000                               0.000    0.000
+##    .cx5               0.000                               0.000    0.000
+##     cy1               0.000                               0.000    0.000
+##    .cy2               0.000                               0.000    0.000
+##    .cy3               0.000                               0.000    0.000
+##    .cy4               0.000                               0.000    0.000
+##    .cy5               0.000                               0.000    0.000
+## 
+## Variances:
+##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+##    .marchw01          0.000                               0.000    0.000
+##    .marchw02          0.000                               0.000    0.000
+##    .marchw03          0.000                               0.000    0.000
+##    .marchw04          0.000                               0.000    0.000
+##    .marchw05          0.000                               0.000    0.000
+##    .redesw01          0.000                               0.000    0.000
+##    .redesw02          0.000                               0.000    0.000
+##    .redesw03          0.000                               0.000    0.000
+##    .redesw04          0.000                               0.000    0.000
+##    .redesw05          0.000                               0.000    0.000
+##     RI_x              0.139    0.009   15.795    0.000    1.000    1.000
+##     RI_y              0.546    0.023   23.314    0.000    1.000    1.000
+##     cx1               0.435    0.015   29.593    0.000    1.000    1.000
+##    .cx2               0.270    0.011   24.875    0.000    0.973    0.973
+##    .cx3               0.212    0.009   23.090    0.000    0.977    0.977
+##    .cx4               0.723    0.024   30.476    0.000    0.963    0.963
+##    .cx5               0.282    0.011   24.954    0.000    0.914    0.914
+##     cy1               0.824    0.030   27.648    0.000    1.000    1.000
+##    .cy2               0.647    0.030   21.437    0.000    1.000    1.000
+##    .cy3               0.587    0.025   23.458    0.000    0.985    0.985
+##    .cy4               0.958    0.033   28.670    0.000    0.962    0.962
+##    .cy5               0.765    0.029   26.373    0.000    0.874    0.874</code></pre>
+</div>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="modelo.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="nestedm.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": true,
+"facebook": false,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "section",
+"scroll_highlight": true
+},
+"search": true,
+"info": false
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
